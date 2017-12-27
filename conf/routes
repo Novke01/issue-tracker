@@ -1,1 +1,1 @@
-GET     /       com.issuetracker.controller.IndexController.index
+POST    /       com.issuetracker.controller.UserController.register
