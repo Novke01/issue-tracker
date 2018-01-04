@@ -4,6 +4,6 @@ COPY . /frontend
 WORKDIR "/frontend"
 RUN npm install -g gyp && npm install -g @angular/cli && npm install
 
-CMD ["ng", "serve", "--host", "0.0.0.0"]
+CMD ["ng", "serve", "--host", "0.0.0.0", "--prod"]
 
 EXPOSE 4200
