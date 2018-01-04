@@ -1,0 +1,2 @@
++ nocsrf
+POST    /api/registration       com.issuetracker.controller.UserController.register

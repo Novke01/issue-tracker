@@ -1,0 +1,35 @@
+version: '2'
+
+services:
+  postgres:
+    image: postgres:9.6-alpine
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - DB_NAME=issuetracker
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name:
+      backend
+    ports:
+      - "9000:9000"
+    depends_on:
+      - postgres
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name:
+      frontend
+    ports:
+      - "4200:4200"
+    depends_on:
+      - backend

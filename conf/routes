@@ -1,1 +1,0 @@
-POST    /       com.issuetracker.controller.UserController.register
