@@ -1,8 +1,9 @@
 package com.issuetracker.dto
 
-import play.api.libs.json._
-import play.api.libs.functional.syntax._
 import com.issuetracker.model.User
+
+import play.api.libs.functional.syntax._
+import play.api.libs.json._
 
 case class RegisterUser(
     username: String,
@@ -29,7 +30,8 @@ object RegisterUser {
       registerUser.password, 
       registerUser.firstName, 
       registerUser.lastName,
-      registerUser.email
+      registerUser.email,
+      ""
     )
   
 }

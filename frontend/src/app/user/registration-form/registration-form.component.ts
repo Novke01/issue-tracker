@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
-import { RegistrationUser } from '../shared/registration-user.model';
-import { RegistrationService } from '../shared/registration.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UserService } from '../shared/user.service';
+import { RegistrationUser } from '../shared/registration-user.model';
 
 @Component({
   selector: 'it-registration-form',
@@ -12,11 +12,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class RegistrationFormComponent implements OnInit {
 
   signUpForm: FormGroup;
-  user: RegistrationUser;
 
   constructor(
     private formBuilder: FormBuilder,
-    private registrationService: RegistrationService,
+    private userService: UserService,
     private snackBar: MatSnackBar
   ) {}
 
@@ -42,14 +41,18 @@ export class RegistrationFormComponent implements OnInit {
 
   onRegister() {
     if (this.signUpForm.valid) {
-      this.user = new RegistrationUser(this.signUpForm.value);
-      this.registrationService.register(this.user).subscribe(
+      const user = new RegistrationUser(this.signUpForm.value);
+      this.signUpForm.reset();
+      this.userService.register(user).subscribe(
         user => this.snackBar.open('You have registered successfully.', 'OK', {
           duration: 2000
         }),
-        err => this.snackBar.open(err.message, 'Cancel', {
-          duration: 2000
-        })
+        err => {
+          console.log(err);
+          this.snackBar.open(err.message, 'Cancel', {
+            duration: 2000
+          });
+        }
       );
     }
   }

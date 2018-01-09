@@ -1,0 +1,26 @@
+mat-form-field {
+  width: 100%;
+}
+
+.form {
+  border-radius: 0px 0px 2px 2px;
+  padding-left: 16px;
+  padding-right: 16px;
+}
+
+.form-content {
+  padding-left: 0px;
+  padding-right: 0px;
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+}
+
+.form-actions {
+  padding: 8px 0px 8px 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+button {
+  text-transform: uppercase;
+}

@@ -1,26 +1,5 @@
-.centered {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.signup {
-  width: 25%;
-}
-
-.signup mat-form-field {
+mat-form-field {
   width: 100%;
-}
-
-.form-title {
-  padding: 0px;
-  border-top-left-radius: 2px;
-  border-top-right-radius: 2px;
-}
-
-.form-title mat-toolbar {
-  border-radius: 2px 2px 0px 0px;
 }
 
 .form {
@@ -28,20 +7,20 @@
   padding-left: 16px;
   padding-right: 16px;
 }
-
+  
 .form-content {
   padding-left: 0px;
   padding-right: 0px;
   margin-bottom: 0px;
   padding-bottom: 0px;
 }
-
+  
 .form-actions {
   padding: 8px 0px 8px 0px;
   margin-top: 0px;
   margin-bottom: 0px;
 }
-
+  
 button {
   text-transform: uppercase;
 }

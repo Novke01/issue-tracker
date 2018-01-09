@@ -6,5 +6,6 @@ case class User(
   password: String,
   firstName: String,
   lastName: String,
-  email: String
+  email: String,
+  refreshToken: String
 )

@@ -1,0 +1,27 @@
+.centered.starter {
+  position: fixed;
+  top: 100px;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  padding: 0px;
+  width: 25%;
+}
+
+.form-title {
+  padding: 0px 0px 0px 0px;
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+}
+
+.mat-tab-header {
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+  }
+
+.mat-tab-label {
+  font-size: 120%;
+}
+
+.mat-tab-label.mat-tab-label-active {
+  font-size: 120%;
+}

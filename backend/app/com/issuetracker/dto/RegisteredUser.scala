@@ -1,8 +1,8 @@
 package com.issuetracker.dto
 
-import play.api.libs.json._
-import play.api.libs.functional.syntax._
 import com.issuetracker.model.User
+
+import play.api.libs.json._
 
 case class RegisteredUser(
     id: Long,
@@ -14,13 +14,7 @@ case class RegisteredUser(
 
 object RegisteredUser {
   
-  implicit val registeredWrites: Writes[RegisteredUser] = (
-    (JsPath \ "id").write[Long] and
-    (JsPath \ "username").write[String] and
-    (JsPath \ "firstName").write[String] and
-    (JsPath \ "lastName").write[String] and
-    (JsPath \ "email").write[String]
-  )(unlift(RegisteredUser.unapply))
+  implicit val registeredUserWrites = Json.writes[RegisteredUser]
   
   implicit def userToRegisteredUser(user: User): RegisteredUser =
     new RegisteredUser(

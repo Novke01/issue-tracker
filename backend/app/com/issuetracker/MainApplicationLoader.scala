@@ -14,8 +14,9 @@ import router.Routes
 import slick.jdbc.JdbcProfile
 import controllers.AssetsComponents
 import play.api.mvc.EssentialFilter
-import play.filters.cors.CORSFilter
 import play.filters.cors.CORSConfig
+import com.issuetracker.filter.JwtFilter
+import play.filters.cors.CORSComponents
 
 class MainApplicationLoader extends ApplicationLoader {
   def load(context: Context) = {
@@ -26,24 +27,22 @@ class MainApplicationLoader extends ApplicationLoader {
 class ApplicationComponents(context: Context) 
   extends BuiltInComponentsFromContext(context)
   with HttpFiltersComponents
+  with CORSComponents
   with SlickComponents {
   
   lazy val dbConfig = slickApi.dbConfig[JdbcProfile](DbName("default"))
   
   lazy val userRepository = new UserRepository(dbConfig.db)
-  userRepository.create
+  userRepository.create()
   
-  lazy val userService = new UserService(userRepository)
+  lazy val userService = new UserService(userRepository, configuration)
   
   lazy val userController = new UserController(controllerComponents, userService)
   
   lazy val router = new Routes(httpErrorHandler, userController)
   
-  lazy val corsConfig = CORSConfig.fromConfiguration(configuration)
-  lazy val corsFilter = CORSFilter(corsConfig)
+  lazy val jwtFilter = JwtFilter(configuration)
   
-  override def httpFilters: Seq[EssentialFilter] = {
-    super.httpFilters :+ corsFilter
-  }
+  override lazy val httpFilters: Seq[EssentialFilter] = Seq(corsFilter, jwtFilter)
   
 }
