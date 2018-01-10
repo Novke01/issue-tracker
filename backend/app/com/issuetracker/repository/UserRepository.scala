@@ -4,7 +4,19 @@ import scala.concurrent.Future
 
 import com.issuetracker.model.User
 
-import slick.jdbc.PostgresProfile.api._
+import slick.jdbc.PostgresProfile.api.Database
+import slick.jdbc.PostgresProfile.api.Table
+import slick.jdbc.PostgresProfile.api.TableQuery
+import slick.jdbc.PostgresProfile.api.Tag
+import slick.jdbc.PostgresProfile.api.anyToShapedValue
+import slick.jdbc.PostgresProfile.api.columnExtensionMethods
+import slick.jdbc.PostgresProfile.api.longColumnType
+import slick.jdbc.PostgresProfile.api.queryInsertActionExtensionMethods
+import slick.jdbc.PostgresProfile.api.schemaActionExtensionMethods
+import slick.jdbc.PostgresProfile.api.streamableQueryActionExtensionMethods
+import slick.jdbc.PostgresProfile.api.stringColumnType
+import slick.jdbc.PostgresProfile.api.tableQueryToTableQueryExtensionMethods
+import slick.jdbc.PostgresProfile.api.valueToConstColumn
 
 class UserRepository(db: Database) {
   

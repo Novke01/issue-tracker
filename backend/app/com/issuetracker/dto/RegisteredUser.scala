@@ -2,7 +2,7 @@ package com.issuetracker.dto
 
 import com.issuetracker.model.User
 
-import play.api.libs.json._
+import play.api.libs.json.Json
 
 case class RegisteredUser(
     id: Long,

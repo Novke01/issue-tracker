@@ -2,8 +2,9 @@ package com.issuetracker.dto
 
 import com.issuetracker.model.User
 
-import play.api.libs.functional.syntax._
-import play.api.libs.json._
+import play.api.libs.functional.syntax.toFunctionalBuilderOps
+import play.api.libs.json.JsPath
+import play.api.libs.json.Reads
 
 case class RegisterUser(
     username: String,

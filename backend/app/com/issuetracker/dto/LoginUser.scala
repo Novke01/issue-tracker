@@ -1,6 +1,6 @@
 package com.issuetracker.dto
 
-import play.api.libs.json._
+import play.api.libs.json.Json
 
 case class LoginUser(
   username: String,

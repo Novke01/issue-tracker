@@ -1,0 +1,7 @@
++ nocsrf
++ noauth
+POST    /refresh       com.issuetracker.controller.AuthController.refresh
+
++ nocsrf
++ noauth
+POST    /login       com.issuetracker.controller.AuthController.login

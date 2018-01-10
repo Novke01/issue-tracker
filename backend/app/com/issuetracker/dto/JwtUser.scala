@@ -1,10 +1,14 @@
 package com.issuetracker.dto
 
-import com.github.nscala_time.time.Imports._
+import com.github.nscala_time.time.Imports.DateTime
+import com.github.nscala_time.time.Imports.richAbstractInstant
+import com.github.nscala_time.time.Imports.richDateTime
+import com.github.nscala_time.time.Imports.richInt
+import com.github.nscala_time.time.Imports.richReadableInstant
 import com.issuetracker.model.User
 
-import play.api.libs.json._
-import org.joda.time.DateTimeUtils
+import play.api.libs.json.Json
+import play.api.libs.json.OFormat
 
 case class JwtUser(
     id: Long,
@@ -17,11 +21,7 @@ case class JwtUser(
 
 object JwtUser {
   
-//  implicit val jodaDateWrites: Writes[DateTime] = new Writes[DateTime] {
-//    def writes(d: DateTime): JsValue = JsNumber(d.)
-//  }
-  
-  implicit val jwtUserWrites: OWrites[JwtUser] = Json.writes[JwtUser]
+  implicit val jwtUserFormat: OFormat[JwtUser] = Json.format[JwtUser]
   
   implicit def userToJwtUser(user: User): JwtUser = JwtUser(
     user.id,
@@ -29,7 +29,7 @@ object JwtUser {
     user.firstName,
     user.lastName,
     user.email,
-    (DateTime.now + 10.seconds).instant.millis / 1000
+    (DateTime.now + 1.day).instant.millis / 1000
   )
   
 }

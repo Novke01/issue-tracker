@@ -1,14 +1,2 @@
-+ nocsrf
-+ noauth
-POST    /api/registration       com.issuetracker.controller.UserController.register
-
-+ nocsrf
-+ noauth
-POST    /api/login              com.issuetracker.controller.UserController.login
-
-+ nocsrf
-+ noauth
-POST    /api/refresh/:id        com.issuetracker.controller.UserController.refreshToken(id: Long)
-
-+ nocsrf
-GET     /api/hello              com.issuetracker.controller.UserController.hello
+->      /api/auth               auth.Routes
+->      /api/user               user.Routes

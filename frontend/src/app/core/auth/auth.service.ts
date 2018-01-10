@@ -18,8 +18,8 @@ const httpOptions = {
 @Injectable()
 export class AuthService {
 
-  private loginUrl = 'api/login';
-  private refreshUrl = 'api/refresh/';
+  private loginUrl = 'api/auth/login';
+  private refreshUrl = 'api/auth/refresh';
   private jwtHelper: JwtHelper;
 
   user: User;
@@ -38,14 +38,14 @@ export class AuthService {
 
   refreshToken(): Observable<LoggedInUser> {
     if (this.user) {
-      const url = `${AppConfig.baseUrl}${this.refreshUrl}${this.user.id}`;
+      const url = `${AppConfig.baseUrl}${this.refreshUrl}`;
       const token = localStorage.getItem('refresh_token');
       return this.http.post<LoggedInUser>(url, { token: token }, httpOptions).pipe(
         tap(user => this.saveTokens(user)),
         catchError(err => Observable.throw(new Error(err.error)))
       );
     } else {
-      return of(null);
+      return this.logout();
     }
   }
 

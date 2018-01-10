@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, AbstractControl, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, AbstractControl, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserService } from '../shared/user.service';
 import { RegistrationUser } from '../shared/registration-user.model';
+import { formDirectiveProvider } from '@angular/forms/src/directives/ng_form';
 
 @Component({
   selector: 'it-registration-form',
@@ -20,6 +21,7 @@ export class RegistrationFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    let fc = new FormControl();
     this.signUpForm = this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -42,7 +44,6 @@ export class RegistrationFormComponent implements OnInit {
   onRegister() {
     if (this.signUpForm.valid) {
       const user = new RegistrationUser(this.signUpForm.value);
-      this.signUpForm.reset();
       this.userService.register(user).subscribe(
         user => this.snackBar.open('You have registered successfully.', 'OK', {
           duration: 2000
