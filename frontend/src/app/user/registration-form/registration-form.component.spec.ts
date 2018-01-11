@@ -5,7 +5,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { UserService } from '../shared/user.service';
 import { of } from 'rxjs/observable/of';
 import { User } from '../../core/auth/user.model';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('RegistrationFormComponent', () => {
 
@@ -18,7 +18,7 @@ describe('RegistrationFormComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         SharedModule,
-        HttpClientModule
+        HttpClientTestingModule
       ],
       declarations: [ 
         RegistrationFormComponent 
