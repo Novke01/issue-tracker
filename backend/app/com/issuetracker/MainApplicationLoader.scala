@@ -34,7 +34,6 @@ class ApplicationComponents(context: Context)
   lazy val dbConfig = slickApi.dbConfig[JdbcProfile](DbName("default"))
   
   lazy val userRepository = new UserRepository(dbConfig.db)
-  userRepository.create()
   
   lazy val jwtUtil = JwtUtil(configuration)
   
@@ -51,5 +50,6 @@ class ApplicationComponents(context: Context)
   lazy val jwtFilter = JwtFilter(jwtUtil)
   
   override lazy val httpFilters: Seq[EssentialFilter] = Seq(corsFilter, jwtFilter)
+  
   
 }

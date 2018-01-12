@@ -16,6 +16,7 @@ import play.api.libs.json.JsSuccess
 import play.api.libs.json.JsValue
 import play.api.libs.json.Json
 import play.api.mvc.Request
+import play.api.mvc.RequestHeader
 
 class JwtUtil(private val secret: String) {
   
@@ -27,7 +28,7 @@ class JwtUtil(private val secret: String) {
     JwtJson.encode(claim, secret, algo)
   }
   
-  def decode(request: Request[JsValue]): Option[JwtUser] = {
+  def decode(request: RequestHeader): Option[JwtUser] = {
     val optionAuth = request.headers.get(header)
     optionAuth match {
       case Some(auth) =>
