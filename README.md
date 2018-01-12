@@ -15,7 +15,7 @@ After you have installed all of these you will have to setup database for backen
 
 To start your frontend application just run ```npm install``` from frontend folder, and after that ```ng serve -o``` to serve angular files on port 4200.
 
-To run on docker, you will first have to build you backend project using ```sbt dist``` and turn off your local PostgreSQL server. Than run ```docker-compose build``` and ```docker-compose up -d``` and you are ready to go.
+To run on docker, you will first have to build you backend project using ```sbt dist``` and turn off your local PostgreSQL server. Then run ```docker-compose build``` and ```docker-compose up -d``` and you are ready to go.
 
 **Note**: Current urls are set for docker environment. To set them for local use, you will have to change **app.config.ts** file on frontend and ```slick.dbs.default.db.url``` parameter in **application.conf** file on backend.
 

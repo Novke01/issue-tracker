@@ -5,12 +5,14 @@ import { SharedModule } from '../../shared/shared.module';
 import { AuthService } from '../../core/auth/auth.service';
 import { UserService } from '../shared/user.service';
 import { LoggedInUser } from '../../core/auth/logged-in-user.model';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs/observable/of';
 
 describe('LoginFormComponent', () => {
+
   let component: LoginFormComponent;
   let fixture: ComponentFixture<LoginFormComponent>;
   let spy: jasmine.Spy;
@@ -20,7 +22,8 @@ describe('LoginFormComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
-        HttpClientModule,
+        HttpClientTestingModule,
+        RouterTestingModule.withRoutes([]),
         SharedModule
       ],
       declarations: [ 
@@ -37,15 +40,12 @@ describe('LoginFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginFormComponent);
     component = fixture.componentInstance;
-    
 
     authService = fixture.debugElement.injector.get(AuthService);
-
     let loggedInUser: LoggedInUser = {
       accessToken: '',
       refreshToken:''
     };
-
     spy = spyOn(authService, 'login').and.returnValue(of(loggedInUser));
 
     component.ngOnInit();

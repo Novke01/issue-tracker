@@ -29,7 +29,7 @@ object JwtUser {
     user.firstName,
     user.lastName,
     user.email,
-    (DateTime.now + 1.day).instant.millis / 1000
+    (DateTime.now + 10.seconds).instant.millis / 1000
   )
   
 }

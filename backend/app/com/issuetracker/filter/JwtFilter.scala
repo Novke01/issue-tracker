@@ -11,6 +11,9 @@ import play.api.mvc.RequestHeader
 import play.api.mvc.Result
 import play.api.mvc.Results.Unauthorized
 import play.api.routing.Router
+import play.api.libs.typedmap.TypedKey
+import com.issuetracker.dto.JwtUser
+import play.mvc.Http.Context
 
 
 class JwtFilter(jwtUtil: JwtUtil)(implicit val mat: Materializer, ec: ExecutionContext) extends Filter {

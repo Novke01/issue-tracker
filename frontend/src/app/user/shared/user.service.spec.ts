@@ -5,8 +5,8 @@ import { HttpRequest } from '@angular/common/http';
 import { UserService } from './user.service';
 import { RegistrationUser } from './registration-user.model';
 import { HttpClientModule } from '@angular/common/http';
-import { AppConfig } from '../../app.config';
 import { User } from '../../core/auth/user.model';
+import { environment } from '../../../environments/environment';
 
 describe('UserService', () => {
 
@@ -42,7 +42,7 @@ describe('UserService', () => {
     service.register(dummyUser).subscribe();
     httpMock.expectOne((req: HttpRequest<any>) => {
       const body: RegistrationUser = req.body
-      return req.url === AppConfig.baseUrl + 'api/user/registration' &&
+      return req.url === environment.baseUrl + 'api/user/registration' &&
              req.method === 'POST' &&
              req.headers.get('Content-Type') === 'application/json' &&
              body === dummyUser;
@@ -82,7 +82,7 @@ describe('UserService', () => {
     });
     httpMock.expectOne((req: HttpRequest<any>) => {
       const body: RegistrationUser = req.body
-      return req.url === AppConfig.baseUrl + 'api/user/registration' &&
+      return req.url === environment.baseUrl + 'api/user/registration' &&
              req.method === 'POST' &&
              req.headers.get('Content-Type') === 'application/json' &&
              body === dummyUser;
@@ -121,7 +121,7 @@ describe('UserService', () => {
     );
     httpMock.expectOne((req: HttpRequest<any>) => {
       const body: RegistrationUser = req.body
-      return req.url === AppConfig.baseUrl + 'api/user/registration' &&
+      return req.url === environment.baseUrl + 'api/user/registration' &&
              req.method === 'POST' &&
              req.headers.get('Content-Type') === 'application/json' &&
              body === dummyUser;
