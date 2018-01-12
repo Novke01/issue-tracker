@@ -2,10 +2,8 @@ package com.issuetracker.util
 
 import scala.util.Failure
 import scala.util.Success
-
 import com.issuetracker.dto.JwtUser
 import com.issuetracker.dto.JwtUser.jwtUserFormat
-
 import pdi.jwt.JwtAlgorithm
 import pdi.jwt.JwtJson
 import pdi.jwt.JwtOptions
@@ -15,7 +13,7 @@ import play.api.libs.json.JsObject
 import play.api.libs.json.JsSuccess
 import play.api.libs.json.JsValue
 import play.api.libs.json.Json
-import play.api.mvc.Request
+import play.api.mvc.{Request, RequestHeader}
 
 class JwtUtil(private val secret: String) {
   
@@ -27,7 +25,7 @@ class JwtUtil(private val secret: String) {
     JwtJson.encode(claim, secret, algo)
   }
   
-  def decode(request: Request[JsValue]): Option[JwtUser] = {
+  def decode(request: RequestHeader): Option[JwtUser] = {
     val optionAuth = request.headers.get(header)
     optionAuth match {
       case Some(auth) =>
