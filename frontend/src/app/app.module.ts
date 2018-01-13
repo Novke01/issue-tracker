@@ -1,3 +1,5 @@
+import { OwnerRepositoriesComponent } from './home/owner-repositories/owner-repositories.component';
+import { RepositoryService } from './repository/repository.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -10,13 +12,16 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
 import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app-routing.module';
+import { ContributedRepositoriesComponent } from './home/contributed-repositories/contributed-repositories.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     StarterPageComponent,
-    HomeComponent
+    HomeComponent,
+    OwnerRepositoriesComponent,
+    ContributedRepositoriesComponent
   ],
   imports: [
     BrowserModule,
@@ -24,9 +29,10 @@ import { AppRoutingModule } from './app-routing.module';
     MatCardModule,
     MatTabsModule,
     UserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    SharedModule
   ],
-  providers: [],
+  providers: [RepositoryService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -60,8 +60,8 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (request.method === 'OPTION' || 
-        (request.url.indexOf('/api/login') !== -1 && 
+    if (request.method === 'OPTION' ||
+        (request.url.indexOf('/api/login') !== -1 &&
         request.url.indexOf('/api/registration') !== -1)) {
       return next.handle(request);
     }
@@ -76,5 +76,4 @@ export class AuthInterceptor implements HttpInterceptor {
       }
     });
   }
-    
 }
