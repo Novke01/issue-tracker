@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HomeComponent } from './home.component';
+import { HomeComponent } from './home-page.component';
 import { UserService } from '../user/shared/user.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 

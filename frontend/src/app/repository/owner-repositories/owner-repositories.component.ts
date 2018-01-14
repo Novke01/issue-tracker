@@ -1,17 +1,17 @@
 import { SharedModule } from '../../shared/shared.module';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { UserService } from '../../user/shared/user.service';
-import { Repository } from '../../repository/repository.model';
+import { Repository } from '../shared/repository.model';
 
 import {MatTableDataSource, MatPaginator, MatSort} from '@angular/material';
-import { RepositoryService } from '../../repository/repository.service';
+import { RepositoryService } from '../shared/repository.service';
 
 @Component({
-  selector: 'it-home-contributed-repositories',
-  templateUrl: './contributed-repositories.component.html',
-  styleUrls: ['./contributed-repositories.component.css']
+  selector: 'it-home-owner-repositories',
+  templateUrl: './owner-repositories.component.html',
+  styleUrls: ['./owner-repositories.component.css']
 })
-export class ContributedRepositoriesComponent implements OnInit {
+export class OwnerRepositoriesComponent implements OnInit {
 
   displayedColumns = ['name', 'url', 'description'];
   repositories: Repository[];
@@ -23,7 +23,7 @@ export class ContributedRepositoriesComponent implements OnInit {
   constructor(private repositoryService: RepositoryService) {}
 
   ngOnInit() {
-    this.repositoryService.getContributedRepositories().subscribe(data => {
+    this.repositoryService.getOwnedRepositories().subscribe(data => {
       this.repositories = data;
       this.dataSource = new MatTableDataSource(this.repositories);
       this.dataSource.paginator = this.paginator;

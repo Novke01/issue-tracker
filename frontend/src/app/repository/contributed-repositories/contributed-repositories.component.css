@@ -1,4 +1,4 @@
-/* .title {
+.title {
   padding-left: 40%;
   font-family: Roboto, Arial, sans-serif;
 }
@@ -9,7 +9,7 @@
   min-width: 300px;
 }
 
-.centered.starter {
+.centeredtable {
   top: 150px;
   left: 50%;
   transform: translate(10%, 0%);
@@ -31,4 +31,4 @@
 .mat-table {
   overflow: auto;
   max-height: 500px;
-} */
+}
