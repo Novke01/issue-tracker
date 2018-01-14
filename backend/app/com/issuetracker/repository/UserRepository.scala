@@ -22,7 +22,7 @@ class UserRepository(db: Database) {
   
   lazy val users = TableQuery[UserTable]
 
-  private[UserRepository] class UserTable(tag: Tag) extends Table[User](tag, "users") {
+  class UserTable(tag: Tag) extends Table[User](tag, "users") {
 
     def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
     def username = column[String]("username", O.Unique)

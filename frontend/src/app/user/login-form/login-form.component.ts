@@ -44,7 +44,7 @@ export class LoginFormComponent implements OnInit {
         user => {
           this.snackBar.open('You are logged in.', 'OK', {
             duration: 2000
-          })
+          });
           this.router.navigateByUrl(this.return);
         },
         err => {

@@ -8,15 +8,18 @@ import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core/core.module';
 import { MatCardModule } from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
-import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app-routing.module';
+import { HomePageComponent } from './home-page/home-page.component';
+import { RepositoryModule } from './repository/repository.module';
+
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
     StarterPageComponent,
-    HomeComponent
+    HomePageComponent,
   ],
   imports: [
     BrowserModule,
@@ -24,7 +27,9 @@ import { AppRoutingModule } from './app-routing.module';
     MatCardModule,
     MatTabsModule,
     UserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    SharedModule,
+    RepositoryModule
   ],
   providers: [],
   bootstrap: [AppComponent]
