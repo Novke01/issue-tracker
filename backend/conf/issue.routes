@@ -1,0 +1,2 @@
++ noauth
+POST    /       com.issuetracker.controller.IssueController.insert

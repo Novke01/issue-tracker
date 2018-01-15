@@ -2,7 +2,7 @@ package com.issuetracker
 
 import com.issuetracker.controller._
 import com.issuetracker.filter.JwtFilter
-import com.issuetracker.repository.{ContributorRepository, RepositoryRepository, UserRepository}
+import com.issuetracker.repository._
 import com.issuetracker.service._
 import com.issuetracker.util.JwtUtil
 import play.api.ApplicationLoader
@@ -38,6 +38,12 @@ class ApplicationComponents(context: Context)
 
   lazy val contributorRepository = new ContributorRepository(dbConfig.db, userRepository, repositoryRepository)
   contributorRepository.create()
+
+  lazy val issueRepository = new IssueRepository(dbConfig.db, userRepository)
+  issueRepository.create()
+
+  lazy val assignedUserRepository = new AssignedUserRepository(dbConfig.db, userRepository, issueRepository)
+  assignedUserRepository.create()
   
   lazy val jwtUtil = JwtUtil(configuration)
   
@@ -45,15 +51,19 @@ class ApplicationComponents(context: Context)
   lazy val authService = new AuthService(userRepository, jwtUtil)
   lazy val repositoryService = new RepositoryService(repositoryRepository, contributorRepository)
   lazy val contributorService = new ContributorService(contributorRepository, repositoryRepository)
+  lazy val issueService = new IssueService(issueRepository, assignedUserRepository)
+  lazy val assignedUserService = new AssignedUserService(assignedUserRepository, issueRepository)
 
   lazy val userController = new UserController(controllerComponents, userService)
   lazy val authController = new AuthController(controllerComponents, jwtUtil, authService)
   lazy val repositoryController = new RepositoryController(controllerComponents, repositoryService, contributorService, jwtUtil)
+  lazy val issueController = new IssueController(controllerComponents, issueService, assignedUserService)
 
   lazy val authRouter = new auth.Routes(httpErrorHandler, authController)
   lazy val userRouter = new user.Routes(httpErrorHandler, userController)
   lazy val repositoryRoutes = new repositoryroute.Routes(httpErrorHandler, repositoryController)
-  lazy val router = new Routes(httpErrorHandler, authRouter, userRouter, repositoryRoutes)
+  lazy val issueRouter = new issue.Routes(httpErrorHandler, issueController)
+  lazy val router = new Routes(httpErrorHandler, authRouter, userRouter, repositoryRoutes, issueRouter)
   
   lazy val jwtFilter = JwtFilter(jwtUtil)
   
