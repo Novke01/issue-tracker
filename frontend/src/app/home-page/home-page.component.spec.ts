@@ -1,13 +1,26 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HomeComponent } from './home-page.component';
+import { HomePageComponent } from './home-page.component';
 import { UserService } from '../user/shared/user.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'it-contributed-repositories',
+  template: '<div class="it-contributed-repositories"></div>',
+})
+export class ContributedRepositoriesComponent {}
+
+@Component({
+  selector: 'it-owned-repositories',
+  template: '<div class="it-owned-repositories"></div>',
+})
+export class OwnerRepositoriesComponent {}
 
 describe('HomeComponent', () => {
 
-  let component: HomeComponent;
-  let fixture: ComponentFixture<HomeComponent>;
+  let component: HomePageComponent;
+  let fixture: ComponentFixture<HomePageComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -15,7 +28,9 @@ describe('HomeComponent', () => {
         HttpClientTestingModule
       ],
       declarations: [ 
-        HomeComponent
+        HomePageComponent,
+        OwnerRepositoriesComponent,
+        ContributedRepositoriesComponent
       ],
       providers: [
         UserService
@@ -25,7 +40,7 @@ describe('HomeComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HomeComponent);
+    fixture = TestBed.createComponent(HomePageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

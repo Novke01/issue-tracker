@@ -13,18 +13,12 @@ export class RepositoryService {
     constructor(private http: HttpClient) { }
 
     getOwnedRepositories(): Observable<Repository[]> {
-        const url = `${environment.baseUrl}${this.repositoryUrl}`;
-        return this.http.get<Repository[]>(url, {
-            params: new HttpParams().set('isOwner', 'true'),
-            headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-        });
+        const url = `${environment.baseUrl}${this.repositoryUrl}/owned`;
+        return this.http.get<Repository[]>(url);
     }
 
     getContributedRepositories(): Observable<Repository[]> {
-        const url = `${environment.baseUrl}${this.repositoryUrl}`;
-        return this.http.get<Repository[]>(url, {
-            params: new HttpParams().set('isContributor', 'true'),
-            headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-        });
+        const url = `${environment.baseUrl}${this.repositoryUrl}/contributed`;
+        return this.http.get<Repository[]>(url);
     }
 }

@@ -1,6 +1,3 @@
 + nocsrf
 + noauth
 POST    /registration       com.issuetracker.controller.UserController.register
-
-+ nocsrf
-GET     /hello              com.issuetracker.controller.UserController.hello

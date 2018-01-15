@@ -15,35 +15,28 @@ import play.api.mvc.AbstractController
 import play.api.mvc.Action
 import play.api.mvc.ControllerComponents
 
-class UserController(val cc: ControllerComponents, val userService: UserService)
-  (implicit val executionContext: ExecutionContext) 
-  extends AbstractController(cc) {
+class UserController(
+  val cc: ControllerComponents, 
+  val userService: UserService
+)(implicit val ec: ExecutionContext) extends AbstractController(cc) {
   
   val logger: Logger = Logger(this.getClass())
 
   def register: Action[JsValue] = Action.async(parse.json) { request =>
     val optionalUser = request.body.validate[RegisterUser]
-    Future {
-      BadRequest
-    }
-    optionalUser match {
-      case JsSuccess(registerUser: RegisterUser, _) => 
-        userService.register(registerUser).map { result => 
-          Created(Json.toJson(result)) 
-        } recover {
-          case err =>
-            logger.error(err.getMessage, err)
-            BadRequest("Something went wrong.")
-        }
-      case err: JsError => Future {
-        logger.error("Invalid registration data.")
-        BadRequest("Invalid registration data.")
+    optionalUser map { registerUser =>
+      userService.register(registerUser) map { result => 
+        logger.info("user registered successfully")
+        Created(Json.toJson(result)) 
+      } recover {
+        case err =>
+          logger.error(err.getMessage, err)
+          BadRequest("Something went wrong.")
       }
+    } getOrElse {
+      logger.error("Invalid registration data.")
+      Future { BadRequest("Invalid registration data.") }
     }
-  }
-  
-  def hello = Action(parse.json) {
-    Ok("{\"text\": \"Hello, World!\"}")
   }
   
 }

@@ -23,6 +23,8 @@ export class AuthGuardService implements CanActivate {
         queryParams: {
           return: url
         }
+      }).then(result => {
+        console.log(result);
       });
       return false;
     }

@@ -7,6 +7,25 @@ import { LoggedInUser } from "./logged-in-user.model";
 import { JwtHelper } from "angular2-jwt";
 import { environment } from "../../../environments/environment";
 import { RouterTestingModule } from "@angular/router/testing";
+import { Component } from "@angular/core";
+import { Routes } from "@angular/router";
+
+@Component({
+  selector: 'it-home-page',
+  template: '<div class="it-home-page"></div>'
+})
+export class HomePageComponent {}
+
+@Component({
+  selector: 'it-starter-page',
+  template: '<div class="it-starter-page"></div>'
+})
+export class StarterPageComponent {}
+
+const appRoutes: Routes = [
+  { path: 'login', component: StarterPageComponent },
+  { path: '', component: HomePageComponent }
+];
 
 describe('AuthService', () => {
 
@@ -18,8 +37,12 @@ describe('AuthService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule.withRoutes([]),
+        RouterTestingModule.withRoutes(appRoutes),
         HttpClientTestingModule
+      ],
+      declarations: [
+        StarterPageComponent,
+        HomePageComponent
       ],
       providers: [
         AuthService

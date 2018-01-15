@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ContributedRepositoriesComponent } from './contributed-repositories/contributed-repositories.component';
-import { OwnerRepositoriesComponent } from './owner-repositories/owner-repositories.component';
+import { OwnedRepositoriesComponent } from './owned-repositories/owned-repositories.component';
 import { RepositoryService } from './shared/repository.service';
 
 @NgModule({
@@ -14,11 +14,11 @@ import { RepositoryService } from './shared/repository.service';
   ],
   exports: [
     ContributedRepositoriesComponent,
-    OwnerRepositoriesComponent
+    OwnedRepositoriesComponent
   ],
   declarations: [
     ContributedRepositoriesComponent,
-    OwnerRepositoriesComponent
+    OwnedRepositoriesComponent
   ],
   providers: [RepositoryService]
 })

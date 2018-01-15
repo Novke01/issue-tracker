@@ -1,44 +1,33 @@
 package com.issuetracker.repository
 
 import scala.concurrent.Future
-import com.issuetracker.model.{Contributor, Repository}
+
+import com.issuetracker.model.Contributor
+import com.issuetracker.repository.table.ContributorTable
+
 import slick.jdbc.PostgresProfile.api._
+import com.issuetracker.repository.table.RepositoryTable
+import com.issuetracker.repository.table.UserTable
 
-class ContributorRepository(db: Database, val userRepository: UserRepository, val repositoryRepository: RepositoryRepository) {
+class ContributorRepository(db: Database) {
 
-  lazy val contributors = TableQuery[ContributorTable]
-  lazy val users = userRepository.users
-  lazy val repositories = repositoryRepository.repositories
-
-  class ContributorTable(tag: Tag) extends Table[Contributor](tag, "contributors") {
-
-    def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
-
-    def userId = column[Long]("userId")
-
-    def repositoryId = column[Long]("repositoryId")
-
-    def user = foreignKey("user_FK", userId, users)(_.id)
-
-    def repository = foreignKey("repository_FK", repositoryId, repositories)(_.id)
-
-    def * = (id, userId, repositoryId) <> (Contributor.tupled, Contributor.unapply)
-
-  }
+  lazy val contributors = ContributorTable.contributors
+  lazy val users = UserTable.users
+  lazy val repositories = RepositoryTable.repositories
 
   def create(): Future[Unit] = db.run(contributors.schema.create)
 
   def insert(contributor: Contributor): Future[Contributor] = db.run((contributors returning contributors) += contributor)
 
-  def findRepositoryByContributorId(id: Long): Future[Seq[Repository]] = db.run({
-    for {
-      (repository, _) <- repositories join contributors.filter(_.userId === id) on (_.id === _.repositoryId)
-    } yield (repository)
-  }.result
-  )
-
-  def insertContributors(repoId: Long, contributorIds: Seq[Long]) = db.run({
+  def addContributors(repoId: Long, contributorIds: Seq[Long]) = db.run({
     contributors ++= contributorIds.map(Contributor(-1, _, repoId))
   })
 
+}
+
+object ContributorRepository {
+  
+  def apply(db: Database): ContributorRepository = 
+    new ContributorRepository(db)
+      
 }
