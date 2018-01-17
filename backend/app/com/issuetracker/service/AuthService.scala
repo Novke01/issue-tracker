@@ -18,7 +18,7 @@ import play.api.Logger
 class AuthService(
   val userRepository: UserRepository, 
   val jwtUtil: JwtUtil
-)(implicit executionContext: ExecutionContext) {
+)(implicit ec: ExecutionContext) {
   
   private val logger = Logger(this.getClass())
   
@@ -27,13 +27,14 @@ class AuthService(
       result match {
         case Some(user: User) => 
           if (loginUser.password.isBcrypted(user.password)) {
+            logger.info("user successfully logged in")
             LoggedInUser(jwtUtil.generate(user), user.refreshToken)
           } else {
-            logger.info("User not logged in.")
+            logger.error("user not logged in")
             throw new IncorrectPasswordException
           }
         case None => 
-          logger.info("User not found.")
+          logger.error("user not found")
           throw new UserNotFoundException(s"User with username ${loginUser.username} doesn't exist.")
       }
     }
@@ -44,16 +45,27 @@ class AuthService(
       userOption match {
         case Some(user) =>
           if (user.refreshToken == refreshToken) {
+            logger.info("user successfully refreshed his token")
             LoggedInUser(jwtUtil.generate(user), user.refreshToken)
           } else {
+            logger.error("user sent invalid refresh token")
             throw new InvalidRefreshTokenException
           }
         case None =>
+          logger.error("user not found")
           throw new UserNotFoundException
       }
     }
   }
   
+}
+
+object AuthService {
   
+  def apply(
+    userRepository: UserRepository, 
+    jwtUtil: JwtUtil
+  )(implicit ec: ExecutionContext): AuthService =
+    new AuthService(userRepository, jwtUtil)
   
 }

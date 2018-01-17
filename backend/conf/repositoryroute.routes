@@ -1,2 +1,0 @@
-POST    /                   com.issuetracker.controller.RepositoryController.insert
-GET     /                   com.issuetracker.controller.RepositoryController.all(isOwner: Boolean ?= false, isContributor: Boolean ?= false)

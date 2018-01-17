@@ -2,6 +2,7 @@ package com.issuetracker.filter
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
+import scala.util.Try
 
 import com.issuetracker.util.JwtUtil
 
@@ -11,20 +12,20 @@ import play.api.mvc.RequestHeader
 import play.api.mvc.Result
 import play.api.mvc.Results.Unauthorized
 import play.api.routing.Router
-import play.api.libs.typedmap.TypedKey
-import com.issuetracker.dto.JwtUser
-import play.mvc.Http.Context
 
 
-class JwtFilter(jwtUtil: JwtUtil)(implicit val mat: Materializer, ec: ExecutionContext) extends Filter {
+class JwtFilter(jwtUtil: JwtUtil)(
+  implicit val mat: Materializer, 
+  implicit val ec: ExecutionContext
+) extends Filter {
 
   private val header = "Authorization"
   
   def apply(nextFilter: RequestHeader => Future[Result])
-           (requestHeader: RequestHeader): Future[Result] = {
+    (requestHeader: RequestHeader): Future[Result] = {
     
-    val handler = requestHeader.attrs(Router.Attrs.HandlerDef)
-    val modifiers = handler.modifiers
+    val handler = Try(requestHeader.attrs(Router.Attrs.HandlerDef))
+    val modifiers = handler.map(_.modifiers).getOrElse(Seq())
     
     if (modifiers.contains("noauth")) {
       nextFilter(requestHeader)

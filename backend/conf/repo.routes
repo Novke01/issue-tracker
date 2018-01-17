@@ -1,0 +1,3 @@
+POST    /                   com.issuetracker.controller.RepositoryController.insert
+GET     /owned              com.issuetracker.controller.RepositoryController.getOwned
+GET     /contributed        com.issuetracker.controller.RepositoryController.getContributed

@@ -7,7 +7,7 @@ import {MatTableDataSource, MatPaginator, MatSort} from '@angular/material';
 import { RepositoryService } from '../shared/repository.service';
 
 @Component({
-  selector: 'it-home-contributed-repositories',
+  selector: 'it-contributed-repositories',
   templateUrl: './contributed-repositories.component.html',
   styleUrls: ['./contributed-repositories.component.css']
 })

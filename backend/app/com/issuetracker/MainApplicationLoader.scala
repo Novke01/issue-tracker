@@ -1,10 +1,13 @@
 package com.issuetracker
 
+import scala.collection.Seq
+
 import com.issuetracker.controller._
 import com.issuetracker.filter.JwtFilter
 import com.issuetracker.repository._
 import com.issuetracker.service._
 import com.issuetracker.util.JwtUtil
+
 import play.api.ApplicationLoader
 import play.api.ApplicationLoader.Context
 import play.api.BuiltInComponentsFromContext
@@ -31,25 +34,22 @@ class ApplicationComponents(context: Context)
   lazy val dbConfig = slickApi.dbConfig[JdbcProfile](DbName("default"))
   
   lazy val userRepository = new UserRepository(dbConfig.db)
-  userRepository.create()
-
-  lazy val repositoryRepository = new RepositoryRepository(dbConfig.db, userRepository)
-  repositoryRepository.create()
-
-  lazy val contributorRepository = new ContributorRepository(dbConfig.db, userRepository, repositoryRepository)
-  contributorRepository.create()
-
+  lazy val repositoryRepository: RepositoryRepository = RepositoryRepository(dbConfig.db)
+  lazy val contributorRepository = ContributorRepository(dbConfig.db)
   lazy val issueRepository = new IssueRepository(dbConfig.db, userRepository)
-  issueRepository.create()
-
   lazy val assignedUserRepository = new AssignedUserRepository(dbConfig.db, userRepository, issueRepository)
-  assignedUserRepository.create()
-  
+
   lazy val jwtUtil = JwtUtil(configuration)
-  
-  lazy val userService = new UserService(userRepository)
-  lazy val authService = new AuthService(userRepository, jwtUtil)
-  lazy val repositoryService = new RepositoryService(repositoryRepository, contributorRepository)
+
+  userRepository.create()
+  repositoryRepository.create()
+  contributorRepository.create()
+  issueRepository.create()
+  assignedUserRepository.create()
+
+  lazy val userService = UserService(userRepository)
+  lazy val authService = AuthService(userRepository, jwtUtil)
+  lazy val repositoryService = RepositoryService(repositoryRepository)
   lazy val contributorService = new ContributorService(contributorRepository, repositoryRepository)
   lazy val issueService = new IssueService(issueRepository, assignedUserRepository)
   lazy val assignedUserService = new AssignedUserService(assignedUserRepository, issueRepository)
@@ -61,10 +61,11 @@ class ApplicationComponents(context: Context)
 
   lazy val authRouter = new auth.Routes(httpErrorHandler, authController)
   lazy val userRouter = new user.Routes(httpErrorHandler, userController)
+  lazy val repoRoutes = new repo.Routes(httpErrorHandler, repositoryController)
   lazy val repositoryRoutes = new repositoryroute.Routes(httpErrorHandler, repositoryController)
   lazy val issueRouter = new issue.Routes(httpErrorHandler, issueController)
-  lazy val router = new Routes(httpErrorHandler, authRouter, userRouter, repositoryRoutes, issueRouter)
-  
+  lazy val router = new Routes(httpErrorHandler, authRouter, userRouter, repoRoutes, issueRouter)
+
   lazy val jwtFilter = JwtFilter(jwtUtil)
   
   override lazy val httpFilters: Seq[EssentialFilter] = Seq(corsFilter, jwtFilter)

@@ -3,15 +3,15 @@ import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { UserService } from '../../user/shared/user.service';
 import { Repository } from '../shared/repository.model';
 
-import {MatTableDataSource, MatPaginator, MatSort} from '@angular/material';
+import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { RepositoryService } from '../shared/repository.service';
 
 @Component({
-  selector: 'it-home-owner-repositories',
-  templateUrl: './owner-repositories.component.html',
-  styleUrls: ['./owner-repositories.component.css']
+  selector: 'it-owned-repositories',
+  templateUrl: './owned-repositories.component.html',
+  styleUrls: ['./owned-repositories.component.css']
 })
-export class OwnerRepositoriesComponent implements OnInit {
+export class OwnedRepositoriesComponent implements OnInit {
 
   displayedColumns = ['name', 'url', 'description'];
   repositories: Repository[];

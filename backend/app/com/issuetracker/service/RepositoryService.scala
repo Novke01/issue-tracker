@@ -1,22 +1,34 @@
 package com.issuetracker.service
 
-import com.issuetracker.repository.{ContributorRepository, RepositoryRepository}
-import dto.{GetRepository}
-
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
+import com.issuetracker.repository.RepositoryRepository
+
+import dto.GetRepository
+
 class RepositoryService(
-                   val repositoryRepository: RepositoryRepository,
-                   val contributorRepository: ContributorRepository
-                 )(implicit executionContext: ExecutionContext) {
+  val repositoryRepository: RepositoryRepository
+)(implicit val ec: ExecutionContext) {
 
   def findByOwnerId(id: Long): Future[Seq[GetRepository]] = {
-    repositoryRepository.findByOwnerId(id).map(_.map(GetRepository.repositoryToGetRepository))
+    repositoryRepository.findByOwnerId(id) map { 
+      _.map(GetRepository.repositoryToGetRepository) 
+    } 
   }
 
   def findByContributorId(id: Long): Future[Seq[GetRepository]] = {
-    contributorRepository.findRepositoryByContributorId(id).map(_.map(GetRepository.repositoryToGetRepository))
+    repositoryRepository.findByContributorId(id) map {
+      _.map(GetRepository.repositoryToGetRepository)
+    }
   }
 
+}
+
+object RepositoryService {
+  
+  def apply(repositoryRepository: RepositoryRepository)
+    (implicit ec: ExecutionContext): RepositoryService = 
+    new RepositoryService(repositoryRepository)
+  
 }

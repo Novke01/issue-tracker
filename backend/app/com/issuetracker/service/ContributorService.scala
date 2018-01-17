@@ -1,20 +1,35 @@
 package com.issuetracker.service
 
-import com.issuetracker.repository.{ContributorRepository, RepositoryRepository}
-import dto.{GetRepository, PostRepository}
-
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 
-class ContributorService(val contributorRepository: ContributorRepository,
-                         val repositoryRepository: RepositoryRepository,
-                       )(implicit executionContext: ExecutionContext) {
+import com.issuetracker.repository.ContributorRepository
+import com.issuetracker.repository.RepositoryRepository
 
-    def insert(postRepository: PostRepository): Future[GetRepository] = {
-      repositoryRepository.insert(postRepository) flatMap { repository =>
-        contributorRepository.insertContributors(repository.id, postRepository.contributors) map { _ =>
-          repository
-        }
+import dto.GetRepository
+import dto.PostRepository
+
+class ContributorService(
+  val contributorRepository: ContributorRepository,
+  val repositoryRepository: RepositoryRepository,
+)(implicit val executionContext: ExecutionContext) {
+
+  def insert(postRepository: PostRepository): Future[GetRepository] = {
+    repositoryRepository.insert(postRepository) flatMap { repository =>
+      contributorRepository.addContributors(repository.id, postRepository.contributors) map { _ =>
+        repository
       }
     }
+  }
+  
+}
+
+object ContributorService {
+  
+  def apply(
+    contributorRepository: ContributorRepository,
+    repositoryRepository: RepositoryRepository
+  )(implicit ec: ExecutionContext): ContributorService =
+    new ContributorService(contributorRepository, repositoryRepository)
+  
 }
