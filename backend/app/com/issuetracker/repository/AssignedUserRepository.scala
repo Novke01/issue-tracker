@@ -2,29 +2,14 @@ package com.issuetracker.repository
 
 import scala.concurrent.Future
 import com.issuetracker.model.{AssignedUser, Issue}
+import com.issuetracker.repository.table.{AssignedUserTable, IssueTable, UserTable}
 import slick.jdbc.PostgresProfile.api._
 
-class AssignedUserRepository(db: Database, val userRepository: UserRepository, val issueRepository: IssueRepository) {
+class AssignedUserRepository(db: Database) {
 
-  lazy val assignees = TableQuery[AssignedUserTable]
-  lazy val users = userRepository.users
-  lazy val issues = issueRepository.issues
-
-  class AssignedUserTable(tag: Tag) extends Table[AssignedUser](tag, "assignees") {
-
-    def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
-
-    def userId = column[Long]("userId")
-
-    def issueId = column[Long]("issueId")
-
-    def user = foreignKey("user_FK", userId, users)(_.id)
-
-    def issue = foreignKey("issue_FK", issueId, issues)(_.id)
-
-    def * = (id, userId, issueId) <> (AssignedUser.tupled, AssignedUser.unapply)
-
-  }
+  lazy val assignees = AssignedUserTable.assignees
+  lazy val users = UserTable.users
+  lazy val issues = IssueTable.issues
 
   def create(): Future[Unit] = db.run(assignees.schema.create)
 
@@ -40,5 +25,12 @@ class AssignedUserRepository(db: Database, val userRepository: UserRepository, v
   def insertAssignees(repoId: Long, assignedUserIds: Seq[Long]) = db.run({
     assignees ++= assignedUserIds.map(AssignedUser(-1, _, repoId))
   })
+
+}
+
+object AssignedUserRepository {
+
+  def apply(db: Database): AssignedUserRepository =
+    new AssignedUserRepository(db)
 
 }

@@ -1,28 +1,15 @@
 package com.issuetracker.repository
 
 import slick.jdbc.PostgresProfile.api._
+
 import scala.concurrent.Future
 import com.issuetracker.model.Issue
-import com.issuetracker.model.IssueStatus._
+import com.issuetracker.repository.table.{IssueTable, UserTable}
 
-class IssueRepository(db: Database, val userRepository: UserRepository) {
+class IssueRepository(db: Database) {
 
-  lazy val issues = TableQuery[IssueTable]
-  lazy val users = userRepository.users
-
-  private[IssueRepository] class IssueTable(tag: Tag) extends Table[Issue](tag, "issues") {
-
-    def id = column[Long]("id", O.PrimaryKey, O.AutoInc)
-    def title = column[String]("title")
-    def description = column[String]("description")
-    def created = column[Long]("created")
-    def status = column[IssueStatus]("status")
-    def ownerId = column[Long]("ownerId")
-    def owner = foreignKey("owner_FK", ownerId, users)(_.id)
-
-    def * = (id, title, description, created, ownerId, status) <> (Issue.tupled, Issue.unapply)
-
-  }
+  lazy val issues = IssueTable.issues
+  lazy val users = UserTable.users
 
   def create(): Future[Unit] = db.run(issues.schema.create)
 
@@ -34,5 +21,12 @@ class IssueRepository(db: Database, val userRepository: UserRepository) {
 
   def findById(id: Long): Future[Option[Issue]] =
     db.run(issues.filter(_.id === id).result.headOption)
+
+}
+
+object IssueRepository {
+
+  def apply(db: Database): IssueRepository =
+    new IssueRepository(db)
 
 }

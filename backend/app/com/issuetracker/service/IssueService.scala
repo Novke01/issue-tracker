@@ -8,14 +8,14 @@ import com.issuetracker.repository.{AssignedUserRepository, IssueRepository}
 import play.api.Logger
 
 class IssueService(val issueRepository: IssueRepository,
-                   val asignedUserRepository: AssignedUserRepository)
+                   val assignedUserRepository: AssignedUserRepository)
                  (implicit val executionContext: ExecutionContext) {
 
   private val logger = Logger(this.getClass())
 
   def insert(postIssue: PostIssue): Future[GetIssue] = {
     issueRepository.insert(postIssue) flatMap { issue =>
-      asignedUserRepository.insertAssignees(issue.id, postIssue.assignees) map { _ =>
+      assignedUserRepository.insertAssignees(issue.id, postIssue.assignees) map { _ =>
         issue
       }
     }
@@ -26,7 +26,7 @@ class IssueService(val issueRepository: IssueRepository,
   }
 
   def findByAsignedUserId(id: Long): Future[Seq[GetIssue]] = {
-    asignedUserRepository.findIssueByAssignedUserId(id).map(_.map(GetIssue.issueToGetIssue))
+    assignedUserRepository.findIssueByAssignedUserId(id).map(_.map(GetIssue.issueToGetIssue))
   }
 
   def findById(id: Long): Future[GetIssue] = {
@@ -40,5 +40,15 @@ class IssueService(val issueRepository: IssueRepository,
       }
     }
   }
+
+}
+
+object IssueService {
+
+  def apply(
+             issueRepository: IssueRepository,
+             assignedUserRepository: AssignedUserRepository
+           )(implicit ec: ExecutionContext): IssueService =
+    new IssueService(issueRepository, assignedUserRepository)
 
 }

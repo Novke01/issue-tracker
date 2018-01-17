@@ -6,7 +6,7 @@ import { Issue } from '../shared/issue.model';
 import { formDirectiveProvider } from '@angular/forms/src/directives/ng_form';
 
 @Component({
-  selector: 'app-create-issue',
+  selector: 'it-create-issue',
   templateUrl: './create-issue.component.html',
   styleUrls: ['./create-issue.component.css']
 })

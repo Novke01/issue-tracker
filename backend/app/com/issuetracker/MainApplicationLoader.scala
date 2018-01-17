@@ -36,8 +36,8 @@ class ApplicationComponents(context: Context)
   lazy val userRepository = new UserRepository(dbConfig.db)
   lazy val repositoryRepository: RepositoryRepository = RepositoryRepository(dbConfig.db)
   lazy val contributorRepository = ContributorRepository(dbConfig.db)
-  lazy val issueRepository = new IssueRepository(dbConfig.db, userRepository)
-  lazy val assignedUserRepository = new AssignedUserRepository(dbConfig.db, userRepository, issueRepository)
+  lazy val issueRepository = new IssueRepository(dbConfig.db)
+  lazy val assignedUserRepository = new AssignedUserRepository(dbConfig.db)
 
   lazy val jwtUtil = JwtUtil(configuration)
 
