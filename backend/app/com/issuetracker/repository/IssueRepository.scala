@@ -32,4 +32,7 @@ class IssueRepository(db: Database, val userRepository: UserRepository) {
     db.run(issues.filter(_.ownerId === id).result)
   }
 
+  def findById(id: Long): Future[Option[Issue]] =
+    db.run(issues.filter(_.id === id).result.headOption)
+
 }

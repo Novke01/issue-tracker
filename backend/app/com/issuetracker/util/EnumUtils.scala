@@ -3,7 +3,7 @@ package com.issuetracker.util
 import play.api.libs.json._
 
 
-object EnumUtil {
+object EnumUtils {
   def enumReads[E <: Enumeration](enum: E): Reads[E#Value] = new Reads[E#Value] {
     def reads(json: JsValue): JsResult[E#Value] = json match {
       case JsString(s) => {
@@ -22,6 +22,6 @@ object EnumUtil {
   }
 
   implicit def enumFormat[E <: Enumeration](enum: E): Format[E#Value] = {
-    Format(EnumUtil.enumReads(enum), EnumUtil.enumWrites)
+    Format(EnumUtils.enumReads(enum), EnumUtils.enumWrites)
   }
 }

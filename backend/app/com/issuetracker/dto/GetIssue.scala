@@ -15,7 +15,7 @@ case class GetIssue(
 
 object GetIssue {
 
-  implicit val repositoryWrites = Json.writes[GetIssue]
+  implicit val getIssueWrites = Json.writes[GetIssue]
 
   implicit def issueToGetIssue(issue: Issue): GetIssue =
     new GetIssue(
