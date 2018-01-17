@@ -62,7 +62,6 @@ class ApplicationComponents(context: Context)
   lazy val authRouter = new auth.Routes(httpErrorHandler, authController)
   lazy val userRouter = new user.Routes(httpErrorHandler, userController)
   lazy val repoRoutes = new repo.Routes(httpErrorHandler, repositoryController)
-  lazy val repositoryRoutes = new repositoryroute.Routes(httpErrorHandler, repositoryController)
   lazy val issueRouter = new issue.Routes(httpErrorHandler, issueController)
   lazy val router = new Routes(httpErrorHandler, authRouter, userRouter, repoRoutes, issueRouter)
 
