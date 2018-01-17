@@ -1,0 +1,39 @@
+<form [formGroup]="form" (ngSubmit)="submit(form)">
+    <h1 mat-dialog-title>New repository</h1>
+    <mat-dialog-content>
+        <mat-form-field>
+            <input matInput formControlName="name" placeholder="Enter repository name" required>
+            <mat-error *ngIf="name.invalid && name.touched">
+                Please enter name.
+            </mat-error>
+        </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-content>
+        <mat-form-field>
+            <input matInput formControlName="url" placeholder="Enter GitHub url" required>
+            <mat-error *ngIf="url.invalid && url.touched">
+                Please enter url.
+            </mat-error>
+        </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-content>
+        <mat-form-field>
+            <textarea matInput formControlName="description" placeholder="Enter description" matTextareaAutosize 
+            matAutosizeMinRows="2" matAutosizeMaxRows="8" required></textarea>
+            <mat-error *ngIf="description.invalid && description.touched">
+                Please enter description.
+            </mat-error>
+        </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-content>
+        <mat-form-field>
+            <mat-select placeholder="contributors" [formControl]="control" multiple>
+              <mat-option *ngFor="let user of users" [value]="user">{{user.email}}</mat-option>
+            </mat-select>
+          </mat-form-field>          
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button mat-button type="submit">Add</button>
+        <button mat-button type="button" mat-dialog-close>Cancel</button>
+    </mat-dialog-actions>
+</form>
