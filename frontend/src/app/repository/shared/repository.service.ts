@@ -4,6 +4,7 @@ import { HttpHeaders, HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { catchError } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
+import { RepositorySave } from './repository-save.model';
 
 @Injectable()
 export class RepositoryService {
@@ -20,5 +21,10 @@ export class RepositoryService {
     getContributedRepositories(): Observable<Repository[]> {
         const url = `${environment.baseUrl}${this.repositoryUrl}/contributed`;
         return this.http.get<Repository[]>(url);
+    }
+
+    saveRepository(repository: RepositorySave): Observable<Repository> {
+        const url = `${environment.baseUrl}${this.repositoryUrl}`;
+        return this.http.post<Repository>(url, repository);
     }
 }

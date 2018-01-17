@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ContributedRepositoriesComponent } from './contributed-repositories/contributed-repositories.component';
 import { OwnedRepositoriesComponent } from './owned-repositories/owned-repositories.component';
 import { RepositoryService } from './shared/repository.service';
+import { NewRepositoryComponent } from './new-repository/new-repository.component';
 
 @NgModule({
   imports: [
@@ -14,12 +15,15 @@ import { RepositoryService } from './shared/repository.service';
   ],
   exports: [
     ContributedRepositoriesComponent,
-    OwnedRepositoriesComponent
+    OwnedRepositoriesComponent,
+    NewRepositoryComponent
   ],
   declarations: [
     ContributedRepositoriesComponent,
-    OwnedRepositoriesComponent
+    OwnedRepositoriesComponent,
+    NewRepositoryComponent
   ],
+  entryComponents: [NewRepositoryComponent],
   providers: [RepositoryService]
 })
 export class RepositoryModule { }

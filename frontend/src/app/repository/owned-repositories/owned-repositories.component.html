@@ -3,6 +3,7 @@
   <mat-form-field>
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
   </mat-form-field>
+  <button mat-raised-button color="primary"(click)="openNewRepositoryDialog()">New repository</button>
 </div>
 <div class="repository-container mat-elevation-z8 centeredtable">
 
@@ -12,14 +13,12 @@
       <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
       <mat-cell *matCellDef="let repository"> {{repository.name}} </mat-cell>
     </ng-container>
-
-    <!-- Name Column -->
+    
     <ng-container matColumnDef="url">
       <mat-header-cell *matHeaderCellDef mat-sort-header> URL </mat-header-cell>
-      <mat-cell *matCellDef="let repository"> {{repository.url}} </mat-cell>
+      <mat-cell *matCellDef="let repository"> <a class="nav-link" href="{{repository.url}}" target="_blank">{{repository.url}}</a></mat-cell>
     </ng-container>
 
-    <!-- Color Column -->
     <ng-container matColumnDef="description">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Description </mat-header-cell>
       <mat-cell *matCellDef="let repository"> {{repository.description}} </mat-cell>
@@ -32,5 +31,3 @@
 
   <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
 </div>
-
-

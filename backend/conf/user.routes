@@ -1,3 +1,5 @@
 + nocsrf
 + noauth
 POST    /registration       com.issuetracker.controller.UserController.register
+
+GET     /                   com.issuetracker.controller.UserController.getAll
