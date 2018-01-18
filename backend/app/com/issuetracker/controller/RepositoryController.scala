@@ -72,5 +72,18 @@ class RepositoryController(
       case None => NotFound
     }
   }
+
+  def getContributors(id: Long) = Action.async {
+    contributorService.getContributorsByRepositoryId(id) map { result =>
+      Ok(Json.toJson(result))
+    }
+  }
+
+  def getOwner(id: Long) = Action.async {
+    repositoryService.getRepositoryOwner(id) map {
+      case Some(user) => Ok(Json.toJson(user))
+      case None => NotFound
+    }
+  }
   
 }

@@ -1,6 +1,8 @@
-<mat-card-title class="title">{{repository.name}}</mat-card-title>
+<mat-card>
+  <mat-card-title class="title">{{repository.name}} <a class="nav-link" href="{{repository.url}}" target="_blank">GitHub</a></mat-card-title>
+</mat-card>
 <mat-tab-group>
-  <mat-tab label="Project">Project</mat-tab>
+  <mat-tab label="Project"><it-repository-information></it-repository-information></mat-tab>
   <mat-tab label="Issues">Issues</mat-tab>
   <mat-tab label="Wiki">Wiki</mat-tab>
 </mat-tab-group>
