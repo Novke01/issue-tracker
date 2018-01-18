@@ -85,5 +85,16 @@ class RepositoryController(
       case None => NotFound
     }
   }
-  
+
+
+  def getContributorsWitchSearchTerm(repoId: Long, searchTerm: String): Action[AnyContent] = Action.async {
+    contributorService.findByRepositoryIdAndSearchTerm(repoId, searchTerm).map { result =>
+      Ok(Json.toJson(result))
+    } recover {
+      case err =>
+        logger.error(err.getMessage, err)
+        BadRequest("Something went wrong.")
+    }
+  }
+
 }

@@ -12,6 +12,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HomePageComponent } from './home-page/home-page.component';
 import { RepositoryModule } from './repository/repository.module';
 import { RepositoryPageComponent } from './repository-page/repository-page.component';
+import { IssueModule } from './issue/issue.module';
 
 
 
@@ -31,7 +32,8 @@ import { RepositoryPageComponent } from './repository-page/repository-page.compo
     UserModule,
     AppRoutingModule,
     SharedModule,
-    RepositoryModule
+    RepositoryModule,
+    IssueModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,3 +1,4 @@
 ->      /api/auth               auth.Routes
 ->      /api/user               user.Routes
 ->      /api/repositories       repo.Routes
+->      /api/issues             issue.Routes

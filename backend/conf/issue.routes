@@ -1,0 +1,3 @@
+POST    /       com.issuetracker.controller.IssueController.insert
+
+GET    /:id       com.issuetracker.controller.IssueController.getOne(id: Long)

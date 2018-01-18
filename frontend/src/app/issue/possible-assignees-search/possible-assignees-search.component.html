@@ -1,0 +1,9 @@
+<div id="search-component">
+  <input #searchBox id="search-box" (focus)="search(searchBox.value)" (keyup)="search(searchBox.value)" placeholder="Assign user..." />
+
+  <ul class="search-result">
+    <li *ngFor="let user of possibleAssignees$ | async " (click)="assignUser(user)" [hidden]="found(user.id)">
+      <a><b>{{user.username}}</b> <i>{{user.firstName}} {{user.lastName}}</i></a>
+    </li>
+  </ul>
+</div>
