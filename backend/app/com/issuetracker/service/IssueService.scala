@@ -25,7 +25,7 @@ class IssueService(val issueRepository: IssueRepository,
     issueRepository.findByOwnerId(id).map(_.map(GetIssue.issueToGetIssue))
   }
 
-  def findByAsignedUserId(id: Long): Future[Seq[GetIssue]] = {
+  def findByAssignedUserId(id: Long): Future[Seq[GetIssue]] = {
     assignedUserRepository.findIssueByAssignedUserId(id).map(_.map(GetIssue.issueToGetIssue))
   }
 

@@ -55,9 +55,19 @@ class RepositoryController(
     }
   }
   
-  def getContributed: Action[AnyContent] = Action.async { request => 
+  def getContributed: Action[AnyContent] = Action.async { request =>
     val id: Long = jwtUtil.decode(request) map { _.id } getOrElse { -1 }
     repositoryService.findByContributorId(id) map { result =>
+      Ok(Json.toJson(result))
+    } recover {
+      case err =>
+        logger.error(err.getMessage, err)
+        BadRequest("Something went wrong.")
+    }
+  }
+
+  def getContributorsWitchSearchTerm(repoId: Long, searchTerm: String): Action[AnyContent] = Action.async {
+    contributorService.findByRepositoryIdAndSearchTerm(repoId, searchTerm).map { result =>
       Ok(Json.toJson(result))
     } recover {
       case err =>

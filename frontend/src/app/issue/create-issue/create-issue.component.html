@@ -1,6 +1,7 @@
 <mat-card class="form">
   <form [formGroup]="createIssueForm" (ngSubmit)="onCreateIssue()">
     <mat-card-content class="form-content">
+      
       <mat-form-field>
         <input matInput placeholder="Title" formControlName="title" required>
         <mat-error *ngIf="title.invalid && title.touched">
@@ -8,11 +9,22 @@
         </mat-error>
       </mat-form-field>
       <mat-form-field>
-        <input matInput placeholder="Description" formControlName="description">
-        <mat-error *ngIf="description.invalid && description.touched">
-          Please enter description.
-        </mat-error>
+          <textarea matInput placeholder="Description" matTextareaAutosize matAutosizeMinRows="5" 
+              formControlName="description" matAutosizeMaxRows="10"></textarea>
+          <mat-error *ngIf="description.invalid && description.touched">
+            Please enter description.
+          </mat-error>
       </mat-form-field>
+      <h3>Assignees</h3>
+      <it-possible-assignees-search [repositoryId]="repositoryId" [assignees]="assignees" (userAssigned)="onUserAssigned(assignees)"></it-possible-assignees-search>
+      <div class="grid grid-pad">
+        <a *ngFor="let assignee of assignees" class="col-1-1">
+          <div class="module hero">
+            <b>{{assignee.username}}</b> <i>{{assignee.firstName}} {{assignee.lastName}}</i>
+            <button (click) ="unassignUser(assignee)">-</button>
+          </div>
+        </a>
+      </div>
     </mat-card-content>
     <mat-card-actions class="form-actions">
       <mat-grid-list cols="3" rowHeight="40px">

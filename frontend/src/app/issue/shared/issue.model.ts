@@ -1,5 +1,6 @@
 export class Issue {
     id: number;
+    repositoryId: number;
     title: string;
     description: string;
     created: number;

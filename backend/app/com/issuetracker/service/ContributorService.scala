@@ -1,11 +1,11 @@
 package com.issuetracker.service
 
+import com.issuetracker.dto.GetUser
+
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
-
 import com.issuetracker.repository.ContributorRepository
 import com.issuetracker.repository.RepositoryRepository
-
 import dto.GetRepository
 import dto.PostRepository
 
@@ -21,7 +21,12 @@ class ContributorService(
       }
     }
   }
-  
+
+  def findByRepositoryIdAndSearchTerm(repoId: Long, searchTerm: String): Future[Seq[GetUser]] = {
+    contributorRepository.findByRepositoryIdAndSearchTerm(repoId, searchTerm).map(_.map(GetUser.userToGetUser))
+  }
+
+
 }
 
 object ContributorService {

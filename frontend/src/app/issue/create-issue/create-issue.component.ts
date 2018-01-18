@@ -4,6 +4,8 @@ import { IssueService } from '../shared/issue.service';
 import { MatSnackBar } from '@angular/material';
 import { Issue } from '../shared/issue.model';
 import { formDirectiveProvider } from '@angular/forms/src/directives/ng_form';
+import { ActivatedRoute } from '@angular/router';
+import { User } from '../../core/auth/user.model';
 
 @Component({
   selector: 'it-create-issue',
@@ -12,15 +14,19 @@ import { formDirectiveProvider } from '@angular/forms/src/directives/ng_form';
 })
 export class CreateIssueComponent implements OnInit {
 
+  repositoryId: number;
   createIssueForm: FormGroup;
+  assignees: User[] = [];
 
   constructor(
+    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private issueService: IssueService,
     private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
+    this.repositoryId = +this.route.snapshot.paramMap.get('repoId');
     let fc = new FormControl();
     this.createIssueForm = this.formBuilder.group({
       title: ['', Validators.required],
@@ -31,15 +37,24 @@ export class CreateIssueComponent implements OnInit {
   get title() { return this.createIssueForm.get('title'); }
   get description() { return this.createIssueForm.get('description'); }
 
+  onUserAssigned(assignees){
+    this.assignees= assignees;
+  }
+
+  unassignUser(user){
+    this.assignees = this.assignees.filter(function( a ) {
+      return a.id !== user.id;
+    });
+  }
+
   onCreateIssue() {
     if (this.createIssueForm.valid) {
-      const issue = new Issue();
+      var issue = new Issue();
+      issue.repositoryId = this.repositoryId;
       issue.title = this.title.value;
       issue.description = this.description.value;
       issue.ownerId = -1;
-      issue.assignees = [];
-
-      console.log(issue);
+      issue.assignees = this.assignees.map(a => a.id);
 
       this.issueService.createIssue(issue).subscribe(
         issue => {

@@ -6,6 +6,7 @@ import play.api.libs.json._
 import com.issuetracker.model.{Issue, IssueStatus}
 
 case class PostIssue(
+                     repositoryId: Long,
                      title: String,
                      description: String,
                      ownerId: Long,
@@ -19,6 +20,7 @@ object PostIssue {
   implicit def postIssueToIssue(postIssue: PostIssue): Issue =
     new Issue(
       -1,
+      postIssue.repositoryId,
       postIssue.title,
       postIssue.description,
       currentTimeMillis(),

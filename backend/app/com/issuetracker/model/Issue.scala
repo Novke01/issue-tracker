@@ -4,6 +4,7 @@ import com.issuetracker.model.IssueStatus._
 
 case class Issue(
   id: Long,
+  repositoryId: Long,
   title: String,
   description: String,
   created: Long,

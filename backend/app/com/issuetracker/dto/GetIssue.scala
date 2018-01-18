@@ -6,6 +6,7 @@ import com.issuetracker.model.IssueStatus._
 
 case class GetIssue(
                            id: Long,
+                           repositoryId: Long,
                            title: String,
                            description: String,
                            created: Long,
@@ -20,6 +21,7 @@ object GetIssue {
   implicit def issueToGetIssue(issue: Issue): GetIssue =
     new GetIssue(
       issue.id,
+      issue.repositoryId,
       issue.title,
       issue.description,
       issue.created,

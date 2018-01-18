@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environment';
 import { Issue } from './issue.model';
 import { of } from 'rxjs/observable/of';
 import { catchError, map, tap } from 'rxjs/operators';
+import { User } from '../../core/auth/user.model';
 
 @Injectable()
 export class IssueService {
