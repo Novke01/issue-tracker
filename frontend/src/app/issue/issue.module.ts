@@ -5,14 +5,24 @@ import { IssueService } from './shared/issue.service';
 import { SharedModule } from '../shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
 import { PossibleAssigneesSearchComponent } from './possible-assignees-search/possible-assignees-search.component';
+import { RepositoryIssuesComponent } from './repository-issues/repository-issues.component';
+import { AppRoutingModule } from '../app-routing.module';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
-    HttpClientModule
+    HttpClientModule,
+    AppRoutingModule,
+    FormsModule
   ],
-  declarations: [CreateIssueComponent, PossibleAssigneesSearchComponent],
+  exports: [
+    CreateIssueComponent,
+    PossibleAssigneesSearchComponent,
+    RepositoryIssuesComponent
+  ],
+  declarations: [CreateIssueComponent, PossibleAssigneesSearchComponent, RepositoryIssuesComponent],
   providers: [IssueService],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })

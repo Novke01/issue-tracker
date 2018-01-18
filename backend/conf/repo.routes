@@ -5,3 +5,4 @@ GET     /:id/contributors   com.issuetracker.controller.RepositoryController.get
 GET     /:id/owner          com.issuetracker.controller.RepositoryController.getOwner(id: Long)
 GET     /:id                com.issuetracker.controller.RepositoryController.get(id: Long)
 GET     /:repoId/contributors/:searchTerm        com.issuetracker.controller.RepositoryController.getContributorsWitchSearchTerm(repoId: Long, searchTerm: String)
+GET     /:repoId/issues                          com.issuetracker.controller.RepositoryController.getIssues(repoId: Long)

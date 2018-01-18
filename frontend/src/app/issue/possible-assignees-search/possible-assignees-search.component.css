@@ -1,38 +1,35 @@
-.search-result li {
+.search-result mat-list-item {
     border-bottom: 1px solid gray;
     border-left: 1px solid gray;
     border-right: 1px solid gray;
     width:195px;
     height: 16px;
     padding: 5px;
-    background-color: white;
+    display:block;
     cursor: pointer;
     list-style-type: none;
   }
   
-  .search-result li:hover {
-    background-color: #607D8B;
+  .search-result mat-list-item:hover {
+    background-color: rgb(204, 233, 248);
   }
   
-  .search-result li a {
-    color: #888;
+  .search-result mat-list-item a {
     display: block;
     text-decoration: none;
   }
   
-  .search-result li a:hover {
-    color: white;
+  .search-result mat-list-item a:hover {
+    font-weight: bold;
   }
-  .search-result li a:active {
-    color: white;
-  }
+
   #search-box {
     width: 200px;
     height: 20px;
   }
   
   
-  ul.search-result {
+  mat-list.search-result {
     margin-top: 0;
     padding-left: 0;
   }

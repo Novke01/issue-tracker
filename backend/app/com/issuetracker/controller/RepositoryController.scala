@@ -2,11 +2,8 @@ package com.issuetracker.controller
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
-
-import com.issuetracker.service.ContributorService
-import com.issuetracker.service.RepositoryService
+import com.issuetracker.service.{ContributorService, IssueService, RepositoryService}
 import com.issuetracker.util.JwtUtil
-
 import dto.PostRepository
 import play.api.Logger
 import play.api.libs.json.JsError
@@ -23,6 +20,7 @@ class RepositoryController(
   val cc: ControllerComponents, 
   val repositoryService: RepositoryService,
   val contributorService: ContributorService,
+  val issueService: IssueService,
   val jwtUtil: JwtUtil
 )(implicit val ec: ExecutionContext) extends AbstractController(cc) {
 
@@ -94,6 +92,12 @@ class RepositoryController(
       case err =>
         logger.error(err.getMessage, err)
         BadRequest("Something went wrong.")
+    }
+  }
+
+  def getIssues(repoId: Long) = Action.async {
+    issueService.findByRepositoryId(repoId) map { result =>
+      Ok(Json.toJson(result))
     }
   }
 

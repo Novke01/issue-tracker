@@ -8,6 +8,8 @@ import { RepositoryService } from './shared/repository.service';
 import { NewRepositoryComponent } from './new-repository/new-repository.component';
 import { AppRoutingModule } from '../app-routing.module';
 import { RepositoryInformationComponent } from './repository-information/repository-information.component';
+import { RepositoryIssuesComponent } from '../issue/repository-issues/repository-issues.component';
+import { CreateIssueComponent } from '../issue/create-issue/create-issue.component';
 
 @NgModule({
   imports: [
@@ -28,7 +30,7 @@ import { RepositoryInformationComponent } from './repository-information/reposit
     NewRepositoryComponent,
     RepositoryInformationComponent
   ],
-  entryComponents: [NewRepositoryComponent],
+  entryComponents: [NewRepositoryComponent, RepositoryIssuesComponent, CreateIssueComponent],
   providers: [RepositoryService]
 })
 export class RepositoryModule { }

@@ -24,15 +24,17 @@ export class PossibleAssigneesSearchComponent implements OnInit {
 
   possibleAssignees$: Observable<User[]>;
   private searchTerms = new Subject<string>();
+  searchBoxValue: string;
 
   constructor(private repositoryService: RepositoryService) {}
 
   // Push a search term into the observable stream.
-  search(term: string): void {
-    this.searchTerms.next(term);
+  search(): void {
+    this.searchTerms.next(this.searchBoxValue);
   }
 
   ngOnInit(): void {
+    this.searchBoxValue="";
     this.possibleAssignees$ = this.searchTerms.pipe(
       // wait 300ms after each keystroke before considering the term
       debounceTime(300),
@@ -57,7 +59,8 @@ export class PossibleAssigneesSearchComponent implements OnInit {
     });
     if (!this.found(user.id)) { 
       this.assignees.push(user);
-      this.userAssigned.emit(this.assignees); 
+      this.userAssigned.emit(this.assignees);
+      this.searchBoxValue=""; 
     }
   }
 

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { IssueService } from '../shared/issue.service';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatDialogRef } from '@angular/material';
 import { Issue } from '../shared/issue.model';
 import { formDirectiveProvider } from '@angular/forms/src/directives/ng_form';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../../core/auth/user.model';
 
 @Component({
@@ -14,28 +14,31 @@ import { User } from '../../core/auth/user.model';
 })
 export class CreateIssueComponent implements OnInit {
 
+  form: FormGroup;
+  control: FormControl = new FormControl();
   repositoryId: number;
-  createIssueForm: FormGroup;
   assignees: User[] = [];
 
+
   constructor(
+    private router: Router,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private issueService: IssueService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private dialogRef: MatDialogRef<CreateIssueComponent>,
   ) {}
 
   ngOnInit() {
-    this.repositoryId = +this.route.snapshot.paramMap.get('repoId');
     let fc = new FormControl();
-    this.createIssueForm = this.formBuilder.group({
+    this.form = this.formBuilder.group({
       title: ['', Validators.required],
       description: ['']
     });
   }
 
-  get title() { return this.createIssueForm.get('title'); }
-  get description() { return this.createIssueForm.get('description'); }
+  get title() { return this.form.get('title'); }
+  get description() { return this.form.get('description'); }
 
   onUserAssigned(assignees){
     this.assignees= assignees;
@@ -48,7 +51,7 @@ export class CreateIssueComponent implements OnInit {
   }
 
   onCreateIssue() {
-    if (this.createIssueForm.valid) {
+    if (this.form.valid) {
       var issue = new Issue();
       issue.repositoryId = this.repositoryId;
       issue.title = this.title.value;
@@ -59,6 +62,7 @@ export class CreateIssueComponent implements OnInit {
       this.issueService.createIssue(issue).subscribe(
         issue => {
           console.log(issue)
+          this.dialogRef.close(issue);
           this.snackBar.open('You have successfully created an issue.', 'OK', {
             duration: 2000
           })

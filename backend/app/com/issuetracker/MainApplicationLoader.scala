@@ -56,7 +56,7 @@ class ApplicationComponents(context: Context)
 
   lazy val userController = new UserController(controllerComponents, userService)
   lazy val authController = new AuthController(controllerComponents, jwtUtil, authService)
-  lazy val repositoryController = new RepositoryController(controllerComponents, repositoryService, contributorService, jwtUtil)
+  lazy val repositoryController = new RepositoryController(controllerComponents, repositoryService, contributorService, issueService, jwtUtil)
   lazy val issueController = new IssueController(controllerComponents, issueService, assignedUserService, jwtUtil)
 
   lazy val authRouter = new auth.Routes(httpErrorHandler, authController)
