@@ -1,5 +1,7 @@
 package com.issuetracker.service
 
+import com.issuetracker.dto.RegisteredUser
+
 import com.issuetracker.dto.GetUser
 
 import scala.concurrent.ExecutionContext
@@ -26,6 +28,11 @@ class ContributorService(
     contributorRepository.findByRepositoryIdAndSearchTerm(repoId, searchTerm).map(_.map(GetUser.userToGetUser))
   }
 
+
+
+  def getContributorsByRepositoryId(id: Long): Future[Seq[RegisteredUser]] = {
+    contributorRepository.getContributorsByRepositoryId(id).map(_.map(RegisteredUser.userToRegisteredUser))
+  }
 
 }
 

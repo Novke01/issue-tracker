@@ -34,6 +34,12 @@ class ContributorRepository(db: Database) {
   }.result)
 
 
+  def getContributorsByRepositoryId(repoId: Long): Future[Seq[User]] = db.run({
+    for {
+      c <- contributors.filter(_.repositoryId === repoId)
+      user <- users.filter(_.id === c.userId)
+    } yield (user)
+  }.result)
 }
 
 object ContributorRepository {

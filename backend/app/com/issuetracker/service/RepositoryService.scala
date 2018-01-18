@@ -1,10 +1,11 @@
 package com.issuetracker.service
 
+import com.issuetracker.dto.RegisteredUser
+import com.issuetracker.model.User
+
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
-
 import com.issuetracker.repository.RepositoryRepository
-
 import dto.GetRepository
 
 class RepositoryService(
@@ -25,6 +26,10 @@ class RepositoryService(
 
   def get(id: Long): Future[Option[GetRepository]] = {
     repositoryRepository.get(id).map(_.map(GetRepository.repositoryToGetRepository))
+  }
+
+  def getRepositoryOwner(id: Long): Future[Option[RegisteredUser]] = {
+    repositoryRepository.getRepositoryOwner(id).map(_.map(RegisteredUser.userToRegisteredUser))
   }
 
 }

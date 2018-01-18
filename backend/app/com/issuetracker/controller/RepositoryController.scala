@@ -73,6 +73,20 @@ class RepositoryController(
     }
   }
 
+  def getContributors(id: Long) = Action.async {
+    contributorService.getContributorsByRepositoryId(id) map { result =>
+      Ok(Json.toJson(result))
+    }
+  }
+
+  def getOwner(id: Long) = Action.async {
+    repositoryService.getRepositoryOwner(id) map {
+      case Some(user) => Ok(Json.toJson(user))
+      case None => NotFound
+    }
+  }
+
+
   def getContributorsWitchSearchTerm(repoId: Long, searchTerm: String): Action[AnyContent] = Action.async {
     contributorService.findByRepositoryIdAndSearchTerm(repoId, searchTerm).map { result =>
       Ok(Json.toJson(result))
