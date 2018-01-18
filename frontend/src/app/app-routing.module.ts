@@ -1,3 +1,4 @@
+import { RepositoryPageComponent } from './repository-page/repository-page.component';
 import { NgModule } from '@angular/core';
 import { Routes } from '@angular/router';
 
@@ -10,6 +11,7 @@ import { environment } from '../environments/environment';
 
 const appRoutes: Routes = [
   { path: 'login', component: StarterPageComponent },
+  { path: 'repository/:id', component: RepositoryPageComponent, canActivate: [AuthGuardService] },
   { path: '', component: HomePageComponent, canActivate: [AuthGuardService] }
 ];
 

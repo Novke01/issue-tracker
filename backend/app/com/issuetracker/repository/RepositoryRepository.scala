@@ -29,6 +29,8 @@ class RepositoryRepository(db: Database) {
     } yield (repository)
   }.result)
 
+  def get(id: Long): Future[Option[Repository]] = db.run(repositories.filter(_.id === id).result.headOption)
+
 }
 
 object RepositoryRepository {

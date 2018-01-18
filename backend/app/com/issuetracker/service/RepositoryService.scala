@@ -23,6 +23,10 @@ class RepositoryService(
     }
   }
 
+  def get(id: Long): Future[Option[GetRepository]] = {
+    repositoryRepository.get(id).map(_.map(GetRepository.repositoryToGetRepository))
+  }
+
 }
 
 object RepositoryService {

@@ -65,5 +65,12 @@ class RepositoryController(
         BadRequest("Something went wrong.")
     }
   }
+
+  def get(id: Long) = Action.async {
+    repositoryService.get(id) map {
+      case Some(repository) => Ok(Json.toJson(repository))
+      case None => NotFound
+    }
+  }
   
 }

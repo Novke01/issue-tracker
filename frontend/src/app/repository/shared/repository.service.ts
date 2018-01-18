@@ -27,4 +27,9 @@ export class RepositoryService {
         const url = `${environment.baseUrl}${this.repositoryUrl}`;
         return this.http.post<Repository>(url, repository);
     }
+
+    getRepositoryById(id: string): Observable<Repository> {
+        const url = `${environment.baseUrl}${this.repositoryUrl}/${id}`;
+        return this.http.get<Repository>(url);
+    }
 }
