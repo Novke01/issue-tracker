@@ -7,6 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import { RepositorySave } from './repository-save.model';
 import { User } from '../../core/auth/user.model';
 import { of } from 'rxjs/observable/of';
+import { Issue } from '../../issue/shared/issue.model';
 
 @Injectable()
 export class RepositoryService {
@@ -53,6 +54,11 @@ export class RepositoryService {
         }
         const url = `${environment.baseUrl}${this.repositoryUrl}/${repositoryId}/contributors/${term}`;
         return this.http.get<User[]>(url);
+    }
+
+    getIssuesByRepositoryId(repoId: number): Observable<Issue[]> {
+        const url = `${environment.baseUrl}${this.repositoryUrl}/${repoId}/issues`;
+        return this.http.get<Issue[]>(url);
     }
 
 }

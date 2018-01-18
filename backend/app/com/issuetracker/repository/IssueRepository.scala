@@ -22,6 +22,10 @@ class IssueRepository(db: Database) {
   def findById(id: Long): Future[Option[Issue]] =
     db.run(issues.filter(_.id === id).result.headOption)
 
+  def findByRepositoryId(repoId: Long): Future[Seq[Issue]] = {
+    db.run(issues.filter(_.repositoryId === repoId).result)
+  }
+
 }
 
 object IssueRepository {

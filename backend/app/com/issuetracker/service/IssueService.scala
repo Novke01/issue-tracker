@@ -41,6 +41,10 @@ class IssueService(val issueRepository: IssueRepository,
     }
   }
 
+  def findByRepositoryId(repoId: Long): Future[Seq[GetIssue]] = {
+    issueRepository.findByRepositoryId(repoId).map(_.map(GetIssue.issueToGetIssue))
+  }
+
 }
 
 object IssueService {

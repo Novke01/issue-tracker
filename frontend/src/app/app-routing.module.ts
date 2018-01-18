@@ -13,7 +13,6 @@ import { CreateIssueComponent } from './issue/create-issue/create-issue.componen
 const appRoutes: Routes = [
   { path: 'login', component: StarterPageComponent },
   { path: 'repository/:id', component: RepositoryPageComponent, canActivate: [AuthGuardService] },
-  { path: 'repositories/:repoId/issues/new', component: CreateIssueComponent, canActivate: [AuthGuardService] },
   { path: '', component: HomePageComponent, canActivate: [AuthGuardService] }
 ];
 

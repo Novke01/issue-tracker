@@ -24,3 +24,7 @@ mat-form-field {
   button {
     text-transform: uppercase;
   }
+
+  .del {
+    min-width: 1%;
+  }
