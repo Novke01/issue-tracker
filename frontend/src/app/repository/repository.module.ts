@@ -5,21 +5,27 @@ import { HttpClientModule } from '@angular/common/http';
 import { ContributedRepositoriesComponent } from './contributed-repositories/contributed-repositories.component';
 import { OwnedRepositoriesComponent } from './owned-repositories/owned-repositories.component';
 import { RepositoryService } from './shared/repository.service';
+import { NewRepositoryComponent } from './new-repository/new-repository.component';
+import { AppRoutingModule } from '../app-routing.module';
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
-    HttpClientModule
+    HttpClientModule,
+    AppRoutingModule
   ],
   exports: [
     ContributedRepositoriesComponent,
-    OwnedRepositoriesComponent
+    OwnedRepositoriesComponent,
+    NewRepositoryComponent
   ],
   declarations: [
     ContributedRepositoriesComponent,
-    OwnedRepositoriesComponent
+    OwnedRepositoriesComponent,
+    NewRepositoryComponent
   ],
+  entryComponents: [NewRepositoryComponent],
   providers: [RepositoryService]
 })
 export class RepositoryModule { }

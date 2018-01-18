@@ -12,6 +12,9 @@ import {MatTableModule} from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   exports: [
@@ -26,7 +29,10 @@ import {MatSortModule} from '@angular/material/sort';
     MatTableModule,
     MatFormFieldModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatDialogModule,
+    MatAutocompleteModule,
+    MatSelectModule
   ],
   declarations: []
 })

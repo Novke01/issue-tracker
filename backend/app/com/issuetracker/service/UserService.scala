@@ -23,6 +23,10 @@ class UserService(val userRepository: UserRepository)(implicit val ec: Execution
       result
     }
   }
+
+  def getAll(): Future[Seq[RegisteredUser]] = {
+    userRepository.all().map(_.map(RegisteredUser.userToRegisteredUser))
+  }
   
   private def generateRefreshToken(): String = {
     Random.alphanumeric.take(50).mkString

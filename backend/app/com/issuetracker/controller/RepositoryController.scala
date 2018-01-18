@@ -55,7 +55,7 @@ class RepositoryController(
     }
   }
   
-  def getContributed: Action[AnyContent] = Action.async { request =>
+  def getContributed: Action[AnyContent] = Action.async { request => 
     val id: Long = jwtUtil.decode(request) map { _.id } getOrElse { -1 }
     repositoryService.findByContributorId(id) map { result =>
       Ok(Json.toJson(result))
@@ -63,6 +63,13 @@ class RepositoryController(
       case err =>
         logger.error(err.getMessage, err)
         BadRequest("Something went wrong.")
+    }
+  }
+
+  def get(id: Long) = Action.async {
+    repositoryService.get(id) map {
+      case Some(repository) => Ok(Json.toJson(repository))
+      case None => NotFound
     }
   }
 
@@ -75,5 +82,5 @@ class RepositoryController(
         BadRequest("Something went wrong.")
     }
   }
-  
+
 }

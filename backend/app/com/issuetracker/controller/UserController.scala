@@ -38,5 +38,9 @@ class UserController(
       Future { BadRequest("Invalid registration data.") }
     }
   }
+
+  def getAll = Action.async {
+    userService.getAll map(users => Ok(Json.toJson(users)))
+  }
   
 }

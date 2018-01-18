@@ -1,4 +1,5 @@
 POST    /                   com.issuetracker.controller.RepositoryController.insert
 GET     /owned              com.issuetracker.controller.RepositoryController.getOwned
 GET     /contributed        com.issuetracker.controller.RepositoryController.getContributed
+GET     /:id                com.issuetracker.controller.RepositoryController.get(id: Long)
 GET     /:repoId/contributors/:searchTerm        com.issuetracker.controller.RepositoryController.getContributorsWitchSearchTerm(repoId: Long, searchTerm: String)

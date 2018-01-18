@@ -11,6 +11,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { AppRoutingModule } from './app-routing.module';
 import { HomePageComponent } from './home-page/home-page.component';
 import { RepositoryModule } from './repository/repository.module';
+import { RepositoryPageComponent } from './repository-page/repository-page.component';
 import { IssueModule } from './issue/issue.module';
 
 
@@ -20,7 +21,8 @@ import { IssueModule } from './issue/issue.module';
   declarations: [
     AppComponent,
     StarterPageComponent,
-    HomePageComponent
+    HomePageComponent,
+    RepositoryPageComponent,
   ],
   imports: [
     BrowserModule,

@@ -20,6 +20,8 @@ class UserRepository(db: Database) {
  
   def findById(id: Long): Future[Option[User]] =
     db.run(users.filter(_.id === id).result.headOption)
+
+  def all(): Future[Seq[User]] = db.run(users.result)
     
 }
 

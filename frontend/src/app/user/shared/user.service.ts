@@ -13,13 +13,23 @@ const httpOptions = {
 @Injectable()
 export class UserService {
 
-  private registrationUrl = 'api/user/registration';
+  private userUrl = 'api/user';
+  private registrationUrl = this.userUrl + '/registration';
 
   constructor(private http: HttpClient) { }
 
   register(user: RegistrationUser): Observable<User> {
     const url = `${environment.baseUrl}${this.registrationUrl}`;
     return this.http.post<User>(url, user, httpOptions).pipe(
+      catchError(err => {
+        return Observable.throw(new Error(err.error));
+      })
+    );
+  }
+
+  getAll(): Observable<User[]> {
+    const url = `${environment.baseUrl}${this.userUrl}`;
+    return this.http.get<User[]>(url, httpOptions).pipe(
       catchError(err => {
         return Observable.throw(new Error(err.error));
       })
