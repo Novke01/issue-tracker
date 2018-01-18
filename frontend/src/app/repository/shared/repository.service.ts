@@ -7,7 +7,6 @@ import { Observable } from 'rxjs/Observable';
 import { RepositorySave } from './repository-save.model';
 import { User } from '../../core/auth/user.model';
 import { of } from 'rxjs/observable/of';
-import { User } from '../../core/auth/user.model';
 
 @Injectable()
 export class RepositoryService {
