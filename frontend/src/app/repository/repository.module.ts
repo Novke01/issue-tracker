@@ -6,12 +6,14 @@ import { ContributedRepositoriesComponent } from './contributed-repositories/con
 import { OwnedRepositoriesComponent } from './owned-repositories/owned-repositories.component';
 import { RepositoryService } from './shared/repository.service';
 import { NewRepositoryComponent } from './new-repository/new-repository.component';
+import { AppRoutingModule } from '../app-routing.module';
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
-    HttpClientModule
+    HttpClientModule,
+    AppRoutingModule
   ],
   exports: [
     ContributedRepositoriesComponent,
