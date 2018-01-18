@@ -1,10 +1,8 @@
 package com.issuetracker.repository
 
 import scala.concurrent.Future
-
-import com.issuetracker.model.Contributor
+import com.issuetracker.model.{Contributor, User}
 import com.issuetracker.repository.table.ContributorTable
-
 import slick.jdbc.PostgresProfile.api._
 import com.issuetracker.repository.table.RepositoryTable
 import com.issuetracker.repository.table.UserTable
@@ -23,6 +21,12 @@ class ContributorRepository(db: Database) {
     contributors ++= contributorIds.map(Contributor(-1, _, repoId))
   })
 
+  def getContributorsByRepositoryId(repoId: Long): Future[Seq[User]] = db.run({
+    for {
+      c <- contributors.filter(_.repositoryId === repoId)
+      user <- users.filter(_.id === c.userId)
+    } yield (user)
+  }.result)
 }
 
 object ContributorRepository {

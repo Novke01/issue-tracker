@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environment';
 import { catchError } from 'rxjs/operators';
 import { Observable } from 'rxjs/Observable';
 import { RepositorySave } from './repository-save.model';
+import { User } from '../../core/auth/user.model';
 
 @Injectable()
 export class RepositoryService {
@@ -31,5 +32,15 @@ export class RepositoryService {
     getRepositoryById(id: string): Observable<Repository> {
         const url = `${environment.baseUrl}${this.repositoryUrl}/${id}`;
         return this.http.get<Repository>(url);
+    }
+
+    getContributorsByRepositoryId(id: string): Observable<User[]> {
+        const url = `${environment.baseUrl}${this.repositoryUrl}/${id}/contributors`;
+        return this.http.get<User[]>(url);
+    }
+
+    getOwnerByRepositoryId(id: string): Observable<User> {
+        const url = `${environment.baseUrl}${this.repositoryUrl}/${id}/owner`;
+        return this.http.get<User>(url);
     }
 }

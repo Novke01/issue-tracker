@@ -7,6 +7,7 @@ import { OwnedRepositoriesComponent } from './owned-repositories/owned-repositor
 import { RepositoryService } from './shared/repository.service';
 import { NewRepositoryComponent } from './new-repository/new-repository.component';
 import { AppRoutingModule } from '../app-routing.module';
+import { RepositoryInformationComponent } from './repository-information/repository-information.component';
 
 @NgModule({
   imports: [
@@ -18,12 +19,14 @@ import { AppRoutingModule } from '../app-routing.module';
   exports: [
     ContributedRepositoriesComponent,
     OwnedRepositoriesComponent,
-    NewRepositoryComponent
+    NewRepositoryComponent,
+    RepositoryInformationComponent
   ],
   declarations: [
     ContributedRepositoriesComponent,
     OwnedRepositoriesComponent,
-    NewRepositoryComponent
+    NewRepositoryComponent,
+    RepositoryInformationComponent
   ],
   entryComponents: [NewRepositoryComponent],
   providers: [RepositoryService]
