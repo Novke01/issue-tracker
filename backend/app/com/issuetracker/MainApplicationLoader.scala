@@ -38,6 +38,7 @@ class ApplicationComponents(context: Context)
   lazy val contributorRepository = ContributorRepository(dbConfig.db)
   lazy val issueRepository = new IssueRepository(dbConfig.db)
   lazy val assignedUserRepository = new AssignedUserRepository(dbConfig.db)
+  lazy val wikiPageRepository = new WikiPageRepository(dbConfig.db)
 
   lazy val jwtUtil = JwtUtil(configuration)
 
@@ -46,6 +47,7 @@ class ApplicationComponents(context: Context)
   contributorRepository.create()
   issueRepository.create()
   assignedUserRepository.create()
+  wikiPageRepository.create()
 
   lazy val userService = UserService(userRepository)
   lazy val authService = AuthService(userRepository, jwtUtil)
@@ -53,17 +55,20 @@ class ApplicationComponents(context: Context)
   lazy val contributorService = new ContributorService(contributorRepository, repositoryRepository)
   lazy val issueService = new IssueService(issueRepository, assignedUserRepository)
   lazy val assignedUserService = new AssignedUserService(assignedUserRepository, issueRepository)
+  lazy val wikiPageService = new WikiPageService(wikiPageRepository)
 
   lazy val userController = new UserController(controllerComponents, userService)
   lazy val authController = new AuthController(controllerComponents, jwtUtil, authService)
-  lazy val repositoryController = new RepositoryController(controllerComponents, repositoryService, contributorService, issueService, jwtUtil)
+  lazy val repositoryController = new RepositoryController(controllerComponents, repositoryService, contributorService, issueService, wikiPageService, jwtUtil)
   lazy val issueController = new IssueController(controllerComponents, issueService, assignedUserService, jwtUtil)
+  lazy val wikiPageController = new WikiPageController(controllerComponents, wikiPageService)
 
   lazy val authRouter = new auth.Routes(httpErrorHandler, authController)
   lazy val userRouter = new user.Routes(httpErrorHandler, userController)
   lazy val repoRoutes = new repo.Routes(httpErrorHandler, repositoryController)
   lazy val issueRouter = new issue.Routes(httpErrorHandler, issueController)
-  lazy val router = new Routes(httpErrorHandler, authRouter, userRouter, repoRoutes, issueRouter)
+  lazy val wikipageRouter = new wikipage.Routes(httpErrorHandler, wikiPageController)
+  lazy val router = new Routes(httpErrorHandler, authRouter, userRouter, repoRoutes, issueRouter, wikipageRouter)
 
   lazy val jwtFilter = JwtFilter(jwtUtil)
   

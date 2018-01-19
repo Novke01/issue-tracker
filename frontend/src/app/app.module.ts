@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { MarkdownModule } from 'ngx-md';
 
 import { AppComponent } from './app.component';
 import { UserModule } from './user/user.module';
@@ -13,6 +14,7 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { RepositoryModule } from './repository/repository.module';
 import { RepositoryPageComponent } from './repository-page/repository-page.component';
 import { IssueModule } from './issue/issue.module';
+import { WikiModule } from './wiki/wiki.module';
 
 
 
@@ -33,7 +35,9 @@ import { IssueModule } from './issue/issue.module';
     AppRoutingModule,
     SharedModule,
     RepositoryModule,
-    IssueModule
+    IssueModule,
+    WikiModule,
+    MarkdownModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

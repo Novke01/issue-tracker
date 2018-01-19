@@ -1,0 +1,16 @@
+<div class="button-row">
+<button mat-raised-button color="primary">New page</button>
+<button mat-raised-button color="accent">Edit</button>
+<mat-form-field>
+  <mat-select placeholder="Select page" [(value)]="selectedPage" (change)="onChanged()">
+    <mat-option *ngFor="let page of wikiPages" [(value)]="page.id">
+      {{ page.name }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<mat-card class="readme">
+  <markdown [data]="currentWiki.content">
+  </markdown>
+</mat-card>
+</div>

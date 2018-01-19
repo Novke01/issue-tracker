@@ -1,0 +1,2 @@
+POST    /           com.issuetracker.controller.WikiPageController.insert
+GET     /:id        com.issuetracker.controller.WikiPageController.get(id: Long)
