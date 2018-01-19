@@ -2,3 +2,4 @@
 ->      /api/user               user.Routes
 ->      /api/repositories       repo.Routes
 ->      /api/issues             issue.Routes
+->      /api/wiki-pages         wikipage.Routes

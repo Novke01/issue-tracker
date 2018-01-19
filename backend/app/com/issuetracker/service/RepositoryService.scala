@@ -1,7 +1,6 @@
 package com.issuetracker.service
 
 import com.issuetracker.dto.RegisteredUser
-import com.issuetracker.model.User
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
@@ -13,9 +12,9 @@ class RepositoryService(
 )(implicit val ec: ExecutionContext) {
 
   def findByOwnerId(id: Long): Future[Seq[GetRepository]] = {
-    repositoryRepository.findByOwnerId(id) map { 
-      _.map(GetRepository.repositoryToGetRepository) 
-    } 
+    repositoryRepository.findByOwnerId(id) map {
+      _.map(GetRepository.repositoryToGetRepository)
+    }
   }
 
   def findByContributorId(id: Long): Future[Seq[GetRepository]] = {

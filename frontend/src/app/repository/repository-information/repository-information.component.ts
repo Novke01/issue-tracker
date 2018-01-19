@@ -13,7 +13,7 @@ import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 })
 export class RepositoryInformationComponent implements OnInit  {
 
-  contributors: User[] = new Array<User>();
+  contributors: User[];
   owner: User = new User();
 
   displayedColumns = ['firstName', 'lastName', 'email', 'owner'];
@@ -25,10 +25,11 @@ export class RepositoryInformationComponent implements OnInit  {
   constructor(private repositoryService: RepositoryService, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.contributors = new Array<User>();
     this.route.paramMap
     .switchMap((params: ParamMap) =>
       this.repositoryService.getContributorsByRepositoryId(params.get('id'))).subscribe(result => {
-      this.contributors = result;
+      this.contributors = this.contributors.concat(result);
       this.dataSource = new MatTableDataSource(this.contributors);
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;

@@ -2,18 +2,15 @@ package com.issuetracker.controller
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
-import com.issuetracker.service.{ContributorService, IssueService, RepositoryService}
+import com.issuetracker.service.{ContributorService, IssueService, RepositoryService, WikiPageService}
 import com.issuetracker.util.JwtUtil
 import dto.PostRepository
 import play.api.Logger
-import play.api.libs.json.JsError
-import play.api.libs.json.JsSuccess
 import play.api.libs.json.JsValue
 import play.api.libs.json.Json
 import play.api.mvc.AbstractController
 import play.api.mvc.Action
 import play.api.mvc.ControllerComponents
-import play.api.mvc.Request
 import play.api.mvc.AnyContent
 
 class RepositoryController(
@@ -21,6 +18,7 @@ class RepositoryController(
   val repositoryService: RepositoryService,
   val contributorService: ContributorService,
   val issueService: IssueService,
+  val wikiPageService: WikiPageService,
   val jwtUtil: JwtUtil
 )(implicit val ec: ExecutionContext) extends AbstractController(cc) {
 
@@ -97,6 +95,12 @@ class RepositoryController(
 
   def getIssues(repoId: Long) = Action.async {
     issueService.findByRepositoryId(repoId) map { result =>
+      Ok(Json.toJson(result))
+    }
+  }
+
+  def getWikiPages(id: Long) = Action.async {
+    wikiPageService.findByRepositoryId(id) map { result =>
       Ok(Json.toJson(result))
     }
   }
