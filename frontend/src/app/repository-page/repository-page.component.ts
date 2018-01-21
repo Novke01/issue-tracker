@@ -26,5 +26,4 @@ export class RepositoryPageComponent implements OnInit {
       this.repository = repository;
       });
   }
-
 }

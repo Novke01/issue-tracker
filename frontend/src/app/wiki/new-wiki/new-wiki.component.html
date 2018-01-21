@@ -1,0 +1,15 @@
+<div class="textAreaColumn">
+    <div id="markdown">
+        <span>Markdown</span>
+        <textarea  [(ngModel)]="wikiPage.content"></textarea>
+    </div>
+    <div id="result">
+        <markdown [data]="wikiPage.content" style="display: inline"></markdown>
+    </div>
+</div>
+
+<button class="create" mat-raised-button color="primary" (click)="create(wikiPage)">Create</button>
+<mat-form-field class="example-full-width create">
+    <input matInput placeholder="Wiki page name" [(ngModel)]="wikiPage.name">
+</mat-form-field>
+
