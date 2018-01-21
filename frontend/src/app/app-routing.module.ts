@@ -8,11 +8,13 @@ import { AuthGuardService } from './core/auth/auth-guard.service';
 import { RouterModule } from '@angular/router';
 import { environment } from '../environments/environment';
 import { CreateIssueComponent } from './issue/create-issue/create-issue.component';
+import { NewWikiComponent } from './wiki/new-wiki/new-wiki.component';
 
 
 const appRoutes: Routes = [
   { path: 'login', component: StarterPageComponent },
   { path: 'repository/:id', component: RepositoryPageComponent, canActivate: [AuthGuardService] },
+  { path: 'repository/:id/wiki/new', component: NewWikiComponent, canActivate: [AuthGuardService] },
   { path: '', component: HomePageComponent, canActivate: [AuthGuardService] }
 ];
 

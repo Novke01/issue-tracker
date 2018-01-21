@@ -34,5 +34,4 @@ export class RepositoryWikiComponent implements OnInit {
   onChanged() {
     this.currentWiki = this.wikiPages.filter(x => x.id === this.selectedPage)[0];
   }
-
 }
