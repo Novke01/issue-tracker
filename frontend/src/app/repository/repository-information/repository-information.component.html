@@ -1,38 +1,87 @@
 <br><br>
 <div class="contributors-header">
-  <mat-form-field>
-    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
-  </mat-form-field>
+    <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+    </mat-form-field>
 </div>
 <div class="contributors-container mat-elevation-z8 centeredtable">
 
-  <mat-table [dataSource]="dataSource" matSort>
+    <mat-table [dataSource]="dataSource" matSort>
 
-    <ng-container matColumnDef="firstName">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> First name </mat-header-cell>
-      <mat-cell *matCellDef="let contributor"> {{contributor.firstName}} </mat-cell>
-    </ng-container>
-    
-    <ng-container matColumnDef="lastName">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Last name </mat-header-cell>
-      <mat-cell *matCellDef="let contributor">{{contributor.lastName}}</mat-cell>
-    </ng-container>
+        <ng-container matColumnDef="firstName">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> First name</mat-header-cell>
+            <mat-cell *matCellDef="let contributor"> {{contributor.firstName}}</mat-cell>
+        </ng-container>
 
-    <ng-container matColumnDef="email">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
-      <mat-cell *matCellDef="let contributor"> {{contributor.email}} </mat-cell>
-    </ng-container>
+        <ng-container matColumnDef="lastName">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Last name</mat-header-cell>
+            <mat-cell *matCellDef="let contributor">{{contributor.lastName}}</mat-cell>
+        </ng-container>
 
-    <ng-container matColumnDef="owner">
-        <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
-      <mat-cell *matCellDef="let contributor">
-        <mat-chip-list><mat-chip color="{{contributor.id === owner.id ? 'primary' : 'accent'}}" selected="true">{{contributor.id === owner.id ? 'Owner' : 'Contributor'}}</mat-chip></mat-chip-list>
-      </mat-cell>
-    </ng-container>
+        <ng-container matColumnDef="email">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Email</mat-header-cell>
+            <mat-cell *matCellDef="let contributor"> {{contributor.email}}</mat-cell>
+        </ng-container>
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let contributor; columns: displayedColumns;">
-    </mat-row>
-  </mat-table>
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+        <ng-container matColumnDef="owner">
+            <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+            <mat-cell *matCellDef="let contributor">
+                <mat-chip-list>
+                    <mat-chip color="{{contributor.id === owner.id ? 'primary' : 'accent'}}" selected="true">
+                        {{contributor.id === owner.id ? 'Owner' : 'Contributor'}}
+                    </mat-chip>
+                </mat-chip-list>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let contributor; columns: displayedColumns;">
+        </mat-row>
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+
 </div>
+
+<br>
+<br>
+
+<div class="mat-elevation-z8 centeredtable">
+    <div class="repository-container">
+        <form [formGroup]="form" (ngSubmit)="submit(form)">
+            <mat-form-field>
+                <input matInput formControlName="name" placeholder="Enter repository name" required>
+                <mat-error *ngIf="name.invalid && name.touched">
+                    Please enter name.
+                </mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <input matInput formControlName="url" placeholder="Enter GitHub url" required>
+                <mat-error *ngIf="url.invalid && url.touched">
+                    Please enter url.
+                </mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+            <textarea matInput formControlName="description" placeholder="Enter description" matTextareaAutosize
+                      matAutosizeMinRows="2" matAutosizeMaxRows="8" required></textarea>
+                <mat-error *ngIf="description.invalid && description.touched">
+                    Please enter description.
+                </mat-error>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <mat-select placeholder="contributors" [formControl]="control" multiple>
+                    <mat-option *ngFor="let user of users" [value]="user">{{user.email}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <br>
+            <button mat-button type="submit" style="float: right">Add</button>
+            <br>
+            <br>
+        </form>
+    </div>
+</div>
+
+<!-- Necessary to preserve shadow. -->
+<br>

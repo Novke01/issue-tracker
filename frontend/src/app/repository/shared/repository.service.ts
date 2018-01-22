@@ -31,6 +31,11 @@ export class RepositoryService {
         return this.http.post<Repository>(url, repository);
     }
 
+    updateRepository(repository: RepositorySave): Observable<Repository> {
+        const url = `${environment.baseUrl}${this.repositoryUrl}`;
+        return this.http.patch<Repository>(url, repository);
+    }
+
     getRepositoryById(id: string): Observable<Repository> {
         const url = `${environment.baseUrl}${this.repositoryUrl}/${id}`;
         return this.http.get<Repository>(url);
