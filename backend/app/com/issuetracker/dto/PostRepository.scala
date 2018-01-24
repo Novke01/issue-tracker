@@ -1,10 +1,10 @@
 package dto
 
-import play.api.libs.json._
 import com.issuetracker.model.Repository
-
+import play.api.libs.json._
 
 case class PostRepository(
+                           id: Option[Long],
                            name: String,
                            url: String,
                            description: String,
@@ -18,7 +18,7 @@ object PostRepository {
 
   implicit def postRepositoryToRepository(postRepository: PostRepository): Repository =
     new Repository(
-      -1,
+      postRepository.id.getOrElse(-1),
       postRepository.name,
       postRepository.url,
       postRepository.description,

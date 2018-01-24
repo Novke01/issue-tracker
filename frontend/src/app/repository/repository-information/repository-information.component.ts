@@ -17,10 +17,11 @@ export class RepositoryInformationComponent implements OnInit {
 
     form: FormGroup;
     control: FormControl = new FormControl();
-    repository: RepositorySave;
 
     contributors: User[];
     owner: User = new User();
+
+    repository: Repository;
 
     displayedColumns = ['firstName', 'lastName', 'email', 'owner'];
     dataSource: MatTableDataSource<User>;
@@ -32,7 +33,7 @@ export class RepositoryInformationComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.contributors = new Array<User>();
+        this.contributors = [];
         this.route.paramMap
             .switchMap((params: ParamMap) =>
                 this.repositoryService.getContributorsByRepositoryId(params.get('id'))).subscribe(result => {
@@ -74,12 +75,19 @@ export class RepositoryInformationComponent implements OnInit {
     }
 
     submit(form) {
-        if (form.valid) {
-            this.repository.name = form.value.name;
-            this.repository.url = form.value.url;
-            this.repository.description = form.value.description;
 
-            this.repositoryService.updateRepository(this.repository).subscribe(repository => {
+        if (form.valid) {
+
+            const repository = new RepositorySave();
+
+            repository.id = this.repository.id;
+            repository.name = form.value.name;
+            repository.url = form.value.url;
+            repository.description = form.value.description;
+            repository.ownerId = this.repository.ownerId;
+            repository.contributors = this.contributors.map(contributor => contributor.id);
+
+            this.repositoryService.updateRepository(repository).subscribe(repo => {
                 }
             );
         }

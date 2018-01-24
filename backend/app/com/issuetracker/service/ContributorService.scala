@@ -1,8 +1,8 @@
 package com.issuetracker.service
 
 import com.issuetracker.dto.RegisteredUser
-
 import com.issuetracker.dto.GetUser
+import com.issuetracker.model.Repository
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
@@ -21,6 +21,20 @@ class ContributorService(
       contributorRepository.addContributors(repository.id, postRepository.contributors) map { _ =>
         repository
       }
+    }
+  }
+
+  def update(repository: Repository, contributors: List[Long]): Future[GetRepository] = {
+    repositoryRepository.update(repository) map { repository =>
+      throw new IllegalArgumentException()
+      repository.getOrElse {
+        throw new IllegalArgumentException()
+      }
+      /*
+      contributorRepository.addContributors(repository.id, contributors) map { _ =>
+        repository
+      }
+      */
     }
   }
 

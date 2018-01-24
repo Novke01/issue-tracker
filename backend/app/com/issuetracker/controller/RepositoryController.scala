@@ -40,6 +40,25 @@ class RepositoryController(
     }
   }
 
+  def update: Action[JsValue] = Action.async(parse.json) { request =>
+    val optionalRepository = request.body.validate[PostRepository]
+    optionalRepository map { postRepository =>
+      contributorService.update(postRepository, postRepository.contributors).map { result =>
+        Ok(Json.toJson(result))
+      } recover {
+        case notFoundError : IllegalArgumentException =>
+          logger.error(notFoundError.getMessage, notFoundError)
+          NotFound
+        case err =>
+          logger.error(err.getMessage, err)
+          BadRequest("Something went wrong.")
+      }
+    } getOrElse {
+      logger.error("Invalid repository data.")
+      Future { BadRequest("Invalid repository data.") }
+    }
+  }
+
   def getOwned: Action[AnyContent] = Action.async { request =>
     val id: Long = jwtUtil.decode(request) map { _.id } getOrElse { -1 }
     repositoryService.findByOwnerId(id).map { result =>
