@@ -5,6 +5,7 @@ import slick.jdbc.PostgresProfile.api._
 import scala.concurrent.Future
 import com.issuetracker.model.Issue
 import com.issuetracker.repository.table.{IssueTable, UserTable}
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class IssueRepository(db: Database) {
 
@@ -14,6 +15,14 @@ class IssueRepository(db: Database) {
   def create(): Future[Unit] = db.run(issues.schema.create)
 
   def insert(issue: Issue): Future[Issue] = db.run((issues returning issues) += issue)
+
+  def update(issue: Issue): Future[Option[Issue]] = {
+    db.run ( {
+      issues.filter (_.id === issue.id).update(issue).map {
+        case 0 => None
+        case _ => Some(issue)
+      }})
+  }
 
   def findByOwnerId(id: Long): Future[Seq[Issue]] = {
     db.run(issues.filter(_.ownerId === id).result)

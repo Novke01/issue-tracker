@@ -1,7 +1,7 @@
 package com.issuetracker.service
 
 import scala.concurrent.{ExecutionContext, Future}
-import com.issuetracker.dto.{GetIssue, PostIssue}
+import com.issuetracker.dto.{GetIssue, PostIssue, UpdateIssue}
 import com.issuetracker.exception.IssueNotFoundException
 import com.issuetracker.model.Issue
 import com.issuetracker.repository.{AssignedUserRepository, IssueRepository}
@@ -18,6 +18,18 @@ class IssueService(val issueRepository: IssueRepository,
       assignedUserRepository.insertAssignees(issue.id, postIssue.assignees) map { _ =>
         issue
       }
+    }
+  }
+
+  def update(updateIssue: UpdateIssue): Future[GetIssue] = {
+    issueRepository.update(updateIssue) map { result =>
+      result match {
+        case Some(issue: Issue) =>
+          GetIssue.issueToGetIssue(issue)
+        case None =>
+          throw new IllegalArgumentException()
+      }
+
     }
   }
 

@@ -7,12 +7,13 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { AuthGuardService } from './core/auth/auth-guard.service';
 import { RouterModule } from '@angular/router';
 import { environment } from '../environments/environment';
-import { CreateIssueComponent } from './issue/create-issue/create-issue.component';
+import { IssueDisplayComponent } from './issue/issue-display/issue-display.component';
 
 
 const appRoutes: Routes = [
   { path: 'login', component: StarterPageComponent },
   { path: 'repository/:id', component: RepositoryPageComponent, canActivate: [AuthGuardService] },
+  { path: 'repositories/:repoId/issues/:issueId', component: IssueDisplayComponent, canActivate: [AuthGuardService] },
   { path: '', component: HomePageComponent, canActivate: [AuthGuardService] }
 ];
 

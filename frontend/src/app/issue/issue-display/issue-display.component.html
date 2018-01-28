@@ -1,0 +1,58 @@
+
+<div class="container2">
+
+    <div class="row">
+<mat-card  layout-align="center center">
+  <mat-card-title class="title">{{issue.title}}</mat-card-title>
+  <mat-chip-list>
+    <mat-chip selected="true">{{issue.status}}</mat-chip>
+  </mat-chip-list>
+  <br><br>
+  <form [formGroup]="form" (ngSubmit)="onUpdateIssue()">
+      <table class="table-full-width" cellspacing="0"><tr>
+          <td ><mat-content class="table-full-width">
+              <mat-content >
+                  <mat-form-field>
+                      <input matInput formControlName="title" placeholder="Enter issue title" [ngModel] = "issue.title" required>
+                      <mat-error *ngIf="title.invalid && title.touched">
+                          Please enter name.
+                      </mat-error>
+                  </mat-form-field>
+              </mat-content>
+          </mat-content></td>
+          <td colspan = "2"><mat-content class="table-full-width">
+              <h3>Assignees</h3>
+              <it-possible-assignees-search [repositoryId]="repositoryId" [assignees]="assignees" (userAssigned)="onUserAssigned(assignees)"></it-possible-assignees-search>
+              <mat-list>
+                <mat-list-item *ngFor="let assignee of assignees" class="col-1-1">
+                  <div class="module hero">
+                    <b>{{assignee.username}}</b> <i>{{assignee.firstName}} {{assignee.lastName}}</i>
+                    <button mat-raised-button class="del" (click) ="unassignUser(assignee)" type="button" color="warn" > - </button>
+                  </div>
+                </mat-list-item>
+              </mat-list>
+          </mat-content></td>
+        </tr>
+        <tr>
+            <td ><mat-content class="table-full-width">
+                <mat-content>
+                    <mat-form-field>
+                        <textarea matInput formControlName="description" placeholder="Enter description" [ngModel] = "issue.description" matTextareaAutosize 
+                        matAutosizeMinRows="4" matAutosizeMaxRows="8"></textarea>
+                        <mat-error *ngIf="description.invalid && description.touched">
+                            Please enter description.
+                        </mat-error>
+                    </mat-form-field>
+                </mat-content>
+            </mat-content></td>
+        </tr>
+      </table>
+    <mat-actions>
+        <button mat-raised-button color="primary" type="submit">Update issue</button>
+    </mat-actions>
+  </form>
+</mat-card>
+
+</div>
+</div>
+

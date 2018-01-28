@@ -1,3 +1,6 @@
 POST    /       com.issuetracker.controller.IssueController.insert
-
+PUT    /       com.issuetracker.controller.IssueController.update
 GET    /:id       com.issuetracker.controller.IssueController.getOne(id: Long)
+GET     /:issueId/assignees                        com.issuetracker.controller.IssueController.getAssignees(issueId: Long)
+POST  /:issueId/assignees/:userId                 com.issuetracker.controller.IssueController.insertAssignee(issueId: Long, userId: Long)
+DELETE  /:issueId/assignees/:userId                 com.issuetracker.controller.IssueController.removeAssignee(issueId: Long, userId: Long)

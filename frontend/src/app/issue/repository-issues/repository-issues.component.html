@@ -11,7 +11,7 @@
 
     <ng-container matColumnDef="title">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Title </mat-header-cell>
-      <mat-cell *matCellDef="let issue"><a [routerLink]="['/issue', issue.id]" >{{issue.title}}</a></mat-cell>
+      <mat-cell *matCellDef="let issue"><a [routerLink]="['/repositories', repositoryId, 'issues', issue.id]" >{{issue.title}}</a></mat-cell>
     </ng-container>
   
     <ng-container matColumnDef="description">

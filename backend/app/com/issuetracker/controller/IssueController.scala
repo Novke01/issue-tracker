@@ -4,7 +4,7 @@ import play.api.mvc._
 import play.api.libs.json._
 
 import scala.concurrent.{ExecutionContext, Future}
-import com.issuetracker.dto.PostIssue
+import com.issuetracker.dto.{PostIssue, UpdateIssue}
 import com.issuetracker.service.{AssignedUserService, IssueService}
 import com.issuetracker.util.JwtUtil
 import play.api.Logger
@@ -41,6 +41,25 @@ class IssueController(val cc: ControllerComponents,
     }
   }
 
+  def update: Action[JsValue] = Action.async(parse.json) { request =>
+    val optionalRepository = request.body.validate[UpdateIssue]
+    optionalRepository map { updateIssue =>
+      issueService.update(updateIssue).map { result =>
+        Ok(Json.toJson(result))
+      } recover {
+        case notFoundError : IllegalArgumentException =>
+          logger.error(notFoundError.getMessage, notFoundError)
+          NotFound
+        case err =>
+          logger.error(err.getMessage, err)
+          BadRequest("Something went wrong.")
+      }
+    } getOrElse {
+      logger.error("Invalid issue data.")
+      Future { BadRequest("Invalid issue data.") }
+    }
+  }
+
   def getOne(id: Long): Action[AnyContent] = Action.async {
     issueService.findById(id).map { result =>
       Ok(Json.toJson(result))
@@ -51,6 +70,22 @@ class IssueController(val cc: ControllerComponents,
     }
   }
 
+  def insertAssignee(issueId: Long, userId: Long) = Action.async {
+    assignedUserService.insertAssignee(issueId, userId) map { result =>
+      Ok("")
+    }
+  }
 
+  def removeAssignee(issueId: Long, userId: Long) = Action.async {
+    assignedUserService.removeAssignee(issueId, userId) map { result =>
+      Ok(Json.toJson(result))
+    }
+  }
+
+  def getAssignees(issueId: Long) = Action.async {
+    assignedUserService.findAssigneesByIssueId(issueId) map { result =>
+      Ok(Json.toJson(result))
+    }
+  }
 
 }
