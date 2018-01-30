@@ -9,6 +9,9 @@ import { RepositoryIssuesComponent } from '../issue/repository-issues/repository
 import { CreateIssueComponent } from '../issue/create-issue/create-issue.component';
 import { WikiPageService } from './shared/wiki-page.service';
 import { MarkdownModule } from 'ngx-md';
+import { NewWikiComponent } from './new-wiki/new-wiki.component';
+
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -18,13 +21,16 @@ import { MarkdownModule } from 'ngx-md';
     SharedModule,
     HttpClientModule,
     AppRoutingModule,
-    MarkdownModule
+    MarkdownModule,
+    FormsModule
   ],
   exports: [
-    RepositoryWikiComponent
+    RepositoryWikiComponent,
+    NewWikiComponent
   ],
   declarations: [
-    RepositoryWikiComponent
+    RepositoryWikiComponent,
+    NewWikiComponent
   ],
   entryComponents: [],
   providers: [WikiPageService]

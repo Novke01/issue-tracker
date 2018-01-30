@@ -7,6 +7,7 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { AuthGuardService } from './core/auth/auth-guard.service';
 import { RouterModule } from '@angular/router';
 import { environment } from '../environments/environment';
+import { NewWikiComponent } from './wiki/new-wiki/new-wiki.component';
 import { IssueDisplayComponent } from './issue/issue-display/issue-display.component';
 
 
@@ -14,6 +15,7 @@ const appRoutes: Routes = [
   { path: 'login', component: StarterPageComponent },
   { path: 'repository/:id', component: RepositoryPageComponent, canActivate: [AuthGuardService] },
   { path: 'repositories/:repoId/issues/:issueId', component: IssueDisplayComponent, canActivate: [AuthGuardService] },
+  { path: 'repository/:id/wiki/new', component: NewWikiComponent, canActivate: [AuthGuardService] },
   { path: '', component: HomePageComponent, canActivate: [AuthGuardService] }
 ];
 
