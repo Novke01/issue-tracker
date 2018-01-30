@@ -10,17 +10,15 @@
   <br><br>
   <form [formGroup]="form" (ngSubmit)="onUpdateIssue()">
       <table class="table-full-width" cellspacing="0"><tr>
-          <td ><mat-content class="table-full-width">
-              <mat-content >
-                  <mat-form-field>
-                      <input matInput formControlName="title" placeholder="Enter issue title" [ngModel] = "issue.title" required>
+          <td class="left-form-side" ><mat-content>
+                  <mat-form-field >
+                      <input matInput formControlName="title" placeholder="Issue title" [ngModel] = "issue.title" required>
                       <mat-error *ngIf="title.invalid && title.touched">
                           Please enter name.
                       </mat-error>
                   </mat-form-field>
-              </mat-content>
           </mat-content></td>
-          <td colspan = "2"><mat-content class="table-full-width">
+          <td class = "right-form-side"rowspan = "2" width="40%" ><mat-content>
               <h3>Assignees</h3>
               <it-possible-assignees-search [repositoryId]="repositoryId" [assignees]="assignees" (userAssigned)="onUserAssigned(assignees)"></it-possible-assignees-search>
               <mat-list>
@@ -34,10 +32,10 @@
           </mat-content></td>
         </tr>
         <tr>
-            <td ><mat-content class="table-full-width">
+            <td class="left-form-side"><mat-content>
                 <mat-content>
                     <mat-form-field>
-                        <textarea matInput formControlName="description" placeholder="Enter description" [ngModel] = "issue.description" matTextareaAutosize 
+                        <textarea matInput formControlName="description"  placeholder="Description" [ngModel] = "issue.description" matTextareaAutosize 
                         matAutosizeMinRows="4" matAutosizeMaxRows="8"></textarea>
                         <mat-error *ngIf="description.invalid && description.touched">
                             Please enter description.
@@ -48,7 +46,8 @@
         </tr>
       </table>
     <mat-actions>
-        <button mat-raised-button color="primary" type="submit">Update issue</button>
+        <button mat-raised-button color="primary" type="submit" *ngIf="form.valid">Update issue</button>
+        <button mat-raised-button color="primary" *ngIf="!form.valid" (click) = "enableForm()">Edit</button>
     </mat-actions>
   </form>
 </mat-card>

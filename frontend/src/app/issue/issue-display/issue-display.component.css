@@ -27,6 +27,16 @@
     width: 50%;
 }
 
+.left-form-side{
+    border-right: 1px solid silver;
+    padding: 10px;
+}
+
+.right-form-side{
+    padding: 10px;
+}
+
+
 .table-full-width {
     width: 100%;
 }
@@ -37,4 +47,9 @@ button {
 
 .del {
     min-width: 1%;
+}
+
+.mat-form-field {
+    width: 100%;
+    
 }

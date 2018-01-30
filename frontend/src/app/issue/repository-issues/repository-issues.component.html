@@ -16,7 +16,7 @@
   
     <ng-container matColumnDef="description">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Description </mat-header-cell>
-      <mat-cell *matCellDef="let issue"> {{issue.description}} </mat-cell>
+      <mat-cell *matCellDef="let issue"> {{(issue.description | slice:0:40)+'...'}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="status">

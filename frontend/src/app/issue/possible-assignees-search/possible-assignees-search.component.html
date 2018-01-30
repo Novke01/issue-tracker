@@ -1,9 +1,12 @@
 <div id="search-component">
-  <input matInput #searchBox id="search-box" [(ngModel)] = "searchBoxValue" (focus)="search()" (keyup)="search()" placeholder="Assign user..." autocomplete="off" />
-
+  <mat-form-field >
+    <input matInput #searchBox id="search-box" [(ngModel)] = "searchBoxValue" (focus)="search()" (keyup)="search()" placeholder="Assign user..." autocomplete="off" />
+  </mat-form-field>
   <mat-list class="search-result" [hidden] = "searchBoxValue==''">
-    <mat-list-item *ngFor="let user of possibleAssignees$ | async " (click)="assignUser(user)" [hidden]="found(user.id)">
-      <a><b>{{user.username}}</b> <i>{{user.firstName}} {{user.lastName}}</i></a>
+    <span *ngFor="let user of possibleAssignees$ | async ">
+    <mat-list-item  (click)="assignUser(user)" *ngIf="!isAssigned(user.id)">
+      <b>{{user.username}}</b> <i>{{user.firstName}} {{user.lastName}}</i>
     </mat-list-item>
+    </span>
   </mat-list>
 </div>

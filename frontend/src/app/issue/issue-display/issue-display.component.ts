@@ -14,10 +14,13 @@ import { FormGroup, AbstractControl, FormBuilder, Validators, FormControl } from
 export class IssueDisplayComponent implements OnInit {
 
   issue: Issue = new Issue();
-  form: FormGroup;
-  control: FormControl = new FormControl();
+  form: FormGroup = new FormGroup({
+    'title': new FormControl({value:"title", disabled: true}, Validators.required),
+    'description': new FormControl({value:"description", disabled: true})
+  });
   repositoryId: number;
   assignees: User[];
+
 
   constructor(
     private router: Router,
@@ -39,16 +42,20 @@ export class IssueDisplayComponent implements OnInit {
           
         });
       });
-
-      let fc = new FormControl();
-      this.form = this.formBuilder.group({
-        title: ['', Validators.required],
-        description: ['']
-      });
   }
 
   get title() { return this.form.get('title'); }
   get description() { return this.form.get('description'); }
+
+  enableForm(){
+    this.form.get('title').enable();
+    this.form.get('description').enable();
+  }
+
+  disableForm(){
+    this.form.get('title').disable();
+    this.form.get('description').disable();
+  }
 
   onUserAssigned(assignees){
     var user = assignees[assignees.length - 1]
@@ -72,6 +79,7 @@ export class IssueDisplayComponent implements OnInit {
       this.issueService.updateIssue(this.issue).subscribe(
         issue => {
           console.log(issue)
+          this.disableForm();
           this.snackBar.open('You have successfully updated an issue.', 'OK', {
             duration: 2000
           })
