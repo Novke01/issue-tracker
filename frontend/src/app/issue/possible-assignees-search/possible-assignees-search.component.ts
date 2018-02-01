@@ -19,7 +19,7 @@ import { RepositoryService } from '../../repository/shared/repository.service';
 export class PossibleAssigneesSearchComponent implements OnInit {
 
   @Input() repositoryId: number;
-  @Input() assignees: User[];
+  @Input() assignees: User[] = [];
   @Output() userAssigned: EventEmitter<User[]> = new EventEmitter<User[]>();
 
   possibleAssignees$: Observable<User[]>;
@@ -47,17 +47,14 @@ export class PossibleAssigneesSearchComponent implements OnInit {
     );
   }
 
-  found(userId: number) :boolean {
+  isAssigned(userId: number) :boolean {
     return this.assignees.some(function (a) {
       return a.id === userId;
       });
-    }
+  }
 
   assignUser(user: User): void{
-    var found = this.assignees.some(function (a) {
-      return a.id === user.id;
-    });
-    if (!this.found(user.id)) { 
+    if (!this.isAssigned(user.id)) { 
       this.assignees.push(user);
       this.userAssigned.emit(this.assignees);
       this.searchBoxValue=""; 

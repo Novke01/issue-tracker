@@ -1,0 +1,56 @@
+
+<div class="container2">
+
+    <div class="row">
+<mat-card  layout-align="center center">
+  <mat-card-title class="title">{{issue.title}}</mat-card-title>
+  <mat-chip-list>
+    <mat-chip selected="true">{{issue.status}}</mat-chip>
+  </mat-chip-list>
+  <br><br>
+  <form [formGroup]="form" (ngSubmit)="onUpdateIssue()">
+      <table class="table-full-width" cellspacing="0"><tr>
+          <td class="left-form-side" >
+                  <mat-form-field >
+                      <input matInput formControlName="title" placeholder="Issue title" [ngModel] = "issue.title" required>
+                      <mat-error *ngIf="title.invalid && title.touched">
+                          Please enter name.
+                      </mat-error>
+                  </mat-form-field>
+          </td>
+          <td class = "right-form-side"rowspan = "2" width="40%" >
+              <h3>Assignees</h3>
+              <it-possible-assignees-search [repositoryId]="repositoryId" [assignees]="assignees" (userAssigned)="onUserAssigned(assignees)"></it-possible-assignees-search>
+              <mat-list>
+                <mat-list-item *ngFor="let assignee of assignees" class="col-1-1">
+                  <div class="module hero">
+                    <b>{{assignee.username}}</b> <i>{{assignee.firstName}} {{assignee.lastName}}</i>
+                    <button mat-raised-button class="del" (click) ="unassignUser(assignee)" type="button" color="warn" > - </button>
+                  </div>
+                </mat-list-item>
+              </mat-list>
+          </td>
+        </tr>
+        <tr>
+            <td class="left-form-side">
+                
+                <mat-form-field>
+                    <textarea matInput formControlName="description"  placeholder="Description" [ngModel] = "issue.description" matTextareaAutosize 
+                        matAutosizeMinRows="4" matAutosizeMaxRows="8"></textarea>
+                    <mat-error *ngIf="description.invalid && description.touched">
+                        Please enter description.
+                    </mat-error>
+                </mat-form-field>
+            </td>
+        </tr>
+      </table>
+    <div>
+        <button mat-raised-button color="primary" type="submit" *ngIf="form.valid">Update issue</button>
+        <button mat-raised-button color="primary" *ngIf="!form.valid" (click) = "enableForm()">Edit</button>
+    </div>
+  </form>
+</mat-card>
+
+</div>
+</div>
+

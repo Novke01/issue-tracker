@@ -8,6 +8,7 @@ import { PossibleAssigneesSearchComponent } from './possible-assignees-search/po
 import { RepositoryIssuesComponent } from './repository-issues/repository-issues.component';
 import { AppRoutingModule } from '../app-routing.module';
 import { FormsModule } from '@angular/forms';
+import { IssueDisplayComponent } from './issue-display/issue-display.component';
 
 @NgModule({
   imports: [
@@ -20,9 +21,10 @@ import { FormsModule } from '@angular/forms';
   exports: [
     CreateIssueComponent,
     PossibleAssigneesSearchComponent,
-    RepositoryIssuesComponent
+    RepositoryIssuesComponent,
+    IssueDisplayComponent
   ],
-  declarations: [CreateIssueComponent, PossibleAssigneesSearchComponent, RepositoryIssuesComponent],
+  declarations: [CreateIssueComponent, PossibleAssigneesSearchComponent, RepositoryIssuesComponent, IssueDisplayComponent],
   providers: [IssueService],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
