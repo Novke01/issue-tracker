@@ -1,9 +1,10 @@
-import { NgModule } from '@angular/core';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+
+import { AuthGuardService } from './auth/auth-guard.service';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { AuthService } from './auth/auth.service';
-import { HttpClientModule } from '@angular/common/http';
-import { AuthGuardService } from './auth/auth-guard.service';
 
 @NgModule({
   imports: [HttpClientModule],
@@ -18,4 +19,4 @@ import { AuthGuardService } from './auth/auth-guard.service';
     }
   ]
 })
-export class CoreModule { }
+export class CoreModule {}

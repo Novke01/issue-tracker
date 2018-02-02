@@ -6,12 +6,14 @@ import com.issuetracker.repository.{AssignedUserRepository, IssueRepository}
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class AssignedUserService(val assignedUserRepository: AssignedUserRepository,
-                          val issueRepository: IssueRepository
-                        )(implicit executionContext: ExecutionContext) {
+class AssignedUserService(
+    val assignedUserRepository: AssignedUserRepository,
+    val issueRepository: IssueRepository)(implicit executionContext: ExecutionContext) {
 
   def findAssigneesByIssueId(id: Long): Future[Seq[RegisteredUser]] = {
-    assignedUserRepository.findAssigneesByIssueId(id).map(_.map(RegisteredUser.userToRegisteredUser))
+    assignedUserRepository
+      .findAssigneesByIssueId(id)
+      .map(_.map(RegisteredUser.userToRegisteredUser))
   }
 
   def insertAssignee(issueId: Long, assignedUserId: Long): Future[AssignedUser] =
@@ -25,9 +27,9 @@ class AssignedUserService(val assignedUserRepository: AssignedUserRepository,
 object AssignedUserService {
 
   def apply(
-    assignedUserRepository: AssignedUserRepository,
-    issueRepository: IssueRepository
-           )(implicit ec: ExecutionContext): AssignedUserService =
+      assignedUserRepository: AssignedUserRepository,
+      issueRepository: IssueRepository
+  )(implicit ec: ExecutionContext): AssignedUserService =
     new AssignedUserService(assignedUserRepository, issueRepository)
 
 }

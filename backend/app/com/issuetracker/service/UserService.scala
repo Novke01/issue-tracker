@@ -12,11 +12,11 @@ import com.issuetracker.repository.UserRepository
 import play.api.Logger
 
 class UserService(val userRepository: UserRepository)(implicit val ec: ExecutionContext) {
-  
+
   private val logger = Logger(this.getClass())
- 
+
   def register(user: User): Future[RegisteredUser] = {
-    val hashedUser = 
+    val hashedUser =
       user.copy(password = user.password.bcrypt, refreshToken = generateRefreshToken)
     userRepository.insert(hashedUser) map { result =>
       logger.info("user created")
@@ -27,16 +27,16 @@ class UserService(val userRepository: UserRepository)(implicit val ec: Execution
   def getAll(): Future[Seq[RegisteredUser]] = {
     userRepository.all().map(_.map(RegisteredUser.userToRegisteredUser))
   }
-  
+
   private def generateRefreshToken(): String = {
     Random.alphanumeric.take(50).mkString
   }
-  
+
 }
 
 object UserService {
-  
+
   def apply(userRepository: UserRepository)(implicit ec: ExecutionContext): UserService =
     new UserService(userRepository)
-  
+
 }

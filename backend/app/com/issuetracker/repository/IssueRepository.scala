@@ -10,18 +10,19 @@ import scala.concurrent.ExecutionContext.Implicits.global
 class IssueRepository(db: Database) {
 
   lazy val issues = IssueTable.issues
-  lazy val users = UserTable.users
+  lazy val users  = UserTable.users
 
   def create(): Future[Unit] = db.run(issues.schema.create)
 
   def insert(issue: Issue): Future[Issue] = db.run((issues returning issues) += issue)
 
   def update(issue: Issue): Future[Option[Issue]] = {
-    db.run ( {
-      issues.filter (_.id === issue.id).update(issue).map {
+    db.run({
+      issues.filter(_.id === issue.id).update(issue).map {
         case 0 => None
         case _ => Some(issue)
-      }})
+      }
+    })
   }
 
   def findByOwnerId(id: Long): Future[Seq[Issue]] = {

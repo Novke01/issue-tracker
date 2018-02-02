@@ -12,9 +12,8 @@ import play.api.Logger
 class IssueController(val cc: ControllerComponents,
                       val issueService: IssueService,
                       val assignedUserService: AssignedUserService,
-                      val jwtUtil: JwtUtil)
-                    (implicit val executionContext: ExecutionContext)
-  extends AbstractController(cc) {
+                      val jwtUtil: JwtUtil)(implicit val executionContext: ExecutionContext)
+    extends AbstractController(cc) {
 
   val logger: Logger = Logger(this.getClass())
 
@@ -25,8 +24,8 @@ class IssueController(val cc: ControllerComponents,
     }
     optionalIssue match {
       case JsSuccess(postIssue: PostIssue, _) =>
-        val ownerId: Long = jwtUtil.decode(request) map { _.id } getOrElse { -1 }
-        val modifiedPostIssue = postIssue.copy(ownerId = ownerId )
+        val ownerId: Long     = jwtUtil.decode(request) map { _.id } getOrElse { -1 }
+        val modifiedPostIssue = postIssue.copy(ownerId = ownerId)
         issueService.insert(modifiedPostIssue).map { result =>
           Created(Json.toJson(result))
         } recover {
@@ -34,10 +33,11 @@ class IssueController(val cc: ControllerComponents,
             logger.error(err.getMessage, err)
             BadRequest("Something went wrong.")
         }
-      case _: JsError => Future {
-        logger.error("Invalid issue data.")
-        BadRequest("Invalid issue data.")
-      }
+      case _: JsError =>
+        Future {
+          logger.error("Invalid issue data.")
+          BadRequest("Invalid issue data.")
+        }
     }
   }
 
@@ -47,7 +47,7 @@ class IssueController(val cc: ControllerComponents,
       issueService.update(updateIssue).map { result =>
         Ok(Json.toJson(result))
       } recover {
-        case notFoundError : IllegalArgumentException =>
+        case notFoundError: IllegalArgumentException =>
           logger.error(notFoundError.getMessage, notFoundError)
           NotFound
         case err =>

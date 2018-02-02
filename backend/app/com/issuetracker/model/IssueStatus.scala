@@ -17,5 +17,4 @@ case object IssueStatus extends Enumeration {
     s => IssueStatus.withName(s)
   )
 
-
 }

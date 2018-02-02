@@ -1,19 +1,14 @@
-import { RepositoryWikiComponent } from './repository-wiki/repository-wiki.component';
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SharedModule } from '../shared/shared.module';
 import { HttpClientModule } from '@angular/common/http';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MarkdownModule } from 'ngx-md';
 
 import { AppRoutingModule } from '../app-routing.module';
-import { RepositoryIssuesComponent } from '../issue/repository-issues/repository-issues.component';
-import { CreateIssueComponent } from '../issue/create-issue/create-issue.component';
-import { WikiPageService } from './shared/wiki-page.service';
-import { MarkdownModule } from 'ngx-md';
+import { SharedModule } from '../shared/shared.module';
 import { NewWikiComponent } from './new-wiki/new-wiki.component';
-
-import { FormsModule } from '@angular/forms';
-
-
+import { RepositoryWikiComponent } from './repository-wiki/repository-wiki.component';
+import { WikiPageService } from './shared/wiki-page.service';
 
 @NgModule({
   imports: [
@@ -24,15 +19,9 @@ import { FormsModule } from '@angular/forms';
     MarkdownModule,
     FormsModule
   ],
-  exports: [
-    RepositoryWikiComponent,
-    NewWikiComponent
-  ],
-  declarations: [
-    RepositoryWikiComponent,
-    NewWikiComponent
-  ],
+  exports: [RepositoryWikiComponent, NewWikiComponent],
+  declarations: [RepositoryWikiComponent, NewWikiComponent],
   entryComponents: [],
   providers: [WikiPageService]
 })
-export class WikiModule { }
+export class WikiModule {}

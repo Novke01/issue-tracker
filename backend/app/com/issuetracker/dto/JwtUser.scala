@@ -20,9 +20,9 @@ case class JwtUser(
 )
 
 object JwtUser {
-  
+
   implicit val jwtUserFormat: OFormat[JwtUser] = Json.format[JwtUser]
-  
+
   implicit def userToJwtUser(user: User): JwtUser = JwtUser(
     user.id,
     user.username,
@@ -31,5 +31,5 @@ object JwtUser {
     user.email,
     (DateTime.now + 1.day).instant.millis / 1000
   )
-  
+
 }

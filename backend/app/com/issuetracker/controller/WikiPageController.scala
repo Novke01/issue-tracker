@@ -13,9 +13,10 @@ import play.api.mvc.Action
 import play.api.mvc.ControllerComponents
 
 class WikiPageController(
-                            val cc: ControllerComponents,
-                            val wikiPageService: WikiPageService
-                          )(implicit val ec: ExecutionContext) extends AbstractController(cc) {
+    val cc: ControllerComponents,
+    val wikiPageService: WikiPageService
+)(implicit val ec: ExecutionContext)
+    extends AbstractController(cc) {
 
   val logger: Logger = Logger(this.getClass())
 
@@ -38,7 +39,7 @@ class WikiPageController(
   def get(id: Long) = Action.async {
     wikiPageService.get(id) map {
       case Some(repository) => Ok(Json.toJson(repository))
-      case None => NotFound
+      case None             => NotFound
     }
   }
 }

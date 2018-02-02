@@ -5,15 +5,14 @@ import play.api.libs.json._
 import com.issuetracker.model.{Issue, IssueStatus}
 
 case class UpdateIssue(
-                      id: Long,
-                      repositoryId: Long,
-                      title: String,
-                      description: String,
-                      created: Long,
-                      ownerId: Long,
-                      status: IssueStatus
-
-                    )
+    id: Long,
+    repositoryId: Long,
+    title: String,
+    description: String,
+    created: Long,
+    ownerId: Long,
+    status: IssueStatus
+)
 object UpdateIssue {
 
   implicit val updateIssueReads = Json.reads[UpdateIssue]
