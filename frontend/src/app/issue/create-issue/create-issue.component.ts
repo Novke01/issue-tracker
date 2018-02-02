@@ -1,24 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, AbstractControl, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { IssueService } from '../shared/issue.service';
-import { MatSnackBar, MatDialogRef } from '@angular/material';
-import { Issue } from '../shared/issue.model';
-import { formDirectiveProvider } from '@angular/forms/src/directives/ng_form';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
+
 import { User } from '../../core/auth/user.model';
+import { Issue } from '../shared/issue.model';
+import { IssueService } from '../shared/issue.service';
 
 @Component({
-  selector: 'it-create-issue',
-  templateUrl: './create-issue.component.html',
-  styleUrls: ['./create-issue.component.css']
+  selector: "it-create-issue",
+  templateUrl: "./create-issue.component.html",
+  styleUrls: ["./create-issue.component.css"]
 })
 export class CreateIssueComponent implements OnInit {
-
   form: FormGroup;
   control: FormControl = new FormControl();
   repositoryId: number;
   assignees: User[] = [];
-
 
   constructor(
     private router: Router,
@@ -26,26 +24,30 @@ export class CreateIssueComponent implements OnInit {
     private formBuilder: FormBuilder,
     private issueService: IssueService,
     private snackBar: MatSnackBar,
-    private dialogRef: MatDialogRef<CreateIssueComponent>,
+    private dialogRef: MatDialogRef<CreateIssueComponent>
   ) {}
 
   ngOnInit() {
     let fc = new FormControl();
     this.form = this.formBuilder.group({
-      title: ['', Validators.required],
-      description: ['']
+      title: ["", Validators.required],
+      description: [""]
     });
   }
 
-  get title() { return this.form.get('title'); }
-  get description() { return this.form.get('description'); }
-
-  onUserAssigned(assignees){
-    this.assignees= assignees;
+  get title() {
+    return this.form.get("title");
+  }
+  get description() {
+    return this.form.get("description");
   }
 
-  unassignUser(user){
-    this.assignees = this.assignees.filter(function( a ) {
+  onUserAssigned(assignees) {
+    this.assignees = assignees;
+  }
+
+  unassignUser(user) {
+    this.assignees = this.assignees.filter(function(a) {
       return a.id !== user.id;
     });
   }
@@ -61,20 +63,19 @@ export class CreateIssueComponent implements OnInit {
 
       this.issueService.createIssue(issue).subscribe(
         issue => {
-          console.log(issue)
+          console.log(issue);
           this.dialogRef.close(issue);
-          this.snackBar.open('You have successfully created an issue.', 'OK', {
+          this.snackBar.open("You have successfully created an issue.", "OK", {
             duration: 2000
-          })
+          });
         },
         err => {
           console.log(err);
-          this.snackBar.open(err.message, 'Cancel', {
+          this.snackBar.open(err.message, "Cancel", {
             duration: 2000
           });
         }
       );
     }
   }
-
 }

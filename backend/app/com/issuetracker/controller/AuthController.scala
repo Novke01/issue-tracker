@@ -9,8 +9,6 @@ import com.issuetracker.service.AuthService
 import com.issuetracker.util.JwtUtil
 
 import play.api.Logger
-import play.api.libs.json.JsError
-import play.api.libs.json.JsSuccess
 import play.api.libs.json.JsValue
 import play.api.libs.json.Json
 import play.api.mvc.AbstractController
@@ -18,15 +16,16 @@ import play.api.mvc.Action
 import play.api.mvc.ControllerComponents
 
 class AuthController(
-  val cc: ControllerComponents, 
-  val jwtUtil: JwtUtil, 
-  val authService: AuthService
-)(implicit val ec: ExecutionContext) extends AbstractController(cc) {
-  
+    val cc: ControllerComponents,
+    val jwtUtil: JwtUtil,
+    val authService: AuthService
+)(implicit val ec: ExecutionContext)
+    extends AbstractController(cc) {
+
   val logger: Logger = Logger(this.getClass())
-  
+
   private val header = "Authorization"
-  
+
   def login: Action[JsValue] = Action.async(parse.json) { request =>
     val optionalUser = request.body.validate[LoginUser]
     optionalUser map { loginUser =>
@@ -45,8 +44,8 @@ class AuthController(
       }
     }
   }
-  
-  def refresh: Action[JsValue] = Action.async(parse.json) { request => 
+
+  def refresh: Action[JsValue] = Action.async(parse.json) { request =>
     val optionToken = request.body.validate[RefreshToken]
     optionToken map { refreshToken =>
       val id: Long = jwtUtil.decode(request) map { _.id } getOrElse { -1 }
@@ -65,5 +64,5 @@ class AuthController(
       }
     }
   }
-  
+
 }

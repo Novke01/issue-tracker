@@ -13,20 +13,19 @@ import play.api.mvc.Result
 import play.api.mvc.Results.Unauthorized
 import play.api.routing.Router
 
-
 class JwtFilter(jwtUtil: JwtUtil)(
-  implicit val mat: Materializer, 
-  implicit val ec: ExecutionContext
+    implicit val mat: Materializer,
+    implicit val ec: ExecutionContext
 ) extends Filter {
 
   private val header = "Authorization"
-  
-  def apply(nextFilter: RequestHeader => Future[Result])
-    (requestHeader: RequestHeader): Future[Result] = {
-    
-    val handler = Try(requestHeader.attrs(Router.Attrs.HandlerDef))
+
+  def apply(nextFilter: RequestHeader => Future[Result])(
+      requestHeader: RequestHeader): Future[Result] = {
+
+    val handler   = Try(requestHeader.attrs(Router.Attrs.HandlerDef))
     val modifiers = handler.map(_.modifiers).getOrElse(Seq())
-    
+
     if (modifiers.contains("noauth")) {
       nextFilter(requestHeader)
     } else if (requestHeader.headers.hasHeader(header)) {
@@ -44,13 +43,13 @@ class JwtFilter(jwtUtil: JwtUtil)(
       Future { Unauthorized("You are not logged in.") }
     }
   }
-  
+
 }
 
 object JwtFilter {
-  
+
   def apply(jwtUtil: JwtUtil)(implicit mat: Materializer, ec: ExecutionContext): JwtFilter = {
     new JwtFilter(jwtUtil)
   }
-  
+
 }

@@ -8,7 +8,7 @@ import com.issuetracker.repository.RepositoryRepository
 import dto.GetRepository
 
 class RepositoryService(
-  val repositoryRepository: RepositoryRepository
+    val repositoryRepository: RepositoryRepository
 )(implicit val ec: ExecutionContext) {
 
   def findByOwnerId(id: Long): Future[Seq[GetRepository]] = {
@@ -34,9 +34,9 @@ class RepositoryService(
 }
 
 object RepositoryService {
-  
-  def apply(repositoryRepository: RepositoryRepository)
-    (implicit ec: ExecutionContext): RepositoryService = 
+
+  def apply(repositoryRepository: RepositoryRepository)(
+      implicit ec: ExecutionContext): RepositoryService =
     new RepositoryService(repositoryRepository)
-  
+
 }

@@ -4,12 +4,12 @@ import com.issuetracker.model.User
 import play.api.libs.json._
 
 case class GetUser(
-                    id: Long,
-                    username: String,
-                    firstName: String,
-                    lastName: String,
-                    email: String
-                   )
+    id: Long,
+    username: String,
+    firstName: String,
+    lastName: String,
+    email: String
+)
 
 object GetUser {
 

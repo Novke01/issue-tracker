@@ -121,7 +121,7 @@ class WikiPageServiceSpec extends PlaySpec with MockitoSugar {
       }
       val service = WikiPageService(mockWikiPageRepository)
       ScalaFutures.whenReady(service.insert(wikiPage).failed) { e =>
-        e shouldBe an [PSQLException]
+        e shouldBe an[PSQLException]
       }
     }
   }

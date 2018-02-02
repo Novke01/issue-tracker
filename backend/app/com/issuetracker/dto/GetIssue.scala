@@ -5,14 +5,14 @@ import com.issuetracker.model.Issue
 import com.issuetracker.model.IssueStatus._
 
 case class GetIssue(
-                           id: Long,
-                           repositoryId: Long,
-                           title: String,
-                           description: String,
-                           created: Long,
-                           ownerId: Long,
-                           status: IssueStatus
-                      )
+    id: Long,
+    repositoryId: Long,
+    title: String,
+    description: String,
+    created: Long,
+    ownerId: Long,
+    status: IssueStatus
+)
 
 object GetIssue {
 

@@ -18,8 +18,8 @@
     </mat-dialog-content>
     <mat-dialog-content>
         <mat-form-field>
-            <textarea matInput formControlName="description" placeholder="Enter description" matTextareaAutosize 
-            matAutosizeMinRows="2" matAutosizeMaxRows="8" required></textarea>
+            <textarea matInput formControlName="description" placeholder="Enter description" matTextareaAutosize matAutosizeMinRows="2"
+                matAutosizeMaxRows="8" required></textarea>
             <mat-error *ngIf="description.invalid && description.touched">
                 Please enter description.
             </mat-error>
@@ -28,9 +28,9 @@
     <mat-dialog-content>
         <mat-form-field>
             <mat-select placeholder="contributors" [formControl]="control" multiple>
-              <mat-option *ngFor="let user of users" [value]="user">{{user.email}}</mat-option>
+                <mat-option *ngFor="let user of users" [value]="user">{{user.email}}</mat-option>
             </mat-select>
-          </mat-form-field>          
+        </mat-form-field>
     </mat-dialog-content>
     <mat-dialog-actions>
         <button mat-button type="submit">Add</button>

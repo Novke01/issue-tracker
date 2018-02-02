@@ -1,37 +1,44 @@
-import 'rxjs/add/operator/switchMap';
+import "rxjs/add/operator/switchMap";
 
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute, ParamMap } from "@angular/router";
 
-import { WikiPageService } from '../shared/wiki-page.service';
-import { WikiPage } from './../shared/wiki-page.model';
+import { WikiPageService } from "../shared/wiki-page.service";
+import { WikiPage } from "./../shared/wiki-page.model";
 
 @Component({
-  selector: 'it-repository-wiki',
-  templateUrl: './repository-wiki.component.html',
-  styleUrls: ['./repository-wiki.component.css']
+  selector: "it-repository-wiki",
+  templateUrl: "./repository-wiki.component.html",
+  styleUrls: ["./repository-wiki.component.css"]
 })
 export class RepositoryWikiComponent implements OnInit {
-
   wikiPages: WikiPage[];
   currentWiki: WikiPage = new WikiPage();
   selectedPage: number;
 
-  constructor(private wikiPageService: WikiPageService, private route: ActivatedRoute) { }
+  constructor(
+    private wikiPageService: WikiPageService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
     this.wikiPages = new Array<WikiPage>();
     this.route.paramMap
-    .switchMap((params: ParamMap) =>
-      this.wikiPageService.getWikiPageByRepositoryId(params.get('id'))).subscribe(result => {
-      this.wikiPages = result;
-      if (this.wikiPages.length > 0) {
-        this.selectedPage = this.wikiPages[0].id;
-        this.currentWiki = this.wikiPages[0];
-    }});
+      .switchMap((params: ParamMap) =>
+        this.wikiPageService.getWikiPageByRepositoryId(params.get("id"))
+      )
+      .subscribe(result => {
+        this.wikiPages = result;
+        if (this.wikiPages.length > 0) {
+          this.selectedPage = this.wikiPages[0].id;
+          this.currentWiki = this.wikiPages[0];
+        }
+      });
   }
 
   onChanged() {
-    this.currentWiki = this.wikiPages.filter(x => x.id === this.selectedPage)[0];
+    this.currentWiki = this.wikiPages.filter(
+      x => x.id === this.selectedPage
+    )[0];
   }
 }

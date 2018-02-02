@@ -7,20 +7,20 @@ mat-form-field {
   padding-left: 16px;
   padding-right: 16px;
 }
-  
+
 .form-content {
   padding-left: 0px;
   padding-right: 0px;
   margin-bottom: 0px;
   padding-bottom: 0px;
 }
-  
+
 .form-actions {
   padding: 8px 0px 8px 0px;
   margin-top: 0px;
   margin-bottom: 0px;
 }
-  
+
 button {
   text-transform: uppercase;
 }

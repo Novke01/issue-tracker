@@ -1,15 +1,15 @@
 package com.issuetracker.service
 
 import scala.concurrent.{ExecutionContext, Future}
-import com.issuetracker.dto.{GetIssue, PostIssue}
+import com.issuetracker.dto.{GetIssue, PostIssue, UpdateIssue}
 import com.issuetracker.exception.IssueNotFoundException
 import com.issuetracker.model.Issue
 import com.issuetracker.repository.{AssignedUserRepository, IssueRepository}
 import play.api.Logger
 
 class IssueService(val issueRepository: IssueRepository,
-                   val assignedUserRepository: AssignedUserRepository)
-                 (implicit val executionContext: ExecutionContext) {
+                   val assignedUserRepository: AssignedUserRepository)(
+    implicit val executionContext: ExecutionContext) {
 
   private val logger = Logger(this.getClass())
 
@@ -18,6 +18,18 @@ class IssueService(val issueRepository: IssueRepository,
       assignedUserRepository.insertAssignees(issue.id, postIssue.assignees) map { _ =>
         issue
       }
+    }
+  }
+
+  def update(updateIssue: UpdateIssue): Future[GetIssue] = {
+    issueRepository.update(updateIssue) map { result =>
+      result match {
+        case Some(issue: Issue) =>
+          GetIssue.issueToGetIssue(issue)
+        case None =>
+          throw new IllegalArgumentException()
+      }
+
     }
   }
 
@@ -30,7 +42,7 @@ class IssueService(val issueRepository: IssueRepository,
   }
 
   def findById(id: Long): Future[GetIssue] = {
-    issueRepository.findById(id).map{ result =>
+    issueRepository.findById(id).map { result =>
       result match {
         case Some(issue: Issue) =>
           GetIssue.issueToGetIssue(issue)
@@ -50,9 +62,9 @@ class IssueService(val issueRepository: IssueRepository,
 object IssueService {
 
   def apply(
-             issueRepository: IssueRepository,
-             assignedUserRepository: AssignedUserRepository
-           )(implicit ec: ExecutionContext): IssueService =
+      issueRepository: IssueRepository,
+      assignedUserRepository: AssignedUserRepository
+  )(implicit ec: ExecutionContext): IssueService =
     new IssueService(issueRepository, assignedUserRepository)
 
 }

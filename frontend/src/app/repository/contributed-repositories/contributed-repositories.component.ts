@@ -5,13 +5,12 @@ import { Repository } from '../shared/repository.model';
 import { RepositoryService } from '../shared/repository.service';
 
 @Component({
-  selector: 'it-contributed-repositories',
-  templateUrl: './contributed-repositories.component.html',
-  styleUrls: ['./contributed-repositories.component.css']
+  selector: "it-contributed-repositories",
+  templateUrl: "./contributed-repositories.component.html",
+  styleUrls: ["./contributed-repositories.component.css"]
 })
 export class ContributedRepositoriesComponent implements OnInit {
-
-  displayedColumns = ['name', 'url', 'description'];
+  displayedColumns = ["name", "url", "description"];
   repositories: Repository[];
   dataSource: MatTableDataSource<Repository>;
 
@@ -21,8 +20,7 @@ export class ContributedRepositoriesComponent implements OnInit {
   constructor(private repositoryService: RepositoryService) {}
 
   ngOnInit() {
-    this.repositoryService.getContributedRepositories().subscribe(
-      data => {
+    this.repositoryService.getContributedRepositories().subscribe(data => {
       this.repositories = data;
       this.dataSource = new MatTableDataSource(this.repositories);
       this.dataSource.paginator = this.paginator;

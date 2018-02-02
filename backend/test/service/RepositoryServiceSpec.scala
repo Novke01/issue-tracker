@@ -63,7 +63,9 @@ class RepositoryServiceSpec extends PlaySpec with MockitoSugar {
         2
       )
       val mockRepositoryRepository = mock[RepositoryRepository]
-      when(mockRepositoryRepository.findByContributorId(any[Int])) thenReturn Future { Seq(repository) }
+      when(mockRepositoryRepository.findByContributorId(any[Int])) thenReturn Future {
+        Seq(repository)
+      }
       val service = RepositoryService(mockRepositoryRepository)
       service.findByContributorId(contributorId) map { repositories =>
         repositories.length mustBe 1
@@ -126,7 +128,7 @@ class RepositoryServiceSpec extends PlaySpec with MockitoSugar {
   "RepositoryService#getRepositoryOwner" should {
     "return owner of the repository with given id" in {
 
-      val repoId = 1
+      val repoId  = 1
       val ownerId = 1
 
       val user = User(
