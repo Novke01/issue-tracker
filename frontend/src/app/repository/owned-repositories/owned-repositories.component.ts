@@ -48,6 +48,9 @@ export class OwnedRepositoriesComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(repository => {
+      if (repository === null) {
+        return;
+      }
       this.newRepository = repository;
       this.repositories.push(this.newRepository);
       this.newRepository = new Repository();

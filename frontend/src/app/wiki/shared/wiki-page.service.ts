@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { environment } from '../../../environments/environment';
 import { WikiPageSave } from './wiki-page-save.model';
 import { WikiPage } from './wiki-page.model';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class WikiPageService {
@@ -16,17 +17,29 @@ export class WikiPageService {
 
     saveWikiPage(wikiPage: WikiPageSave): Observable<WikiPage> {
         const url = `${environment.baseUrl}${this.wikiPageUrl}`;
-        return this.http.post<WikiPage>(url, wikiPage);
+        return this.http.post<WikiPage>(url, wikiPage).pipe(
+            catchError(err => {
+              return Observable.throw(new Error(err.error));
+            })
+          );
     }
 
     getWikiPageById(id: string): Observable<WikiPage> {
         const url = `${environment.baseUrl}${this.wikiPageUrl}/${id}`;
-        return this.http.get<WikiPage>(url);
+        return this.http.get<WikiPage>(url).pipe(
+            catchError(err => {
+              return Observable.throw(new Error(err.error));
+            })
+          );
     }
 
     getWikiPageByRepositoryId(repoId: string): Observable<WikiPage[]> {
         const url = `${environment.baseUrl}${this.repositoryUrl}/${repoId}/wiki-pages`;
-        return this.http.get<WikiPage[]>(url);
+        return this.http.get<WikiPage[]>(url).pipe(
+            catchError(err => {
+              return Observable.throw(new Error(err.error));
+            })
+          );
     }
 
 }

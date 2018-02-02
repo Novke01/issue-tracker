@@ -18,32 +18,56 @@ export class RepositoryService {
 
     getOwnedRepositories(): Observable<Repository[]> {
         const url = `${environment.baseUrl}${this.repositoryUrl}/owned`;
-        return this.http.get<Repository[]>(url);
+        return this.http.get<Repository[]>(url).pipe(
+            catchError(err => {
+              return Observable.throw(new Error(err.error));
+            })
+          );
     }
 
     getContributedRepositories(): Observable<Repository[]> {
         const url = `${environment.baseUrl}${this.repositoryUrl}/contributed`;
-        return this.http.get<Repository[]>(url);
+        return this.http.get<Repository[]>(url).pipe(
+            catchError(err => {
+              return Observable.throw(new Error(err.error));
+            })
+          );
     }
 
     saveRepository(repository: RepositorySave): Observable<Repository> {
         const url = `${environment.baseUrl}${this.repositoryUrl}`;
-        return this.http.post<Repository>(url, repository);
+        return this.http.post<Repository>(url, repository).pipe(
+            catchError(err => {
+              return Observable.throw(new Error(err.error));
+            })
+          );
     }
 
     getRepositoryById(id: string): Observable<Repository> {
         const url = `${environment.baseUrl}${this.repositoryUrl}/${id}`;
-        return this.http.get<Repository>(url);
+        return this.http.get<Repository>(url).pipe(
+            catchError(err => {
+              return Observable.throw(new Error(err.error));
+            })
+          );
     }
 
     getContributorsByRepositoryId(id: string): Observable<User[]> {
         const url = `${environment.baseUrl}${this.repositoryUrl}/${id}/contributors`;
-        return this.http.get<User[]>(url);
+        return this.http.get<User[]>(url).pipe(
+            catchError(err => {
+              return Observable.throw(new Error(err.error));
+            })
+          );
     }
 
     getOwnerByRepositoryId(id: string): Observable<User> {
         const url = `${environment.baseUrl}${this.repositoryUrl}/${id}/owner`;
-        return this.http.get<User>(url);
+        return this.http.get<User>(url).pipe(
+            catchError(err => {
+              return Observable.throw(new Error(err.error));
+            })
+          );
     }
 
     /* GET contributors and owner whose name contains search term */
@@ -53,12 +77,20 @@ export class RepositoryService {
             return of([]);
         }
         const url = `${environment.baseUrl}${this.repositoryUrl}/${repositoryId}/contributors/${term}`;
-        return this.http.get<User[]>(url);
+        return this.http.get<User[]>(url).pipe(
+            catchError(err => {
+              return Observable.throw(new Error(err.error));
+            })
+          );
     }
 
     getIssuesByRepositoryId(repoId: number): Observable<Issue[]> {
         const url = `${environment.baseUrl}${this.repositoryUrl}/${repoId}/issues`;
-        return this.http.get<Issue[]>(url);
+        return this.http.get<Issue[]>(url).pipe(
+            catchError(err => {
+              return Observable.throw(new Error(err.error));
+            })
+          );
     }
 
 }

@@ -42,13 +42,23 @@ export class NewWikiComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.repoId = +params['id'];
       const newWikiPage = new WikiPageSave(wikiPage.name, wikiPage.content, this.repoId);
-      this.wikiPageService.saveWikiPage(newWikiPage).subscribe(result => {
-      this.wikiPage = new WikiPageSave('', '', -1);
-      this.snackBar.open('You create a new wiki page!', 'OK', {
+      this.wikiPageService.saveWikiPage(newWikiPage).subscribe(
+        result => {
+          this.wikiPage = new WikiPageSave('', '', -1);
+          this.snackBar.open('You create a new wiki page!', 'OK', {
         duration: 2000
       });
-      this.router.navigate(['/repository', this.repoId]);
+      this.navigate();
+    },
+    err => {
+    this.snackBar.open(err.message, 'Cancel', {
+        duration: 2000
     });
+});
   });
+}
+
+navigate() {
+  this.router.navigate(['/repository', this.repoId]);
 }
 }

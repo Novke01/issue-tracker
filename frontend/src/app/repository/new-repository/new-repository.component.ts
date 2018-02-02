@@ -3,7 +3,7 @@ import { RepositoryService } from './../shared/repository.service';
 import { SharedModule } from '../../shared/shared.module';
 import { Component, OnInit, ViewChild, ViewEncapsulation, Inject } from '@angular/core';
 import { UserService } from '../../user/shared/user.service';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { OwnedRepositoriesComponent } from '../owned-repositories/owned-repositories.component';
 import { User } from '../../core/auth/user.model';
@@ -28,6 +28,7 @@ import { RepositorySave } from '../shared/repository-save.model';
         private userService: UserService,
         private repositoryService: RepositoryService,
         private authService: AuthService,
+        private snackBar: MatSnackBar,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {}
 
@@ -42,19 +43,29 @@ import { RepositorySave } from '../shared/repository-save.model';
         });
     }
 
-    submit(form) {
-        if (form.valid) {
-            this.repository.name = form.value.name;
-            this.repository.url = form.value.url;
-            this.repository.description = form.value.description;
+    submit() {
+        if (this.form.valid) {
+            this.repository.name = this.form.value.name;
+            this.repository.url = this.form.value.url;
+            this.repository.description = this.form.value.description;
             this.repository.ownerId = this.authService.user.id;
             this.repository.contributors = this.control.value.map(contributor => contributor.id);
 
-            this.repositoryService.saveRepository(this.repository).subscribe(repository => {
+            this.repositoryService.saveRepository(this.repository).subscribe(
+                repository => {
                 this.dialogRef.close(repository);
+                },
+                err => {
+                this.snackBar.open(err.message, 'Cancel', {
+                    duration: 2000
+                });
             }
             );
         }
+    }
+
+    cancelDialog() {
+        this.dialogRef.close(null);
     }
 
     get name() { return this.form.get('name'); }
