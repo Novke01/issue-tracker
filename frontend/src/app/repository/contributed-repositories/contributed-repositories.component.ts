@@ -1,19 +1,16 @@
-import { SharedModule } from '../../shared/shared.module';
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { UserService } from '../../user/shared/user.service';
-import { Repository } from '../shared/repository.model';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 
-import {MatTableDataSource, MatPaginator, MatSort} from '@angular/material';
+import { Repository } from '../shared/repository.model';
 import { RepositoryService } from '../shared/repository.service';
 
 @Component({
-  selector: 'it-contributed-repositories',
-  templateUrl: './contributed-repositories.component.html',
-  styleUrls: ['./contributed-repositories.component.css']
+  selector: "it-contributed-repositories",
+  templateUrl: "./contributed-repositories.component.html",
+  styleUrls: ["./contributed-repositories.component.css"]
 })
 export class ContributedRepositoriesComponent implements OnInit {
-
-  displayedColumns = ['name', 'url', 'description'];
+  displayedColumns = ["name", "url", "description"];
   repositories: Repository[];
   dataSource: MatTableDataSource<Repository>;
 

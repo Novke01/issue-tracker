@@ -9,9 +9,9 @@ import com.issuetracker.repository.table.UserTable
 
 class WikiPageRepository(db: Database) {
 
-  lazy val wikiPages = WikiPageTable.wikiPages
+  lazy val wikiPages    = WikiPageTable.wikiPages
   lazy val repositories = RepositoryTable.repositories
-  lazy val users = UserTable.users
+  lazy val users        = UserTable.users
 
   def create(): Future[Unit] = db.run(wikiPages.schema.create)
 

@@ -13,9 +13,9 @@ case class RegisteredUser(
 )
 
 object RegisteredUser {
-  
+
   implicit val registeredUserWrites = Json.writes[RegisteredUser]
-  
+
   implicit def userToRegisteredUser(user: User): RegisteredUser =
     new RegisteredUser(
       user.id,
@@ -24,5 +24,5 @@ object RegisteredUser {
       user.lastName,
       user.email
     )
-  
+
 }

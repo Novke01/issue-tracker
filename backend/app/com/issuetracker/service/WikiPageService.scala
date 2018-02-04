@@ -7,8 +7,8 @@ import scala.concurrent.Future
 import com.issuetracker.repository.WikiPageRepository
 
 class WikiPageService(
-                         val wikiPageRepository: WikiPageRepository
-                       )(implicit val ec: ExecutionContext) {
+    val wikiPageRepository: WikiPageRepository
+)(implicit val ec: ExecutionContext) {
 
   def findByRepositoryId(id: Long): Future[Seq[GetWikiPage]] = {
     wikiPageRepository.findByRepositoryId(id) map {
@@ -28,8 +28,8 @@ class WikiPageService(
 
 object WikiPageService {
 
-  def apply(wikiPageRepository: WikiPageRepository)
-           (implicit ec: ExecutionContext): WikiPageService =
+  def apply(wikiPageRepository: WikiPageRepository)(
+      implicit ec: ExecutionContext): WikiPageService =
     new WikiPageService(wikiPageRepository)
 
 }

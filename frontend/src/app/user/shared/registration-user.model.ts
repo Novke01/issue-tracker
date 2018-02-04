@@ -1,5 +1,4 @@
 export class RegistrationUser {
-
   firstName: string;
   lastName: string;
   username: string;
@@ -7,7 +6,6 @@ export class RegistrationUser {
   email: string;
 
   constructor(values: Object = {}) {
-    Object.assign(this, values);  
+    Object.assign(this, values);
   }
-
 }

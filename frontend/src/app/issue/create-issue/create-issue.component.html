@@ -10,24 +10,25 @@
     </mat-dialog-content>
     <mat-dialog-content>
         <mat-form-field>
-            <textarea matInput formControlName="description" placeholder="Enter description" matTextareaAutosize 
-            matAutosizeMinRows="4" matAutosizeMaxRows="8"></textarea>
+            <textarea matInput formControlName="description" placeholder="Enter description" matTextareaAutosize matAutosizeMinRows="4"
+                matAutosizeMaxRows="8"></textarea>
             <mat-error *ngIf="description.invalid && description.touched">
                 Please enter description.
             </mat-error>
         </mat-form-field>
     </mat-dialog-content>
-    <mat-dialog-content >
-      <h3>Assignees</h3>
-      <it-possible-assignees-search [repositoryId]="repositoryId" [assignees]="assignees" (userAssigned)="onUserAssigned(assignees)"></it-possible-assignees-search>
-      <mat-list>
-        <mat-list-item *ngFor="let assignee of assignees" class="col-1-1">
-          <div class="module hero">
-            <b>{{assignee.username}}</b> <i>{{assignee.firstName}} {{assignee.lastName}}</i>
-            <button mat-raised-button class="del" (click) ="unassignUser(assignee)" type="button" color="warn" > - </button>
-          </div>
-        </mat-list-item>
-      </mat-list>         
+    <mat-dialog-content>
+        <h3>Assignees</h3>
+        <it-possible-assignees-search [repositoryId]="repositoryId" [assignees]="assignees" (userAssigned)="onUserAssigned(assignees)"></it-possible-assignees-search>
+        <mat-list>
+            <mat-list-item *ngFor="let assignee of assignees" class="col-1-1">
+                <div class="module hero">
+                    <b>{{assignee.username}}</b>
+                    <i>{{assignee.firstName}} {{assignee.lastName}}</i>
+                    <button mat-raised-button class="del" (click)="unassignUser(assignee)" type="button" color="warn"> - </button>
+                </div>
+            </mat-list-item>
+        </mat-list>
     </mat-dialog-content>
     <mat-dialog-actions>
         <button mat-button type="submit">Add</button>

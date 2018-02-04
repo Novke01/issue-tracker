@@ -1,5 +1,5 @@
 POST    /                                        com.issuetracker.controller.RepositoryController.insert
-PATCH    /                                       com.issuetracker.controller.RepositoryController.update
+PATCH   /                                        com.issuetracker.controller.RepositoryController.update
 GET     /owned                                   com.issuetracker.controller.RepositoryController.getOwned
 GET     /contributed                             com.issuetracker.controller.RepositoryController.getContributed
 GET     /:id/contributors                        com.issuetracker.controller.RepositoryController.getContributors(id: Long)

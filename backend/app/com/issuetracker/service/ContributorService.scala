@@ -12,8 +12,8 @@ import dto.GetRepository
 import dto.PostRepository
 
 class ContributorService(
-  val contributorRepository: ContributorRepository,
-  val repositoryRepository: RepositoryRepository,
+    val contributorRepository: ContributorRepository,
+    val repositoryRepository: RepositoryRepository,
 )(implicit val executionContext: ExecutionContext) {
 
   def insert(postRepository: PostRepository): Future[GetRepository] = {
@@ -26,7 +26,6 @@ class ContributorService(
 
   def update(repository: Repository, contributors: List[Long]): Future[GetRepository] = {
     repositoryRepository.update(repository) map { repository =>
-      throw new IllegalArgumentException()
       repository.getOrElse {
         throw new IllegalArgumentException()
       }
@@ -39,23 +38,25 @@ class ContributorService(
   }
 
   def findByRepositoryIdAndSearchTerm(repoId: Long, searchTerm: String): Future[Seq[GetUser]] = {
-    contributorRepository.findByRepositoryIdAndSearchTerm(repoId, searchTerm).map(_.map(GetUser.userToGetUser))
+    contributorRepository
+      .findByRepositoryIdAndSearchTerm(repoId, searchTerm)
+      .map(_.map(GetUser.userToGetUser))
   }
 
-
-
   def getContributorsByRepositoryId(id: Long): Future[Seq[RegisteredUser]] = {
-    contributorRepository.getContributorsByRepositoryId(id).map(_.map(RegisteredUser.userToRegisteredUser))
+    contributorRepository
+      .getContributorsByRepositoryId(id)
+      .map(_.map(RegisteredUser.userToRegisteredUser))
   }
 
 }
 
 object ContributorService {
-  
+
   def apply(
-    contributorRepository: ContributorRepository,
-    repositoryRepository: RepositoryRepository
+      contributorRepository: ContributorRepository,
+      repositoryRepository: RepositoryRepository
   )(implicit ec: ExecutionContext): ContributorService =
     new ContributorService(contributorRepository, repositoryRepository)
-  
+
 }

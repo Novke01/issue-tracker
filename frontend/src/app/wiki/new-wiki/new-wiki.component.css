@@ -1,39 +1,39 @@
-.textAreaColumn{
-    width: 100%;    
+.textAreaColumn {
+  width: 100%;
 }
-.textAreaColumn div{
-    float :left;
-    padding: 10px;
-    box-sizing: border-box;
+.textAreaColumn div {
+  float: left;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 #markdown {
-    width: 40%;
+  width: 40%;
 }
 
 #result {
-    width: 60%;
-    overflow-y: scroll; 
-    border: 3px solid rgb(42, 96, 141);
-    overflow-y: scroll; 
-    height: 630px;
-    margin-top: 10px;
+  width: 60%;
+  overflow-y: scroll;
+  border: 3px solid rgb(42, 96, 141);
+  overflow-y: scroll;
+  height: 630px;
+  margin-top: 10px;
 }
 
-.textAreaColumn div span{
-    display: block;
-    text-align: center;
+.textAreaColumn div span {
+  display: block;
+  text-align: center;
 }
 
-.textAreaColumn div textarea{
-    box-sizing: border-box;
-    width: 100%;
-    border: 3px solid rgb(42, 96, 141);
-    min-height: 660px;
+.textAreaColumn div textarea {
+  box-sizing: border-box;
+  width: 100%;
+  border: 3px solid rgb(42, 96, 141);
+  min-height: 660px;
 }
 
 .create {
-    float:right; 
-    margin-right: 30px; 
-    margin-top: 10px;
+  float: right;
+  margin-right: 30px;
+  margin-top: 10px;
 }
