@@ -2,12 +2,7 @@ package com.issuetracker.controller
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
-import com.issuetracker.service.{
-  ContributorService,
-  IssueService,
-  RepositoryService,
-  WikiPageService
-}
+import com.issuetracker.service._
 import com.issuetracker.util.JwtUtil
 import dto.PostRepository
 import play.api.Logger
@@ -23,6 +18,7 @@ class RepositoryController(
     val repositoryService: RepositoryService,
     val contributorService: ContributorService,
     val issueService: IssueService,
+    val labelService: LabelService,
     val wikiPageService: WikiPageService,
     val jwtUtil: JwtUtil
 )(implicit val ec: ExecutionContext)
@@ -101,6 +97,12 @@ class RepositoryController(
 
   def getIssues(repoId: Long) = Action.async {
     issueService.findByRepositoryId(repoId) map { result =>
+      Ok(Json.toJson(result))
+    }
+  }
+
+  def getLabels(repoId: Long) = Action.async {
+    labelService.findByRepositoryId(repoId) map { result =>
       Ok(Json.toJson(result))
     }
   }

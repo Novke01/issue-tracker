@@ -23,16 +23,16 @@ class AssignedUserRepository(db: Database) {
       } yield (issue)
     }.result)
 
-  def insertAssignees(issueId: Long, assignedUserIds: Seq[Long]) =
+  def insertAssignees(issueId: Long, userIds: Seq[Long]) =
     db.run({
-      assignees ++= assignedUserIds.map(AssignedUser(-1, _, issueId))
+      assignees ++= userIds.map(AssignedUser(-1, _, issueId))
     })
 
-  def insertAssignee(issueId: Long, assignedUserId: Long): Future[AssignedUser] =
-    db.run((assignees returning assignees) += AssignedUser(-1, assignedUserId, issueId))
+  def insertAssignee(issueId: Long, userId: Long): Future[AssignedUser] =
+    db.run((assignees returning assignees) += AssignedUser(-1, userId, issueId))
 
-  def removeAssignee(issueId: Long, assignedUserId: Long): Future[Int] =
-    db.run(assignees.filter(_.issueId === issueId).filter(_.userId === assignedUserId).delete)
+  def removeAssignee(issueId: Long, userId: Long): Future[Int] =
+    db.run(assignees.filter(_.issueId === issueId).filter(_.userId === userId).delete)
 
   def findAssigneesByIssueId(issueId: Long): Future[Seq[User]] =
     db.run({

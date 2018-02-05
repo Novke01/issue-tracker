@@ -5,24 +5,25 @@ import { Observable } from 'rxjs/Observable';
 import { environment } from '../../../environments/environment';
 import { User } from '../../core/auth/user.model';
 import { Issue } from './issue.model';
+import { Label } from '../../label/shared/label.model';
 
 @Injectable()
 export class IssueService {
-  private issuesUrl = "api/issues";
+  private issuesUrl = 'api/issues';
 
   constructor(private http: HttpClient) {}
 
   createIssue(issue: Issue): Observable<Issue> {
     const url = `${environment.baseUrl}${this.issuesUrl}`;
     return this.http.post<Issue>(url, issue, {
-      headers: new HttpHeaders({ "Content-Type": "application/json" })
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     });
   }
 
   updateIssue(issue: Issue): Observable<Issue> {
     const url = `${environment.baseUrl}${this.issuesUrl}`;
     return this.http.put<Issue>(url, issue, {
-      headers: new HttpHeaders({ "Content-Type": "application/json" })
+      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     });
   }
 
@@ -34,6 +35,11 @@ export class IssueService {
   getAssigneesByIssueId(id: number): Observable<User[]> {
     const url = `${environment.baseUrl}${this.issuesUrl}/${id}/assignees`;
     return this.http.get<User[]>(url);
+  }
+
+  getLabelsByIssueId(id: number): Observable<Label[]> {
+    const url = `${environment.baseUrl}${this.issuesUrl}/${id}/labels`;
+    return this.http.get<Label[]>(url);
   }
 
   insertAssignee(issueId: number, userId: number) {
@@ -48,5 +54,19 @@ export class IssueService {
       this.issuesUrl
     }/${issueId}/assignees/${userId}`;
     return this.http.delete<User[]>(url);
+  }
+
+  insertLabel(issueId: number, labelid: number) {
+    const url = `${environment.baseUrl}${
+      this.issuesUrl
+    }/${issueId}/labels/${labelid}`;
+    return this.http.post<Label>(url, {});
+  }
+
+  removeLabel(issueId: number, labelId: number) {
+    const url = `${environment.baseUrl}${
+      this.issuesUrl
+    }/${issueId}/labels/${labelId}`;
+    return this.http.delete<Label>(url);
   }
 }

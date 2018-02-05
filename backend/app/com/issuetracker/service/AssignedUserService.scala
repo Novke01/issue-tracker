@@ -16,11 +16,11 @@ class AssignedUserService(
       .map(_.map(RegisteredUser.userToRegisteredUser))
   }
 
-  def insertAssignee(issueId: Long, assignedUserId: Long): Future[AssignedUser] =
-    assignedUserRepository.insertAssignee(issueId, assignedUserId)
+  def insertAssignee(issueId: Long, userId: Long): Future[AssignedUser] =
+    assignedUserRepository.insertAssignee(issueId, userId)
 
-  def removeAssignee(issueId: Long, assignedUserId: Long): Future[Int] =
-    assignedUserRepository.removeAssignee(issueId, assignedUserId)
+  def removeAssignee(issueId: Long, userId: Long): Future[Int] =
+    assignedUserRepository.removeAssignee(issueId, userId)
 
 }
 

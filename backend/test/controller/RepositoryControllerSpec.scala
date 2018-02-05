@@ -15,12 +15,7 @@ import play.api.routing.Router
 import play.api.test.FakeRequest
 import play.api.libs.json.Json
 import play.api.test.Helpers._
-import com.issuetracker.service.{
-  ContributorService,
-  IssueService,
-  RepositoryService,
-  WikiPageService
-}
+import com.issuetracker.service._
 import com.issuetracker.controller.RepositoryController
 import com.issuetracker.dto.{GetWikiPage, JwtUser, RegisteredUser}
 import com.issuetracker.model.{Repository, WikiPage}
@@ -76,6 +71,7 @@ class RepositoryControllerSpec
                                                 mock[RepositoryService],
                                                 mockContributorService,
                                                 mock[IssueService],
+                                                mock[LabelService],
                                                 mock[WikiPageService],
                                                 mock[JwtUtil])
 
@@ -112,6 +108,7 @@ class RepositoryControllerSpec
                                                 mock[RepositoryService],
                                                 mockContributorService,
                                                 mock[IssueService],
+                                                mock[LabelService],
                                                 mock[WikiPageService],
                                                 mock[JwtUtil])
 
@@ -146,6 +143,7 @@ class RepositoryControllerSpec
                                                 mock[RepositoryService],
                                                 mockContributorService,
                                                 mock[IssueService],
+                                                mock[LabelService],
                                                 mock[WikiPageService],
                                                 mock[JwtUtil])
 
@@ -189,6 +187,7 @@ class RepositoryControllerSpec
                                                 mockRepositoryService,
                                                 mock[ContributorService],
                                                 mock[IssueService],
+                                                mock[LabelService],
                                                 mock[WikiPageService],
                                                 mockJwtUtil)
 
@@ -222,6 +221,7 @@ class RepositoryControllerSpec
                                                 mockRepositoryService,
                                                 mock[ContributorService],
                                                 mock[IssueService],
+                                                mock[LabelService],
                                                 mock[WikiPageService],
                                                 mockJwtUtil)
 
@@ -255,6 +255,7 @@ class RepositoryControllerSpec
                                                 mockRepositoryService,
                                                 mock[ContributorService],
                                                 mock[IssueService],
+                                                mock[LabelService],
                                                 mock[WikiPageService],
                                                 mockJwtUtil)
 
@@ -297,6 +298,7 @@ class RepositoryControllerSpec
                                                 mockRepositoryService,
                                                 mock[ContributorService],
                                                 mock[IssueService],
+                                                mock[LabelService],
                                                 mock[WikiPageService],
                                                 mockJwtUtil)
 
@@ -330,6 +332,7 @@ class RepositoryControllerSpec
                                                 mockRepositoryService,
                                                 mock[ContributorService],
                                                 mock[IssueService],
+                                                mock[LabelService],
                                                 mock[WikiPageService],
                                                 mockJwtUtil)
 
@@ -364,6 +367,7 @@ class RepositoryControllerSpec
                                               mockRepositoryService,
                                               mock[ContributorService],
                                               mock[IssueService],
+                                              mock[LabelService],
                                               mock[WikiPageService],
                                               mockJwtUtil)
 
@@ -393,6 +397,7 @@ class RepositoryControllerSpec
                                                 mockRepositoryService,
                                                 mock[ContributorService],
                                                 mock[IssueService],
+                                                mock[LabelService],
                                                 mock[WikiPageService],
                                                 mock[JwtUtil])
 
@@ -413,6 +418,7 @@ class RepositoryControllerSpec
                                                 mockRepositoryService,
                                                 mock[ContributorService],
                                                 mock[IssueService],
+                                                mock[LabelService],
                                                 mock[WikiPageService],
                                                 mock[JwtUtil])
 
@@ -451,6 +457,7 @@ class RepositoryControllerSpec
                                                 mockRepositoryService,
                                                 mock[ContributorService],
                                                 mock[IssueService],
+                                                mock[LabelService],
                                                 mock[WikiPageService],
                                                 mock[JwtUtil])
 
@@ -471,6 +478,7 @@ class RepositoryControllerSpec
                                                 mockRepositoryService,
                                                 mock[ContributorService],
                                                 mock[IssueService],
+                                                mock[LabelService],
                                                 mock[WikiPageService],
                                                 mock[JwtUtil])
 
@@ -499,6 +507,7 @@ class RepositoryControllerSpec
                                                 mock[RepositoryService],
                                                 mock[ContributorService],
                                                 mock[IssueService],
+                                                mock[LabelService],
                                                 mockWikiPageService,
                                                 mock[JwtUtil])
 
@@ -519,6 +528,7 @@ class RepositoryControllerSpec
                                                 mock[RepositoryService],
                                                 mock[ContributorService],
                                                 mock[IssueService],
+                                                mock[LabelService],
                                                 mockWikiPageService,
                                                 mock[JwtUtil])
 

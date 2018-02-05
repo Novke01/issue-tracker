@@ -15,6 +15,7 @@ import { SharedModule } from './shared/shared.module';
 import { StarterPageComponent } from './starter-page/starter-page.component';
 import { UserModule } from './user/user.module';
 import { WikiModule } from './wiki/wiki.module';
+import { LabelModule } from './label/label.module';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { WikiModule } from './wiki/wiki.module';
     RepositoryModule,
     IssueModule,
     WikiModule,
+    LabelModule,
     MarkdownModule.forRoot()
   ],
   providers: [],

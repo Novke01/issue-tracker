@@ -1,25 +1,4 @@
-.status-OPENED {
-  background-color: green;
-}
-
-.status-CLOSED {
-  background-color: red;
-}
-
 .container {
-  display: flex;
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-}
-
-.container .row {
-  margin: 0 auto;
-}
-
-.container2 {
   position: fixed;
   top: 100px;
   left: 25%;
@@ -27,16 +6,18 @@
   width: 50%;
 }
 
-.left-form-side {
+.left-side {
   border-right: 1px solid silver;
   padding: 10px;
 }
 
-.right-form-side {
+.right-side {
+  display: block;
   padding: 10px;
+  padding-bottom: 100px;
 }
 
-.table-full-width {
+.form-full-width {
   width: 100%;
 }
 

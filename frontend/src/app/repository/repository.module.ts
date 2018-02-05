@@ -11,6 +11,7 @@ import { NewRepositoryComponent } from './new-repository/new-repository.componen
 import { OwnedRepositoriesComponent } from './owned-repositories/owned-repositories.component';
 import { RepositoryInformationComponent } from './repository-information/repository-information.component';
 import { RepositoryService } from './shared/repository.service';
+import { CreateLabelComponent } from '../label/create-label/create-label.component';
 
 @NgModule({
   imports: [CommonModule, SharedModule, HttpClientModule, AppRoutingModule],
@@ -29,7 +30,8 @@ import { RepositoryService } from './shared/repository.service';
   entryComponents: [
     NewRepositoryComponent,
     RepositoryIssuesComponent,
-    CreateIssueComponent
+    CreateIssueComponent,
+    CreateLabelComponent
   ],
   providers: [RepositoryService]
 })

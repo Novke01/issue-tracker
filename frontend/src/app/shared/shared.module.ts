@@ -15,6 +15,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatColorPickerModule } from 'mat-color-picker';
 
 @NgModule({
   exports: [
@@ -33,7 +34,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatDialogModule,
     MatAutocompleteModule,
     MatSelectModule,
-    MatChipsModule
+    MatChipsModule,
+    MatColorPickerModule
   ],
   declarations: []
 })
