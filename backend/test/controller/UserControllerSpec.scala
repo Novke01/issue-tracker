@@ -20,6 +20,9 @@ import play.api.test.Helpers._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import play.api.mvc.Result
+import com.issuetracker.exception.UserNotFoundException
+import com.github.t3hnar.bcrypt.Password
 
 class UserControllerSpec extends PlaySpec with MockitoSugar with OneAppPerSuiteWithComponents {
 
@@ -32,25 +35,29 @@ class UserControllerSpec extends PlaySpec with MockitoSugar with OneAppPerSuiteW
 
   "UserController#register" should {
     "return registered user's data for valid data" in {
-      val registeredUser = RegisteredUser(
+      val password = "testtest"
+      val user = User(
         1,
         "pera",
+        password.bcrypt,
         "Pera",
         "Peric",
-        "pera@example.com"
+        "pera@example.com",
+        "refresh_token"
       )
+      val registeredUser: RegisteredUser = user
       val fakeRequest = FakeRequest().withBody(
         Json.obj(
-          "username"  -> registeredUser.username,
-          "password"  -> "testtest",
+          "username" -> registeredUser.username,
+          "password" -> password,
           "firstName" -> registeredUser.firstName,
           "lastName"  -> registeredUser.lastName,
           "email"     -> registeredUser.email
         )
       )
       val mockUserService = mock[UserService]
-      when(mockUserService.register(any[User])) thenReturn Future { registeredUser }
-      val controller             = new UserController(stubControllerComponents(), mockUserService)
+      when(mockUserService.register(any[User])) thenReturn Future { user }
+      val controller = new UserController(stubControllerComponents(), mockUserService)
       val result: Future[Result] = controller.register().apply(fakeRequest)
       val jsonBody               = contentAsJson(result)
       val jsonRegisteredUser     = Json.toJson(registeredUser)
@@ -95,5 +102,52 @@ class UserControllerSpec extends PlaySpec with MockitoSugar with OneAppPerSuiteW
     }
 
   }
-
+  
+  "UserController#getUserData" should {
+    
+    "return user's data for given id" in {
+      val id = 1
+      val user = User(
+        id,
+        "pera",
+        "testtest".bcrypt,
+        "Pera",
+        "Peric",
+        "pera@example.com",
+        "refresh_token"
+      )
+      val registeredUser: RegisteredUser = user
+      val fakeRequest = FakeRequest()
+      val mockUserService = mock[UserService]
+      when(mockUserService.get(any[Long])) thenReturn Future { user }
+      val controller = new UserController(stubControllerComponents(), mockUserService)
+      val result: Future[Result] = controller.getUserData(id).apply(fakeRequest)
+      val jsonBody = contentAsJson(result)
+      val jsonRegisteredUser = Json.toJson(registeredUser)
+      jsonBody mustBe jsonRegisteredUser
+    }
+    
+    "return Bad Request if user with given id doesn't exist" in {
+      val id = -1
+      val registeredUser = RegisteredUser(
+        id,
+        "pera",
+        "Pera",
+        "Peric",
+        "pera@example.com"
+      )
+      val fakeRequest = FakeRequest()
+      val mockUserService = mock[UserService]
+      when(mockUserService.get(any[Long])) thenReturn Future { 
+        throw new UserNotFoundException("User doesn't exist.")
+      }
+      val controller = new UserController(stubControllerComponents(), mockUserService)
+      val result: Future[Result] = controller.getUserData(id).apply(fakeRequest)
+      result map { response =>
+        response.header.status mustBe 400
+      }
+    }
+    
+  }
+  
 }

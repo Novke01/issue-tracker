@@ -39,11 +39,13 @@ class AuthControllerSpec extends PlaySpec with MockitoSugar with OneAppPerSuiteW
           "password" -> "testtest"
         )
       )
-      val loggedInUser    = LoggedInUser("accesstoken", "refreshtoken")
-      val mockJwtUtil     = mock[JwtUtil]
+      val accessToken = "accesstoken"
+      val refreshToken = "refreshtoken"
+      val loggedInUser = LoggedInUser(accessToken, refreshToken)
+      val mockJwtUtil = mock[JwtUtil]
       val mockAuthService = mock[AuthService]
-      when(mockAuthService.login(any[LoginUser])) thenReturn Future { loggedInUser }
-      val controller             = new AuthController(stubControllerComponents(), mockJwtUtil, mockAuthService)
+      when(mockAuthService.login(any[String], any[String])) thenReturn Future { (accessToken, refreshToken) }
+      val controller = new AuthController(stubControllerComponents(), mockJwtUtil, mockAuthService)
       val result: Future[Result] = controller.login().apply(fakeRequest)
       val jsonBody               = contentAsJson(result)
       val jsonLoggedInUser       = Json.toJson(loggedInUser)
@@ -59,8 +61,8 @@ class AuthControllerSpec extends PlaySpec with MockitoSugar with OneAppPerSuiteW
       )
       val mockJwtUtil     = mock[JwtUtil]
       val mockAuthService = mock[AuthService]
-      when(mockAuthService.login(any[LoginUser])) thenReturn Future { throw new Exception }
-      val controller             = new AuthController(stubControllerComponents(), mockJwtUtil, mockAuthService)
+      when(mockAuthService.login(any[String], any[String])) thenReturn Future { throw new Exception }
+      val controller = new AuthController(stubControllerComponents(), mockJwtUtil, mockAuthService)
       val result: Future[Result] = controller.login().apply(fakeRequest)
       result map { response =>
         response.header.status mustBe 400
@@ -101,12 +103,14 @@ class AuthControllerSpec extends PlaySpec with MockitoSugar with OneAppPerSuiteW
           "token" -> "refreshtoken"
         )
       )
-      val loggedInUser = LoggedInUser("accesstoken", "refreshtoken")
-      val mockJwtUtil  = mock[JwtUtil]
+      val accessToken = "accesstoken"
+      val refreshToken = "refreshtoken"
+      val loggedInUser = LoggedInUser(accessToken, refreshToken)
+      val mockJwtUtil = mock[JwtUtil]
       when(mockJwtUtil.decode(any[RequestHeader])) thenReturn Option(jwtUser)
       val mockAuthService = mock[AuthService]
-      when(mockAuthService.refresh(any[Int], any[String])) thenReturn Future { loggedInUser }
-      val controller             = new AuthController(stubControllerComponents(), mockJwtUtil, mockAuthService)
+      when(mockAuthService.refresh(any[Long], any[String])) thenReturn Future { (accessToken, refreshToken) }
+      val controller = new AuthController(stubControllerComponents(), mockJwtUtil, mockAuthService)
       val result: Future[Result] = controller.refresh().apply(fakeRequest)
       val jsonBody               = contentAsJson(result)
       val jsonLoggedInUser       = Json.toJson(loggedInUser)

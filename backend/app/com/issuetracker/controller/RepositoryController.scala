@@ -17,6 +17,7 @@ import play.api.mvc.AbstractController
 import play.api.mvc.Action
 import play.api.mvc.ControllerComponents
 import play.api.mvc.AnyContent
+import com.issuetracker.dto.JwtUser
 
 class RepositoryController(
     val cc: ControllerComponents,
@@ -46,8 +47,7 @@ class RepositoryController(
     }
   }
 
-  def getOwned: Action[AnyContent] = Action.async { request =>
-    val id: Long = jwtUtil.decode(request) map { _.id } getOrElse { -1 }
+  def getOwned(id: Long): Action[AnyContent] = Action.async { request =>
     repositoryService.findByOwnerId(id).map { result =>
       Ok(Json.toJson(result))
     } recover {
@@ -56,9 +56,8 @@ class RepositoryController(
         BadRequest("Something went wrong.")
     }
   }
-
-  def getContributed: Action[AnyContent] = Action.async { request =>
-    val id: Long = jwtUtil.decode(request) map { _.id } getOrElse { -1 }
+  
+  def getContributed(id: Long): Action[AnyContent] = Action.async { request => 
     repositoryService.findByContributorId(id) map { result =>
       Ok(Json.toJson(result))
     } recover {

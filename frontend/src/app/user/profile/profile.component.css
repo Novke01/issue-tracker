@@ -1,0 +1,19 @@
+.profile-page {
+  margin-top: 72px;
+  margin-bottom: 72px;
+}
+
+.profile-card {
+  position: absolute;
+  display: inline-block;
+  top: 96px;
+  left: 10%;
+  width: 20%;
+}
+
+.repo-tables {
+  position: absolute;
+  display: inline-block;
+  left: 30%;
+  right: 10%;
+}

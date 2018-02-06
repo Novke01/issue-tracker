@@ -12,6 +12,8 @@ import play.api.mvc.RequestHeader
 import play.api.mvc.Result
 import play.api.mvc.Results.Unauthorized
 import play.api.routing.Router
+import play.api.libs.typedmap.TypedKey
+import com.issuetracker.dto.JwtUser
 
 class JwtFilter(jwtUtil: JwtUtil)(
     implicit val mat: Materializer,
@@ -32,7 +34,12 @@ class JwtFilter(jwtUtil: JwtUtil)(
       val authOption = requestHeader.headers.get(header)
       authOption map { auth =>
         if (jwtUtil.isValid(auth)) {
-          nextFilter(requestHeader)
+          jwtUtil.decode(requestHeader) map { jwtUser =>
+            requestHeader.addAttr(JwtUser.Key, jwtUser)
+            nextFilter(requestHeader)
+          } getOrElse {  
+            Future { Unauthorized("You are not logged in.") }
+          }
         } else {
           Future { Unauthorized("You are not logged in.") }
         }

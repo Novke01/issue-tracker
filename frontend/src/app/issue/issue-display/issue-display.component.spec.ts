@@ -7,7 +7,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { IssueService } from '../shared/issue.service';
 import { IssueDisplayComponent } from './issue-display.component';
 
-describe("IssueDisplayComponent", () => {
+describe('IssueDisplayComponent', () => {
   let component: IssueDisplayComponent;
   let fixture: ComponentFixture<IssueDisplayComponent>;
 
@@ -32,7 +32,7 @@ describe("IssueDisplayComponent", () => {
     fixture.detectChanges();
   });
 
-  it("should create", () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

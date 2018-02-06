@@ -8,9 +8,9 @@ import { Issue } from '../shared/issue.model';
 import { IssueService } from '../shared/issue.service';
 
 @Component({
-  selector: "it-create-issue",
-  templateUrl: "./create-issue.component.html",
-  styleUrls: ["./create-issue.component.css"]
+  selector: 'it-create-issue',
+  templateUrl: './create-issue.component.html',
+  styleUrls: ['./create-issue.component.css']
 })
 export class CreateIssueComponent implements OnInit {
   form: FormGroup;
@@ -28,18 +28,18 @@ export class CreateIssueComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    let fc = new FormControl();
+    const fc = new FormControl();
     this.form = this.formBuilder.group({
-      title: ["", Validators.required],
-      description: [""]
+      title: ['', Validators.required],
+      description: ['']
     });
   }
 
   get title() {
-    return this.form.get("title");
+    return this.form.get('title');
   }
   get description() {
-    return this.form.get("description");
+    return this.form.get('description');
   }
 
   onUserAssigned(assignees) {
@@ -54,7 +54,7 @@ export class CreateIssueComponent implements OnInit {
 
   onCreateIssue() {
     if (this.form.valid) {
-      var issue = new Issue();
+      const issue = new Issue();
       issue.repositoryId = this.repositoryId;
       issue.title = this.title.value;
       issue.description = this.description.value;
@@ -62,16 +62,14 @@ export class CreateIssueComponent implements OnInit {
       issue.assignees = this.assignees.map(a => a.id);
 
       this.issueService.createIssue(issue).subscribe(
-        issue => {
-          console.log(issue);
-          this.dialogRef.close(issue);
-          this.snackBar.open("You have successfully created an issue.", "OK", {
+        i => {
+          this.dialogRef.close(i);
+          this.snackBar.open('You have successfully created an issue.', 'OK', {
             duration: 2000
           });
         },
         err => {
-          console.log(err);
-          this.snackBar.open(err.message, "Cancel", {
+          this.snackBar.open(err.message, 'Cancel', {
             duration: 2000
           });
         }

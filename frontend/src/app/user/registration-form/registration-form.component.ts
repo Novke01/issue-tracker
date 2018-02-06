@@ -6,9 +6,9 @@ import { RegistrationUser } from '../shared/registration-user.model';
 import { UserService } from '../shared/user.service';
 
 @Component({
-  selector: "it-registration-form",
-  templateUrl: "./registration-form.component.html",
-  styleUrls: ["./registration-form.component.css"]
+  selector: 'it-registration-form',
+  templateUrl: './registration-form.component.html',
+  styleUrls: ['./registration-form.component.css']
 })
 export class RegistrationFormComponent implements OnInit {
   signUpForm: FormGroup;
@@ -20,15 +20,15 @@ export class RegistrationFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    let fc = new FormControl();
+    const fc = new FormControl();
     this.signUpForm = this.formBuilder.group(
       {
-        firstName: ["", Validators.required],
-        lastName: ["", Validators.required],
-        email: ["", [Validators.required, Validators.email]],
-        username: ["", Validators.required],
-        password: ["", [Validators.required, Validators.minLength(8)]],
-        confirmedPassword: ["", [Validators.required, Validators.minLength(8)]]
+        firstName: ['', Validators.required],
+        lastName: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
+        username: ['', Validators.required],
+        password: ['', [Validators.required, Validators.minLength(8)]],
+        confirmedPassword: ['', [Validators.required, Validators.minLength(8)]]
       },
       {
         validator: this.checkIfMatchingPasswords()
@@ -37,35 +37,40 @@ export class RegistrationFormComponent implements OnInit {
   }
 
   get firstName() {
-    return this.signUpForm.get("firstName");
+    return this.signUpForm.get('firstName');
   }
+
   get lastName() {
-    return this.signUpForm.get("lastName");
+    return this.signUpForm.get('lastName');
   }
+
   get email() {
-    return this.signUpForm.get("email");
+    return this.signUpForm.get('email');
   }
+
   get username() {
-    return this.signUpForm.get("username");
+    return this.signUpForm.get('username');
   }
+
   get password() {
-    return this.signUpForm.get("password");
+    return this.signUpForm.get('password');
   }
+
   get confirmedPassword() {
-    return this.signUpForm.get("confirmedPassword");
+    return this.signUpForm.get('confirmedPassword');
   }
 
   onRegister() {
     if (this.signUpForm.valid) {
       const user = new RegistrationUser(this.signUpForm.value);
+      this.signUpForm.reset();
       this.userService.register(user).subscribe(
-        user =>
-          this.snackBar.open("You have registered successfully.", "OK", {
+        _ =>
+          this.snackBar.open('You have registered successfully.', 'OK', {
             duration: 2000
           }),
         err => {
-          console.log(err);
-          this.snackBar.open(err.message, "Cancel", {
+          this.snackBar.open(err.message, 'Cancel', {
             duration: 2000
           });
         }
@@ -78,10 +83,7 @@ export class RegistrationFormComponent implements OnInit {
       if (!this.signUpForm || !this.confirmedPassword) {
         return;
       }
-      if (
-        this.password &&
-        this.password.value !== this.confirmedPassword.value
-      ) {
+      if (this.password && this.password.value !== this.confirmedPassword.value) {
         return this.confirmedPassword.setErrors({ notEquivalent: true });
       } else {
         return this.confirmedPassword.setErrors(null);

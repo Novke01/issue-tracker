@@ -7,11 +7,11 @@ import play.api.libs.json.JsPath
 import play.api.libs.json.Reads
 
 case class RegisterUser(
-    username: String,
-    password: String,
-    firstName: String,
-    lastName: String,
-    email: String
+  username: String,
+  password: String,
+  firstName: String,
+  lastName: String,
+  email: String
 )
 
 object RegisterUser {

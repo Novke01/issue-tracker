@@ -9,7 +9,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { IssueService } from '../shared/issue.service';
 import { CreateIssueComponent } from './create-issue.component';
 
-describe("CreateIssueComponent", () => {
+describe('CreateIssueComponent', () => {
   let component: CreateIssueComponent;
   let fixture: ComponentFixture<CreateIssueComponent>;
 
@@ -39,7 +39,7 @@ describe("CreateIssueComponent", () => {
     fixture.detectChanges();
   });
 
-  it("should create", () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

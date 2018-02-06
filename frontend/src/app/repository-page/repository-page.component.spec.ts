@@ -9,7 +9,7 @@ import { RepositoryService } from './../repository/shared/repository.service';
 import { SharedModule } from './../shared/shared.module';
 import { RepositoryPageComponent } from './repository-page.component';
 
-describe("RepositoryPageComponent", () => {
+describe('RepositoryPageComponent', () => {
   let component: RepositoryPageComponent;
   let fixture: ComponentFixture<RepositoryPageComponent>;
   let repositoryService: RepositoryService;
@@ -37,25 +37,25 @@ describe("RepositoryPageComponent", () => {
 
     repository = {
       id: 1,
-      name: "repo name",
-      url: "repo url",
-      description: "repo description",
+      name: 'repo name',
+      url: 'repo url',
+      description: 'repo description',
       ownerId: 1
     };
 
-    spyOn(repositoryService, "getRepositoryById").and.returnValue(
+    spyOn(repositoryService, 'getRepositoryById').and.returnValue(
       of(repository)
     );
 
     fixture.detectChanges();
   });
 
-  it("should create", () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
   it(
-    "should be able to get repository by id",
+    'should be able to get repository by id',
     async(() => {
       fixture.detectChanges();
       fixture.whenStable().then(() => {

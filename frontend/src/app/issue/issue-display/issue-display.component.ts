@@ -8,18 +8,18 @@ import { Issue } from '../shared/issue.model';
 import { IssueService } from '../shared/issue.service';
 
 @Component({
-  selector: "it-issue-display",
-  templateUrl: "./issue-display.component.html",
-  styleUrls: ["./issue-display.component.css"]
+  selector: 'it-issue-display',
+  templateUrl: './issue-display.component.html',
+  styleUrls: ['./issue-display.component.css']
 })
 export class IssueDisplayComponent implements OnInit {
   issue: Issue = new Issue();
   form: FormGroup = new FormGroup({
     title: new FormControl(
-      { value: "title", disabled: true },
+      { value: 'title', disabled: true },
       Validators.required
     ),
-    description: new FormControl({ value: "description", disabled: true })
+    description: new FormControl({ value: 'description', disabled: true })
   });
   repositoryId: number;
   assignees: User[];
@@ -33,10 +33,10 @@ export class IssueDisplayComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.repositoryId = +this.route.snapshot.paramMap.get("repoId");
+    this.repositoryId = +this.route.snapshot.paramMap.get('repoId');
     this.route.paramMap
       .switchMap((params: ParamMap) =>
-        this.issueService.getIssueById(+params.get("issueId"))
+        this.issueService.getIssueById(+params.get('issueId'))
       )
       .subscribe(issue => {
         this.issue = issue;
@@ -49,24 +49,24 @@ export class IssueDisplayComponent implements OnInit {
   }
 
   get title() {
-    return this.form.get("title");
+    return this.form.get('title');
   }
   get description() {
-    return this.form.get("description");
+    return this.form.get('description');
   }
 
   enableForm() {
-    this.form.get("title").enable();
-    this.form.get("description").enable();
+    this.form.get('title').enable();
+    this.form.get('description').enable();
   }
 
   disableForm() {
-    this.form.get("title").disable();
-    this.form.get("description").disable();
+    this.form.get('title').disable();
+    this.form.get('description').disable();
   }
 
   onUserAssigned(assignees) {
-    var user = assignees[assignees.length - 1];
+    const user = assignees[assignees.length - 1];
     this.issueService.insertAssignee(this.issue.id, user.id).subscribe(_ => {
       this.assignees = assignees;
     });
@@ -88,13 +88,13 @@ export class IssueDisplayComponent implements OnInit {
         issue => {
           console.log(issue);
           this.disableForm();
-          this.snackBar.open("You have successfully updated an issue.", "OK", {
+          this.snackBar.open('You have successfully updated an issue.', 'OK', {
             duration: 2000
           });
         },
         err => {
           console.log(err);
-          this.snackBar.open(err.message, "Cancel", {
+          this.snackBar.open(err.message, 'Cancel', {
             duration: 2000
           });
         }

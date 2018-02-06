@@ -1,11 +1,11 @@
-<mat-card-title class="title">Repositories</mat-card-title>
+<h2 class="title">Repositories</h2>
 <div class="repository-header">
   <mat-form-field>
     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
   </mat-form-field>
   <button mat-raised-button color="primary" (click)="openNewRepositoryDialog()">New repository</button>
 </div>
-<div class="repository-container mat-elevation-z8 centeredtable">
+<div class="repository-container mat-elevation-z8 centered-table">
 
   <mat-table [dataSource]="dataSource" matSort>
 
@@ -32,6 +32,5 @@
     <mat-row *matRowDef="let repository; columns: displayedColumns;">
     </mat-row>
   </mat-table>
-
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25]"></mat-paginator>
 </div>

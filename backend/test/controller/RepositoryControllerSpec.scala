@@ -192,7 +192,7 @@ class RepositoryControllerSpec
                                                 mock[WikiPageService],
                                                 mockJwtUtil)
 
-      val result: Future[Result] = controller.getOwned().apply(fakeRequest)
+      val result: Future[Result] = controller.getOwned(ownerId).apply(fakeRequest)
       val jsonBody               = contentAsJson(result)
       val jsonRepositories       = Json.toJson(Seq(repository))
       jsonBody mustBe jsonRepositories
@@ -225,7 +225,7 @@ class RepositoryControllerSpec
                                                 mock[WikiPageService],
                                                 mockJwtUtil)
 
-      val result: Future[Result] = controller.getOwned().apply(fakeRequest)
+      val result: Future[Result] = controller.getOwned(ownerId).apply(fakeRequest)
       val jsonBody               = contentAsJson(result)
       val jsonRepositories       = Json.toJson(Seq[GetRepository]())
       jsonBody mustBe jsonRepositories
@@ -258,7 +258,7 @@ class RepositoryControllerSpec
                                                 mock[WikiPageService],
                                                 mockJwtUtil)
 
-      val result: Future[Result] = controller.getOwned().apply(fakeRequest)
+      val result: Future[Result] = controller.getOwned(ownerId).apply(fakeRequest)
       result map { response =>
         response.header.status mustBe 400
       }
@@ -300,7 +300,7 @@ class RepositoryControllerSpec
                                                 mock[WikiPageService],
                                                 mockJwtUtil)
 
-      val result: Future[Result] = controller.getContributed().apply(fakeRequest)
+      val result: Future[Result] = controller.getContributed(ownerId).apply(fakeRequest)
       val jsonBody               = contentAsJson(result)
       val jsonRepositories       = Json.toJson(Seq(repository))
       jsonBody mustBe jsonRepositories
@@ -333,7 +333,7 @@ class RepositoryControllerSpec
                                                 mock[WikiPageService],
                                                 mockJwtUtil)
 
-      val result: Future[Result] = controller.getContributed().apply(fakeRequest)
+      val result: Future[Result] = controller.getContributed(ownerId).apply(fakeRequest)
       val jsonBody               = contentAsJson(result)
       val jsonRepositories       = Json.toJson(Seq[GetRepository]())
       jsonBody mustBe jsonRepositories
@@ -367,7 +367,7 @@ class RepositoryControllerSpec
                                               mock[WikiPageService],
                                               mockJwtUtil)
 
-    val result: Future[Result] = controller.getContributed().apply(fakeRequest)
+    val result: Future[Result] = controller.getContributed(ownerId).apply(fakeRequest)
     result map { response =>
       response.header.status mustBe 400
     }

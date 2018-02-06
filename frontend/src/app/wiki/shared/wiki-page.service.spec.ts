@@ -7,11 +7,11 @@ import { WikiPageSave } from './wiki-page-save.model';
 import { WikiPage } from './wiki-page.model';
 import { WikiPageService } from './wiki-page.service';
 
-describe("WikiPageService", () => {
+describe('WikiPageService', () => {
   let service: WikiPageService;
   let httpMock: HttpTestingController;
-  const wikiPageUrl = "api/wiki-pages";
-  const repositoryUrl = "api/repositories";
+  const wikiPageUrl = 'api/wiki-pages';
+  const repositoryUrl = 'api/repositories';
 
   beforeEach(
     async(() => {
@@ -24,12 +24,12 @@ describe("WikiPageService", () => {
     })
   );
 
-  it("should create", () => {
+  it('should create', () => {
     expect(service).toBeTruthy();
   });
 
-  it("should be able to save new wiki page", () => {
-    const dummyWikiPage = new WikiPageSave("name", "content", 1);
+  it('should be able to save new wiki page', () => {
+    const dummyWikiPage = new WikiPageSave('name', 'content', 1);
 
     const responseWikiPage: WikiPage = {
       id: 1,
@@ -48,16 +48,16 @@ describe("WikiPageService", () => {
       .expectOne((req: HttpRequest<any>) => {
         const body: WikiPageSave = req.body;
         return (
-          req.url === url && req.method === "POST" && body === dummyWikiPage
+          req.url === url && req.method === 'POST' && body === dummyWikiPage
         );
-      }, "POST to api/wiki-pages with wiki page data in json format")
-      .flush(responseWikiPage, { status: 201, statusText: "Created" });
+      }, 'POST to api/wiki-pages with wiki page data in json format')
+      .flush(responseWikiPage, { status: 201, statusText: 'Created' });
 
     httpMock.verify();
   });
 
-  it("should be able to handle rejection from server", () => {
-    const dummyWikiPage = new WikiPageSave("name", "content", 1);
+  it('should be able to handle rejection from server', () => {
+    const dummyWikiPage = new WikiPageSave('name', 'content', 1);
 
     const responseWikiPage: WikiPage = {
       id: 1,
@@ -81,20 +81,20 @@ describe("WikiPageService", () => {
       .expectOne((req: HttpRequest<any>) => {
         const body: WikiPageSave = req.body;
         return (
-          req.url === url && req.method === "POST" && body === dummyWikiPage
+          req.url === url && req.method === 'POST' && body === dummyWikiPage
         );
-      }, "POST to api/wiki-pages with wiki page data in json format")
-      .flush(null, { status: 400, statusText: "Bad Request" });
+      }, 'POST to api/wiki-pages with wiki page data in json format')
+      .flush(null, { status: 400, statusText: 'Bad Request' });
 
     httpMock.verify();
   });
 
-  it("should be able to get repository by id", () => {
+  it('should be able to get repository by id', () => {
     const id = 1;
     const responseWikiPage: WikiPage = {
       id: id,
-      name: "wiki page name",
-      content: "wiki page content",
+      name: 'wiki page name',
+      content: 'wiki page content',
       repositoryId: 1
     };
 
@@ -106,20 +106,20 @@ describe("WikiPageService", () => {
 
     httpMock
       .expectOne((req: HttpRequest<any>) => {
-        return req.url === url && req.method === "GET";
-      }, "GET to api/wiki-pages/{id} with wiki page id")
-      .flush(responseWikiPage, { status: 200, statusText: "OK" });
+        return req.url === url && req.method === 'GET';
+      }, 'GET to api/wiki-pages/{id} with wiki page id')
+      .flush(responseWikiPage, { status: 200, statusText: 'OK' });
 
     httpMock.verify();
   });
 
-  it("should be able to get wiki pages by repository id", () => {
+  it('should be able to get wiki pages by repository id', () => {
     const repoId = 1;
 
     const responseWikiPage: WikiPage = {
       id: 1,
-      name: "wiki page name",
-      content: "wiki page content",
+      name: 'wiki page name',
+      content: 'wiki page content',
       repositoryId: repoId
     };
     const responseWikiPages = [responseWikiPage];
@@ -134,9 +134,9 @@ describe("WikiPageService", () => {
 
     httpMock
       .expectOne((req: HttpRequest<any>) => {
-        return req.url === url && req.method === "GET";
-      }, "GET to api/repositories/{id}/wiki-pages with repository id")
-      .flush(responseWikiPages, { status: 200, statusText: "OK" });
+        return req.url === url && req.method === 'GET';
+      }, 'GET to api/repositories/{id}/wiki-pages with repository id')
+      .flush(responseWikiPages, { status: 200, statusText: 'OK' });
 
     httpMock.verify();
   });

@@ -1,15 +1,15 @@
-import "rxjs/add/operator/switchMap";
+import 'rxjs/add/operator/switchMap';
 
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, ParamMap } from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 
-import { WikiPageService } from "../shared/wiki-page.service";
-import { WikiPage } from "./../shared/wiki-page.model";
+import { WikiPageService } from '../shared/wiki-page.service';
+import { WikiPage } from './../shared/wiki-page.model';
 
 @Component({
-  selector: "it-repository-wiki",
-  templateUrl: "./repository-wiki.component.html",
-  styleUrls: ["./repository-wiki.component.css"]
+  selector: 'it-repository-wiki',
+  templateUrl: './repository-wiki.component.html',
+  styleUrls: ['./repository-wiki.component.css']
 })
 export class RepositoryWikiComponent implements OnInit {
   wikiPages: WikiPage[];
@@ -25,7 +25,7 @@ export class RepositoryWikiComponent implements OnInit {
     this.wikiPages = new Array<WikiPage>();
     this.route.paramMap
       .switchMap((params: ParamMap) =>
-        this.wikiPageService.getWikiPageByRepositoryId(params.get("id"))
+        this.wikiPageService.getWikiPageByRepositoryId(params.get('id'))
       )
       .subscribe(result => {
         this.wikiPages = result;

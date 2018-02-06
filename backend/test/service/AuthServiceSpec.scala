@@ -28,7 +28,8 @@ class AuthServiceSpec extends PlaySpec with MockitoSugar {
     "return tokens for valid login data" in {
       val accessToken  = "jwttoken"
       val refreshToken = "refreshtoken"
-      val password     = "testtest"
+      val username = "pera"
+      val password = "testtest"
       val user = User(
         1,
         "pera",
@@ -44,18 +45,20 @@ class AuthServiceSpec extends PlaySpec with MockitoSugar {
       val mockJwtUtil = mock[JwtUtil]
       when(mockJwtUtil.generate(any[JwtUser])) thenReturn accessToken
       val service = AuthService(mockUserRepository, mockJwtUtil)
-      service.login(loginUser) map { loggedInUser =>
-        loggedInUser.accessToken mustBe "jwttoken"
-        loggedInUser.refreshToken mustBe refreshToken
+      service.login(username, password) map { 
+        case (accessToken, refreshToken) => 
+          accessToken mustBe "jwttoken"
+          refreshToken mustBe refreshToken
       }
     }
 
     "throw IncorrectPasswordException if user sent invalid password" in {
+      val username = "pera"
       val password = "testtest"
       val user = User(
         1,
-        "pera",
-        "testtest".bcrypt,
+        username,
+        "wrongpass".bcrypt,
         "Pera",
         "Peric",
         "pera@example.com",
@@ -65,20 +68,21 @@ class AuthServiceSpec extends PlaySpec with MockitoSugar {
       val mockUserRepository = mock[UserRepository]
       when(mockUserRepository.findByUsername(any[String])) thenReturn Future { Option(user) }
       val mockJwtUtil = mock[JwtUtil]
-      val service     = AuthService(mockUserRepository, mockJwtUtil)
-      ScalaFutures.whenReady(service.login(loginUser).failed) { e =>
-        e shouldBe an[IncorrectPasswordException]
+      val service = AuthService(mockUserRepository, mockJwtUtil)
+      ScalaFutures.whenReady(service.login(username, password).failed) { e =>
+        e shouldBe an [IncorrectPasswordException]
       }
     }
 
     "throw UserNotFoundException if user with specified username doesn't exist" in {
-      val loginUser          = LoginUser("zika", "testtest")
+      val username = "zika"
+      val password = "testtest"
       val mockUserRepository = mock[UserRepository]
       when(mockUserRepository.findByUsername(any[String])) thenReturn Future { None }
       val mockJwtUtil = mock[JwtUtil]
-      val service     = AuthService(mockUserRepository, mockJwtUtil)
-      ScalaFutures.whenReady(service.login(loginUser).failed) { e =>
-        e shouldBe an[UserNotFoundException]
+      val service = AuthService(mockUserRepository, mockJwtUtil)
+      ScalaFutures.whenReady(service.login(username, password).failed) { e =>
+        e shouldBe an [UserNotFoundException]
       }
     }
 
@@ -104,9 +108,10 @@ class AuthServiceSpec extends PlaySpec with MockitoSugar {
       val mockJwtUtil = mock[JwtUtil]
       when(mockJwtUtil.generate(any[JwtUser])) thenReturn accessToken
       val service = AuthService(mockUserRepository, mockJwtUtil)
-      service.refresh(id, refreshToken) map { loggedInUser =>
-        loggedInUser.accessToken mustBe accessToken
-        loggedInUser.refreshToken mustBe refreshToken
+      service.refresh(id, refreshToken) map { 
+        case (accessToken, refreshToken) =>
+          accessToken mustBe accessToken
+          refreshToken mustBe refreshToken
       }
     }
 

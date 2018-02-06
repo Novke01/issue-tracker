@@ -7,12 +7,12 @@ import { WikiPageService } from '../shared/wiki-page.service';
 import { WikiPageSave } from './../shared/wiki-page-save.model';
 
 @Component({
-  selector: "it-new-wiki",
-  templateUrl: "./new-wiki.component.html",
-  styleUrls: ["./new-wiki.component.css"]
+  selector: 'it-new-wiki',
+  templateUrl: './new-wiki.component.html',
+  styleUrls: ['./new-wiki.component.css']
 })
 export class NewWikiComponent implements OnInit {
-  wikiPage: WikiPageSave = new WikiPageSave("", "", -1);
+  wikiPage: WikiPageSave = new WikiPageSave('', '', -1);
   form: FormGroup;
   repoId: number;
 
@@ -26,20 +26,20 @@ export class NewWikiComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      name: ["", Validators.required],
-      content: ["", Validators.required]
+      name: ['', Validators.required],
+      content: ['', Validators.required]
     });
   }
 
   create(wikiPage: WikiPageSave) {
-    if (wikiPage.name === "" || wikiPage.content === "") {
-      this.snackBar.open("Please enter name and content!", "OK", {
+    if (wikiPage.name === '' || wikiPage.content === '') {
+      this.snackBar.open('Please enter name and content!', 'OK', {
         duration: 2000
       });
       return;
     }
     this.route.params.subscribe(params => {
-      this.repoId = +params["id"];
+      this.repoId = +params['id'];
       const newWikiPage = new WikiPageSave(
         wikiPage.name,
         wikiPage.content,
@@ -47,14 +47,14 @@ export class NewWikiComponent implements OnInit {
       );
       this.wikiPageService.saveWikiPage(newWikiPage).subscribe(
         result => {
-          this.wikiPage = new WikiPageSave("", "", -1);
-          this.snackBar.open("You create a new wiki page!", "OK", {
+          this.wikiPage = new WikiPageSave('', '', -1);
+          this.snackBar.open('You create a new wiki page!', 'OK', {
             duration: 2000
           });
           this.navigate();
         },
         err => {
-          this.snackBar.open(err.message, "Cancel", {
+          this.snackBar.open(err.message, 'Cancel', {
             duration: 2000
           });
         }
@@ -63,6 +63,6 @@ export class NewWikiComponent implements OnInit {
   }
 
   navigate() {
-    this.router.navigate(["/repository", this.repoId]);
+    this.router.navigate(['/repository', this.repoId]);
   }
 }
