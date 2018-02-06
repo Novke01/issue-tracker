@@ -10,7 +10,8 @@ case class PostIssue(
     title: String,
     description: String,
     ownerId: Long,
-    assignees: List[Long]
+    assignees: List[Long],
+    labels: List[Long]
 )
 object PostIssue {
 

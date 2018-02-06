@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { environment } from '../../../environments/environment';
 import { User } from '../../core/auth/user.model';
 import { Issue } from './issue.model';
+import { Label } from '../../label/shared/label.model';
 
 @Injectable()
 export class IssueService {
@@ -36,6 +37,11 @@ export class IssueService {
     return this.http.get<User[]>(url);
   }
 
+  getLabelsByIssueId(id: number): Observable<Label[]> {
+    const url = `${environment.baseUrl}${this.issuesUrl}/${id}/labels`;
+    return this.http.get<Label[]>(url);
+  }
+
   insertAssignee(issueId: number, userId: number) {
     const url = `${environment.baseUrl}${
       this.issuesUrl
@@ -48,5 +54,19 @@ export class IssueService {
       this.issuesUrl
     }/${issueId}/assignees/${userId}`;
     return this.http.delete<User[]>(url);
+  }
+
+  insertLabel(issueId: number, labelid: number) {
+    const url = `${environment.baseUrl}${
+      this.issuesUrl
+    }/${issueId}/labels/${labelid}`;
+    return this.http.post<Label>(url, {});
+  }
+
+  removeLabel(issueId: number, labelId: number) {
+    const url = `${environment.baseUrl}${
+      this.issuesUrl
+    }/${issueId}/labels/${labelId}`;
+    return this.http.delete<Label>(url);
   }
 }

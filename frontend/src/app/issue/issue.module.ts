@@ -10,6 +10,7 @@ import { IssueDisplayComponent } from './issue-display/issue-display.component';
 import { PossibleAssigneesSearchComponent } from './possible-assignees-search/possible-assignees-search.component';
 import { RepositoryIssuesComponent } from './repository-issues/repository-issues.component';
 import { IssueService } from './shared/issue.service';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { IssueService } from './shared/issue.service';
     SharedModule,
     HttpClientModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    FlexLayoutModule
   ],
   exports: [
     CreateIssueComponent,

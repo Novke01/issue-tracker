@@ -4,10 +4,11 @@ import scala.concurrent.{ExecutionContext, Future}
 import com.issuetracker.dto.{GetIssue, PostIssue, UpdateIssue}
 import com.issuetracker.exception.IssueNotFoundException
 import com.issuetracker.model.Issue
-import com.issuetracker.repository.{AssignedUserRepository, IssueRepository}
+import com.issuetracker.repository.{AssignedUserRepository, IssueLabelRepository, IssueRepository}
 import play.api.Logger
 
 class IssueService(val issueRepository: IssueRepository,
+                   val issueLabelRepository: IssueLabelRepository,
                    val assignedUserRepository: AssignedUserRepository)(
     implicit val executionContext: ExecutionContext) {
 
@@ -16,6 +17,9 @@ class IssueService(val issueRepository: IssueRepository,
   def insert(postIssue: PostIssue): Future[GetIssue] = {
     issueRepository.insert(postIssue) flatMap { issue =>
       assignedUserRepository.insertAssignees(issue.id, postIssue.assignees) map { _ =>
+        issue
+      }
+      issueLabelRepository.insertIssueLabels(issue.id, postIssue.labels) map { _ =>
         issue
       }
     }
@@ -63,8 +67,9 @@ object IssueService {
 
   def apply(
       issueRepository: IssueRepository,
+      issueLabelRepository: IssueLabelRepository,
       assignedUserRepository: AssignedUserRepository
   )(implicit ec: ExecutionContext): IssueService =
-    new IssueService(issueRepository, assignedUserRepository)
+    new IssueService(issueRepository, issueLabelRepository, assignedUserRepository)
 
 }

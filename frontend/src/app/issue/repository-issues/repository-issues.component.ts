@@ -8,15 +8,14 @@ import { CreateIssueComponent } from '../create-issue/create-issue.component';
 import { Issue } from '../shared/issue.model';
 
 @Component({
-  selector: "it-repository-issues",
-  templateUrl: "./repository-issues.component.html",
-  styleUrls: ["./repository-issues.component.css"]
+  selector: 'it-repository-issues',
+  templateUrl: './repository-issues.component.html',
+  styleUrls: ['./repository-issues.component.css']
 })
 export class RepositoryIssuesComponent implements OnInit {
-  displayedColumns = ["title", "description", "status"];
+  displayedColumns = ['title', 'description', 'status'];
   issues: Issue[];
   dataSource: MatTableDataSource<Issue>;
-  newIssue: Issue = new Issue();
   repositoryId: number;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -29,7 +28,7 @@ export class RepositoryIssuesComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.repositoryId = +this.route.snapshot.paramMap.get("id");
+    this.repositoryId = +this.route.snapshot.paramMap.get('id');
 
     this.repositoryService
       .getIssuesByRepositoryId(this.repositoryId)
@@ -48,18 +47,16 @@ export class RepositoryIssuesComponent implements OnInit {
   }
 
   openCreateIssueDialog() {
-    var dialogRef = this.dialog.open(CreateIssueComponent, {
+    const dialogRef = this.dialog.open(CreateIssueComponent, {
       hasBackdrop: false,
-      data: { newIssue: this.newIssue }
+      width: '500px'
     });
 
     dialogRef.componentInstance.repositoryId = this.repositoryId;
 
-    dialogRef.afterClosed().subscribe(issue => {
-      if (issue != "") {
-        this.newIssue = issue;
-        this.issues.push(this.newIssue);
-        this.newIssue = new Issue();
+    dialogRef.afterClosed().subscribe(newIssue => {
+      if (newIssue !== '') {
+        this.issues.push(newIssue);
         this.dataSource = new MatTableDataSource(this.issues);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;

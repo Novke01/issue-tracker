@@ -9,6 +9,7 @@ import { User } from '../../core/auth/user.model';
 import { Issue } from '../../issue/shared/issue.model';
 import { RepositorySave } from './repository-save.model';
 import { Repository } from './repository.model';
+import { Label } from '../../label/shared/label.model';
 
 @Injectable()
 export class RepositoryService {
@@ -79,6 +80,15 @@ export class RepositoryService {
   getIssuesByRepositoryId(repoId: number): Observable<Issue[]> {
     const url = `${environment.baseUrl}${this.repositoryUrl}/${repoId}/issues`;
     return this.http.get<Issue[]>(url).pipe(
+      catchError(err => {
+        return Observable.throw(new Error(err.error));
+      })
+    );
+  }
+
+  getLabelsByRepositoryId(repoId: number): Observable<Label[]> {
+    const url = `${environment.baseUrl}${this.repositoryUrl}/${repoId}/labels`;
+    return this.http.get<Label[]>(url).pipe(
       catchError(err => {
         return Observable.throw(new Error(err.error));
       })

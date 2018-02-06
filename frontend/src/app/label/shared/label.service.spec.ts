@@ -1,20 +1,19 @@
+import { TestBed, inject } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { inject, TestBed } from '@angular/core/testing';
-
 import { SharedModule } from '../../shared/shared.module';
-import { IssueService } from './issue.service';
+import { LabelService } from './label.service';
 
-describe('IssueService', () => {
+describe('LabelService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, SharedModule],
-      providers: [IssueService]
+      providers: [LabelService]
     });
   });
 
   it(
     'should be created',
-    inject([IssueService], (service: IssueService) => {
+    inject([LabelService], (service: LabelService) => {
       expect(service).toBeTruthy();
     })
   );

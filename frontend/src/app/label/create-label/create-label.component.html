@@ -1,0 +1,21 @@
+<form [formGroup]="form" (ngSubmit)="onCreateLabel()">
+    <h1 mat-dialog-title>New Label</h1>
+    <mat-dialog-content>
+        <mat-form-field>
+            <input matInput formControlName="name" placeholder="Enter label name" required>
+            <mat-error *ngIf="name.invalid && name.touched">
+                Please enter name.
+            </mat-error>
+        </mat-form-field>
+    </mat-dialog-content>
+    <mat-color-picker (selected)="selectedColor = $event"></mat-color-picker>
+    {{selectedColor}}
+    <mat-error *ngIf="selectedColor === undefined">
+        Please select color.
+    </mat-error>
+
+    <mat-dialog-actions>
+        <button mat-button type="submit">Add</button>
+        <button mat-button type="button" mat-dialog-close>Cancel</button>
+    </mat-dialog-actions>
+</form>

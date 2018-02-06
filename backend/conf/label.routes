@@ -1,0 +1,3 @@
+POST    /       com.issuetracker.controller.LabelController.insert
+GET    /:id       com.issuetracker.controller.LabelController.getOne(id: Long)
+DELETE  /:labelId             com.issuetracker.controller.LabelController.remove(labelId: Long)

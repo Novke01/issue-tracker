@@ -1,18 +1,15 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
-
 import { SharedModule } from '../../shared/shared.module';
-import { IssueService } from '../shared/issue.service';
-import { CreateIssueComponent } from './create-issue.component';
-import { RepositoryService } from '../../repository/shared/repository.service';
+import { CreateLabelComponent } from './create-label.component';
+import { LabelService } from '../shared/label.service';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
-describe('CreateIssueComponent', () => {
-  let component: CreateIssueComponent;
-  let fixture: ComponentFixture<CreateIssueComponent>;
+describe('CreateLabelComponent', () => {
+  let component: CreateLabelComponent;
+  let fixture: ComponentFixture<CreateLabelComponent>;
 
   beforeEach(
     async(() => {
@@ -23,20 +20,18 @@ describe('CreateIssueComponent', () => {
           RouterTestingModule.withRoutes([]),
           SharedModule
         ],
-        declarations: [CreateIssueComponent],
         providers: [
-          IssueService,
-          RepositoryService,
+          LabelService,
           { provide: MatDialogRef, useValue: {} },
           { provide: MAT_DIALOG_DATA, useValue: [] }
         ],
-        schemas: [CUSTOM_ELEMENTS_SCHEMA]
+        declarations: [CreateLabelComponent]
       }).compileComponents();
     })
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreateIssueComponent);
+    fixture = TestBed.createComponent(CreateLabelComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
