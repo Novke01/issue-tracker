@@ -1,5 +1,5 @@
 + nocsrf
 + noauth
 POST    /registration       com.issuetracker.controller.UserController.register
-
 GET     /                   com.issuetracker.controller.UserController.getAll
+GET     /:id                com.issuetracker.controller.UserController.getUserData(id: Long)

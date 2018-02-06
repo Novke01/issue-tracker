@@ -12,7 +12,7 @@ import { WikiPage } from '../shared/wiki-page.model';
 import { WikiPageService } from './../shared/wiki-page.service';
 import { NewWikiComponent } from './new-wiki.component';
 
-describe("NewWikiComponent", () => {
+describe('NewWikiComponent', () => {
   let component: NewWikiComponent;
   let fixture: ComponentFixture<NewWikiComponent>;
   let wikiPageService: WikiPageService;
@@ -40,28 +40,28 @@ describe("NewWikiComponent", () => {
     fixture = TestBed.createComponent(NewWikiComponent);
     component = fixture.componentInstance;
     wikiPageService = fixture.debugElement.injector.get(WikiPageService);
-    navigateSpy = spyOn((<any>component).router, "navigate");
+    navigateSpy = spyOn((<any>component).router, 'navigate');
 
     const wikiPage: WikiPage = {
       id: 1,
-      name: "name",
-      content: "content",
+      name: 'name',
+      content: 'content',
       repositoryId: repoId
     };
 
-    spyOn(wikiPageService, "saveWikiPage").and.returnValue(of(wikiPage));
+    spyOn(wikiPageService, 'saveWikiPage').and.returnValue(of(wikiPage));
 
     fixture.detectChanges();
   });
 
-  it("should create", () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
   it(
-    "should be able create new wiki page",
+    'should be able create new wiki page',
     async(() => {
-      const wikiPage = new WikiPageSave("name", "content", null);
+      const wikiPage = new WikiPageSave('name', 'content', null);
       component.create(wikiPage);
       fixture.detectChanges();
       fixture.whenStable().then(() => {

@@ -9,8 +9,8 @@ import { WikiPage } from './wiki-page.model';
 
 @Injectable()
 export class WikiPageService {
-  private wikiPageUrl = "api/wiki-pages";
-  private repositoryUrl = "api/repositories";
+  private wikiPageUrl = 'api/wiki-pages';
+  private repositoryUrl = 'api/repositories';
 
   constructor(private http: HttpClient) {}
 

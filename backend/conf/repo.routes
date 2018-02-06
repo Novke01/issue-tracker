@@ -1,6 +1,6 @@
 POST    /                                        com.issuetracker.controller.RepositoryController.insert
-GET     /owned                                   com.issuetracker.controller.RepositoryController.getOwned
-GET     /contributed                             com.issuetracker.controller.RepositoryController.getContributed
+GET     /owned/:id                               com.issuetracker.controller.RepositoryController.getOwned(id: Long)
+GET     /contributed/:id                         com.issuetracker.controller.RepositoryController.getContributed(id: Long)
 GET     /:id/contributors                        com.issuetracker.controller.RepositoryController.getContributors(id: Long)
 GET     /:id/owner                               com.issuetracker.controller.RepositoryController.getOwner(id: Long)
 GET     /:id                                     com.issuetracker.controller.RepositoryController.get(id: Long)

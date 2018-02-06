@@ -1,5 +1,5 @@
 <mat-card class="form">
-  <form [formGroup]="signUpForm" (ngSubmit)="onRegister()">
+  <form [formGroup]="signUpForm" (ngSubmit)="onRegister()" novalidate>
     <mat-card-content class="form-content">
       <mat-form-field>
         <input matInput placeholder="First Name" formControlName="firstName" required>

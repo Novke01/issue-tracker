@@ -8,15 +8,15 @@ import { User } from '../../core/auth/user.model';
 import { RepositoryService } from './../shared/repository.service';
 
 @Component({
-  selector: "it-repository-information",
-  templateUrl: "./repository-information.component.html",
-  styleUrls: ["./repository-information.component.css"]
+  selector: 'it-repository-information',
+  templateUrl: './repository-information.component.html',
+  styleUrls: ['./repository-information.component.css']
 })
 export class RepositoryInformationComponent implements OnInit {
   contributors: User[];
   owner: User = new User();
 
-  displayedColumns = ["firstName", "lastName", "email", "owner"];
+  displayedColumns = ['firstName', 'lastName', 'email', 'owner'];
   dataSource: MatTableDataSource<User>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -31,7 +31,7 @@ export class RepositoryInformationComponent implements OnInit {
     this.contributors = new Array<User>();
     this.route.paramMap
       .switchMap((params: ParamMap) =>
-        this.repositoryService.getContributorsByRepositoryId(params.get("id"))
+        this.repositoryService.getContributorsByRepositoryId(params.get('id'))
       )
       .subscribe(result => {
         this.contributors = this.contributors.concat(result);
@@ -41,7 +41,7 @@ export class RepositoryInformationComponent implements OnInit {
       });
     this.route.paramMap
       .switchMap((params: ParamMap) =>
-        this.repositoryService.getOwnerByRepositoryId(params.get("id"))
+        this.repositoryService.getOwnerByRepositoryId(params.get('id'))
       )
       .subscribe(result => {
         this.owner = result;

@@ -7,9 +7,9 @@ import { User } from '../../core/auth/user.model';
 import { RepositoryService } from '../../repository/shared/repository.service';
 
 @Component({
-  selector: "it-possible-assignees-search",
-  templateUrl: "./possible-assignees-search.component.html",
-  styleUrls: ["./possible-assignees-search.component.css"]
+  selector: 'it-possible-assignees-search',
+  templateUrl: './possible-assignees-search.component.html',
+  styleUrls: ['./possible-assignees-search.component.css']
 })
 export class PossibleAssigneesSearchComponent implements OnInit {
   @Input() repositoryId: number;
@@ -28,7 +28,7 @@ export class PossibleAssigneesSearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.searchBoxValue = "";
+    this.searchBoxValue = '';
     this.possibleAssignees$ = this.searchTerms.pipe(
       // wait 300ms after each keystroke before considering the term
       debounceTime(300),
@@ -56,7 +56,7 @@ export class PossibleAssigneesSearchComponent implements OnInit {
     if (!this.isAssigned(user.id)) {
       this.assignees.push(user);
       this.userAssigned.emit(this.assignees);
-      this.searchBoxValue = "";
+      this.searchBoxValue = '';
     }
   }
 }

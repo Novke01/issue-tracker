@@ -8,7 +8,7 @@ import { RepositoryService } from '../../repository/shared/repository.service';
 import { SharedModule } from '../../shared/shared.module';
 import { RepositoryIssuesComponent } from './repository-issues.component';
 
-describe("RepositoryIssuesComponent", () => {
+describe('RepositoryIssuesComponen', () => {
   let component: RepositoryIssuesComponent;
   let fixture: ComponentFixture<RepositoryIssuesComponent>;
 
@@ -34,7 +34,7 @@ describe("RepositoryIssuesComponent", () => {
     fixture.detectChanges();
   });
 
-  it("should create", () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

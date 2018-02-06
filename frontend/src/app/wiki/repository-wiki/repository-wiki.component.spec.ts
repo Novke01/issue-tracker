@@ -11,14 +11,14 @@ import { WikiPage } from '../shared/wiki-page.model';
 import { WikiPageService } from '../shared/wiki-page.service';
 import { RepositoryWikiComponent } from './repository-wiki.component';
 
-describe("RepositoryWikiComponent", () => {
+describe('RepositoryWikiComponent', () => {
   let component: RepositoryWikiComponent;
   let fixture: ComponentFixture<RepositoryWikiComponent>;
   let wikiPageService: WikiPageService;
   const wikiPage: WikiPage = {
     id: 1,
-    name: "wiki page name",
-    content: "wiki page content",
+    name: 'wiki page name',
+    content: 'wiki page content',
     repositoryId: 1
   };
   const wikiPages = [wikiPage];
@@ -45,19 +45,19 @@ describe("RepositoryWikiComponent", () => {
     component = fixture.componentInstance;
     wikiPageService = fixture.debugElement.injector.get(WikiPageService);
 
-    spyOn(wikiPageService, "getWikiPageByRepositoryId").and.returnValue(
+    spyOn(wikiPageService, 'getWikiPageByRepositoryId').and.returnValue(
       of(wikiPages)
     );
 
     fixture.detectChanges();
   });
 
-  it("should create", () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
   it(
-    "should be able to get all contributed repositories for that user",
+    'should be able to get all contributed repositories for that user',
     async(() => {
       component.ngOnInit();
       fixture.detectChanges();

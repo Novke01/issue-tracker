@@ -12,19 +12,18 @@ export class AuthGuardService implements CanActivate {
     return this.shouldPass(state.url);
   }
 
-  shouldPass(url: string) {
+  shouldPass(url: string): boolean {
     if (this.authService.user) {
       return true;
     } else {
-      this.router
-        .navigate(["/login"], {
-          queryParams: {
-            return: url
-          }
-        })
-        .then(result => {
-          console.log(result);
-        });
+      this.router.navigate(['/login'], {
+        queryParams: {
+          return: url
+        }
+      })
+      .then(result => {
+        console.log(result);
+      });
       return false;
     }
   }

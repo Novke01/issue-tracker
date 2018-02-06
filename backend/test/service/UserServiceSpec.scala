@@ -12,12 +12,21 @@ import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.mockito.MockitoSugar
 import org.scalatestplus.play.PlaySpec
 
-import scala.concurrent.ExecutionContext.Implicits.global
+import com.github.t3hnar.bcrypt.Password
+import com.issuetracker.model.User
+import com.issuetracker.repository.UserRepository
+import com.issuetracker.service.UserService
+import org.postgresql.util.PSQLException
+import org.postgresql.util.PSQLState
+import org.scalatest.concurrent.ScalaFutures
+import com.issuetracker.exception.UserNotFoundException
 import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class UserServiceSpec extends PlaySpec with MockitoSugar {
 
   "UserService#register" should {
+    
     "return new user's data for valid registration data" in {
       val newUser = User(
         -1,
@@ -70,5 +79,46 @@ class UserServiceSpec extends PlaySpec with MockitoSugar {
     }
 
   }
-
+  
+  "UserService#get" should {
+    
+    "returns user's data for existing user id" in {
+      val id = 1
+      val userData = User(
+        id,
+        "pera",
+        "testtest".bcrypt,
+        "Pera",
+        "Peric",
+        "pera@example.com",
+        "refreshtoken"
+      )
+      val mockUserRepository = mock[UserRepository]
+      when(mockUserRepository.findById(any[Long])) thenReturn Future {
+        Option(userData)
+      }
+      val service = UserService(mockUserRepository)
+      service.get(id) map { result => 
+        result.id mustBe userData.id
+        result.username mustBe userData.username
+        result.firstName mustBe userData.firstName
+        result.lastName mustBe userData.lastName
+        result.email mustBe userData.email
+      }
+    }
+    
+    "throw UserNotFoundException when user with given id doesn't exist" in {
+      val id = -1
+      val mockUserRepository = mock[UserRepository]
+      when(mockUserRepository.findById(any[Long])) thenReturn Future {
+        throw new UserNotFoundException("User doesn't exist")
+      }
+      val service = UserService(mockUserRepository)
+      ScalaFutures.whenReady(service.get(id).failed) { e =>
+        e shouldBe an [UserNotFoundException]
+      }
+    }
+    
+  }
+  
 }

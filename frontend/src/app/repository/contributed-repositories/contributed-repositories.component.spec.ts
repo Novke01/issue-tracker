@@ -4,12 +4,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs/observable/of';
 
+import { AuthService } from '../../core/auth/auth.service';
 import { SharedModule } from '../../shared/shared.module';
 import { Repository } from './../shared/repository.model';
 import { RepositoryService } from './../shared/repository.service';
 import { ContributedRepositoriesComponent } from './contributed-repositories.component';
 
-describe("ContributedRepositoriesComponent", () => {
+describe('ContributedRepositoriesComponent', () => {
   let component: ContributedRepositoriesComponent;
   let fixture: ComponentFixture<ContributedRepositoriesComponent>;
   let repositoryService: RepositoryService;
@@ -24,7 +25,10 @@ describe("ContributedRepositoriesComponent", () => {
           RouterTestingModule.withRoutes([]),
           SharedModule
         ],
-        providers: [RepositoryService],
+        providers: [
+          RepositoryService,
+          AuthService
+        ],
         declarations: [ContributedRepositoriesComponent]
       }).compileComponents();
     })
@@ -38,29 +42,39 @@ describe("ContributedRepositoriesComponent", () => {
     repositoryService = fixture.debugElement.injector.get(RepositoryService);
     const repository = new Repository();
     repository.id = 1;
-    repository.name = "repo1";
-    repository.url = "https://github.com/user/repo1";
-    repository.description = "description";
+    repository.name = 'repo1';
+    repository.url = 'https://github.com/user/repo1';
+    repository.description = 'description';
     repository.ownerId = 1;
 
     repositories = [repository];
 
     spy = spyOn(
       repositoryService,
-      "getContributedRepositories"
+      'getContributedRepositories'
     ).and.returnValue(of(repositories));
+
+    const authService = TestBed.get(AuthService);
+    authService.user = {
+      id: 1,
+      username: 'pera',
+      firstName: 'Pera',
+      lastName: 'Peric',
+      email: 'pera@example.com',
+      exp: 100000000
+    };
 
     component.ngOnInit();
 
     fixture.detectChanges();
   });
 
-  it("should create", () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
   it(
-    "should be able to get all contributed repositories for that user",
+    'should be able to get all contributed repositories for that user',
     async(() => {
       fixture.detectChanges();
       fixture.whenStable().then(() => {
@@ -74,9 +88,9 @@ describe("ContributedRepositoriesComponent", () => {
   );
 
   it(
-    "should apply filter when value has been passed",
+    'should apply filter when value has been passed',
     async(() => {
-      const name = "First Name     Last Name   ";
+      const name = 'First Name     Last Name   ';
       component.applyFilter(name);
       expect(component.dataSource.filter).toBe(name.trim().toLowerCase());
     })

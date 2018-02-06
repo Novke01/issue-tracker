@@ -1,0 +1,26 @@
+.tracker-logo {
+  height: 26px;
+  margin: 0px 4px 3px 0px;
+}
+  
+.top-bar {
+  position: fixed;
+  top: 0;
+  z-index: 1 !important;
+}
+  
+.bottom-bar {
+  position: fixed;
+  bottom: 0;
+}
+  
+.fill-space {
+  flex: 1 1 auto;
+}
+  
+.material-icons {
+  font-size: 36px;
+  position: absolute;
+  top: 8px;
+  left: 2px;
+}
