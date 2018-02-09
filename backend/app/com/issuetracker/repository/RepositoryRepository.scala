@@ -21,6 +21,7 @@ class RepositoryRepository(db: Database) {
   def update(repository: Repository): Future[Option[Repository]] =
     db.run({
       (repositories returning repositories).insertOrUpdate(repository)
+      repositories.filter(_.id === repository.id).result.headOption
     })
 
   def findByOwnerId(id: Long): Future[Seq[Repository]] =

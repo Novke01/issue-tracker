@@ -13,7 +13,7 @@ import { AuthService } from './../../core/auth/auth.service';
 import { UserService } from './../../user/shared/user.service';
 import { NewRepositoryComponent } from './new-repository.component';
 
-describe("NewRepositoryComponent", () => {
+describe('NewRepositoryComponent', () => {
   let component: NewRepositoryComponent;
   let fixture: ComponentFixture<NewRepositoryComponent>;
   let userService: UserService;
@@ -23,9 +23,9 @@ describe("NewRepositoryComponent", () => {
   const repository = new Repository();
 
   repository.id = 1;
-  repository.name = "repo1";
-  repository.url = "https://github.com/user/repo1";
-  repository.description = "description";
+  repository.name = 'repo1';
+  repository.url = 'https://github.com/user/repo1';
+  repository.description = 'description';
   repository.ownerId = 1;
 
   const mockDialogRef = {
@@ -64,37 +64,37 @@ describe("NewRepositoryComponent", () => {
 
     const user = new User();
     user.id = 1;
-    user.username = "username";
-    user.firstName = "firstName";
-    user.lastName = "lastName";
-    user.email = "email@email.com";
+    user.username = 'username';
+    user.firstName = 'firstName';
+    user.lastName = 'lastName';
+    user.email = 'email@email.com';
     user.exp = 1111111;
 
     const otherUser = new User();
     user.id = 2;
-    user.username = "usernameOther";
-    user.firstName = "firstNameOther";
-    user.lastName = "lastNameOther";
-    user.email = "emailOther@email.com";
+    user.username = 'usernameOther';
+    user.firstName = 'firstNameOther';
+    user.lastName = 'lastNameOther';
+    user.email = 'emailOther@email.com';
     user.exp = 1111111;
 
     users = [otherUser];
     authService.user = user;
 
-    spyOn(userService, "getAll").and.returnValue(of(users));
-    spyOn(repositoryService, "saveRepository").and.returnValue(of(repository));
+    spyOn(userService, 'getAll').and.returnValue(of(users));
+    spyOn(repositoryService, 'saveRepository').and.returnValue(of(repository));
 
     component.ngOnInit();
 
     fixture.detectChanges();
   });
 
-  it("should create", () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
   it(
-    "should be able to get all users",
+    'should be able to get all users',
     async(() => {
       fixture.detectChanges();
       fixture.whenStable().then(() => {
@@ -108,11 +108,11 @@ describe("NewRepositoryComponent", () => {
   );
 
   it(
-    "should be able to save repository when data is valid",
+    'should be able to save repository when data is valid',
     async(() => {
-      component.name.setValue("new repository");
-      component.description.setValue("new description");
-      component.url.setValue("new url");
+      component.name.setValue('new repository');
+      component.description.setValue('new description');
+      component.url.setValue('new url');
       component.control.setValue(users);
       expect(component.form.valid).toBeTruthy();
       component.submit();
@@ -124,7 +124,7 @@ describe("NewRepositoryComponent", () => {
   );
 
   it(
-    "should not be able to save repository when data is invalid",
+    'should not be able to save repository when data is invalid',
     async(() => {
       expect(component.form.invalid).toBeTruthy();
       component.submit();

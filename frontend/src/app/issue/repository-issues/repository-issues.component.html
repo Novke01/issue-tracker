@@ -24,7 +24,11 @@
 
     <ng-container matColumnDef="status">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
-      <mat-cell *matCellDef="let issue"> {{issue.status}} </mat-cell>
+      <mat-cell *matCellDef="let issue"> 
+        <mat-chip-list>
+          <mat-chip [ngStyle]="{'background-color': issue.status === 'OPENED' ? 'green' : 'red'}" selected="true">{{issue.status}}</mat-chip>
+        </mat-chip-list> 
+      </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

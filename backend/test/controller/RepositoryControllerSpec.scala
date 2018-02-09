@@ -15,12 +15,7 @@ import play.api.routing.Router
 import play.api.test.FakeRequest
 import play.api.libs.json.Json
 import play.api.test.Helpers._
-import com.issuetracker.service.{
-  ContributorService,
-  IssueService,
-  RepositoryService,
-  WikiPageService
-}
+import com.issuetracker.service._
 import com.issuetracker.controller.RepositoryController
 import com.issuetracker.dto.{GetWikiPage, JwtUser, RegisteredUser}
 import com.issuetracker.model.{Repository, WikiPage}
@@ -76,6 +71,7 @@ class RepositoryControllerSpec
                                                 mock[RepositoryService],
                                                 mockContributorService,
                                                 mock[IssueService],
+                                                mock[LabelService],
                                                 mock[WikiPageService],
                                                 mock[JwtUtil])
 
@@ -112,6 +108,7 @@ class RepositoryControllerSpec
                                                 mock[RepositoryService],
                                                 mockContributorService,
                                                 mock[IssueService],
+                                                mock[LabelService],
                                                 mock[WikiPageService],
                                                 mock[JwtUtil])
 
@@ -146,6 +143,7 @@ class RepositoryControllerSpec
                                                 mock[RepositoryService],
                                                 mockContributorService,
                                                 mock[IssueService],
+                                                mock[LabelService],
                                                 mock[WikiPageService],
                                                 mock[JwtUtil])
 
@@ -189,10 +187,11 @@ class RepositoryControllerSpec
                                                 mockRepositoryService,
                                                 mock[ContributorService],
                                                 mock[IssueService],
+                                                mock[LabelService],
                                                 mock[WikiPageService],
                                                 mockJwtUtil)
 
-      val result: Future[Result] = controller.getOwned().apply(fakeRequest)
+      val result: Future[Result] = controller.getOwned(ownerId).apply(fakeRequest)
       val jsonBody               = contentAsJson(result)
       val jsonRepositories       = Json.toJson(Seq(repository))
       jsonBody mustBe jsonRepositories
@@ -222,10 +221,11 @@ class RepositoryControllerSpec
                                                 mockRepositoryService,
                                                 mock[ContributorService],
                                                 mock[IssueService],
+                                                mock[LabelService],
                                                 mock[WikiPageService],
                                                 mockJwtUtil)
 
-      val result: Future[Result] = controller.getOwned().apply(fakeRequest)
+      val result: Future[Result] = controller.getOwned(ownerId).apply(fakeRequest)
       val jsonBody               = contentAsJson(result)
       val jsonRepositories       = Json.toJson(Seq[GetRepository]())
       jsonBody mustBe jsonRepositories
@@ -255,10 +255,11 @@ class RepositoryControllerSpec
                                                 mockRepositoryService,
                                                 mock[ContributorService],
                                                 mock[IssueService],
+                                                mock[LabelService],
                                                 mock[WikiPageService],
                                                 mockJwtUtil)
 
-      val result: Future[Result] = controller.getOwned().apply(fakeRequest)
+      val result: Future[Result] = controller.getOwned(ownerId).apply(fakeRequest)
       result map { response =>
         response.header.status mustBe 400
       }
@@ -297,10 +298,11 @@ class RepositoryControllerSpec
                                                 mockRepositoryService,
                                                 mock[ContributorService],
                                                 mock[IssueService],
+                                                mock[LabelService],
                                                 mock[WikiPageService],
                                                 mockJwtUtil)
 
-      val result: Future[Result] = controller.getContributed().apply(fakeRequest)
+      val result: Future[Result] = controller.getContributed(ownerId).apply(fakeRequest)
       val jsonBody               = contentAsJson(result)
       val jsonRepositories       = Json.toJson(Seq(repository))
       jsonBody mustBe jsonRepositories
@@ -330,10 +332,11 @@ class RepositoryControllerSpec
                                                 mockRepositoryService,
                                                 mock[ContributorService],
                                                 mock[IssueService],
+                                                mock[LabelService],
                                                 mock[WikiPageService],
                                                 mockJwtUtil)
 
-      val result: Future[Result] = controller.getContributed().apply(fakeRequest)
+      val result: Future[Result] = controller.getContributed(ownerId).apply(fakeRequest)
       val jsonBody               = contentAsJson(result)
       val jsonRepositories       = Json.toJson(Seq[GetRepository]())
       jsonBody mustBe jsonRepositories
@@ -364,10 +367,11 @@ class RepositoryControllerSpec
                                               mockRepositoryService,
                                               mock[ContributorService],
                                               mock[IssueService],
+                                              mock[LabelService],
                                               mock[WikiPageService],
                                               mockJwtUtil)
 
-    val result: Future[Result] = controller.getContributed().apply(fakeRequest)
+    val result: Future[Result] = controller.getContributed(ownerId).apply(fakeRequest)
     result map { response =>
       response.header.status mustBe 400
     }
@@ -393,6 +397,7 @@ class RepositoryControllerSpec
                                                 mockRepositoryService,
                                                 mock[ContributorService],
                                                 mock[IssueService],
+                                                mock[LabelService],
                                                 mock[WikiPageService],
                                                 mock[JwtUtil])
 
@@ -413,6 +418,7 @@ class RepositoryControllerSpec
                                                 mockRepositoryService,
                                                 mock[ContributorService],
                                                 mock[IssueService],
+                                                mock[LabelService],
                                                 mock[WikiPageService],
                                                 mock[JwtUtil])
 
@@ -451,6 +457,7 @@ class RepositoryControllerSpec
                                                 mockRepositoryService,
                                                 mock[ContributorService],
                                                 mock[IssueService],
+                                                mock[LabelService],
                                                 mock[WikiPageService],
                                                 mock[JwtUtil])
 
@@ -471,6 +478,7 @@ class RepositoryControllerSpec
                                                 mockRepositoryService,
                                                 mock[ContributorService],
                                                 mock[IssueService],
+                                                mock[LabelService],
                                                 mock[WikiPageService],
                                                 mock[JwtUtil])
 
@@ -499,6 +507,7 @@ class RepositoryControllerSpec
                                                 mock[RepositoryService],
                                                 mock[ContributorService],
                                                 mock[IssueService],
+                                                mock[LabelService],
                                                 mockWikiPageService,
                                                 mock[JwtUtil])
 
@@ -519,6 +528,7 @@ class RepositoryControllerSpec
                                                 mock[RepositoryService],
                                                 mock[ContributorService],
                                                 mock[IssueService],
+                                                mock[LabelService],
                                                 mockWikiPageService,
                                                 mock[JwtUtil])
 

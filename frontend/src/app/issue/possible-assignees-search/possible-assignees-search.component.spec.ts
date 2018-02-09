@@ -8,7 +8,7 @@ import { RepositoryService } from '../../repository/shared/repository.service';
 import { SharedModule } from '../../shared/shared.module';
 import { PossibleAssigneesSearchComponent } from './possible-assignees-search.component';
 
-describe("PossibleAssigneesSearchComponent", () => {
+describe('PossibleAssigneesSearchComponent', () => {
   let component: PossibleAssigneesSearchComponent;
   let fixture: ComponentFixture<PossibleAssigneesSearchComponent>;
 
@@ -34,7 +34,7 @@ describe("PossibleAssigneesSearchComponent", () => {
     fixture.detectChanges();
   });
 
-  it("should create", () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

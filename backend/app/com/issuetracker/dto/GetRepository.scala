@@ -4,11 +4,11 @@ import play.api.libs.json._
 import com.issuetracker.model.Repository
 
 case class GetRepository(
-    id: Long,
-    name: String,
-    url: String,
-    description: String,
-    ownerId: Long
+  id: Long,
+  name: String,
+  url: String,
+  description: String,
+  ownerId: Long
 )
 
 object GetRepository {

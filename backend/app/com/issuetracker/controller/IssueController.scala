@@ -5,12 +5,13 @@ import play.api.libs.json._
 
 import scala.concurrent.{ExecutionContext, Future}
 import com.issuetracker.dto.{PostIssue, UpdateIssue}
-import com.issuetracker.service.{AssignedUserService, IssueService}
+import com.issuetracker.service.{AssignedUserService, IssueLabelService, IssueService}
 import com.issuetracker.util.JwtUtil
 import play.api.Logger
 
 class IssueController(val cc: ControllerComponents,
                       val issueService: IssueService,
+                      val issueLabelService: IssueLabelService,
                       val assignedUserService: AssignedUserService,
                       val jwtUtil: JwtUtil)(implicit val executionContext: ExecutionContext)
     extends AbstractController(cc) {
@@ -84,6 +85,24 @@ class IssueController(val cc: ControllerComponents,
 
   def getAssignees(issueId: Long) = Action.async {
     assignedUserService.findAssigneesByIssueId(issueId) map { result =>
+      Ok(Json.toJson(result))
+    }
+  }
+
+  def getLabels(issueId: Long) = Action.async {
+    issueLabelService.findLabelsByIssueId(issueId) map { result =>
+      Ok(Json.toJson(result))
+    }
+  }
+
+  def insertLabel(issueId: Long, labelId: Long) = Action.async {
+    issueLabelService.insertLabel(issueId, labelId) map { result =>
+      Ok("")
+    }
+  }
+
+  def removeLabel(issueId: Long, labelId: Long) = Action.async {
+    issueLabelService.removeLabel(issueId, labelId) map { result =>
       Ok(Json.toJson(result))
     }
   }

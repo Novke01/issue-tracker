@@ -6,8 +6,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { SharedModule } from '../../shared/shared.module';
 import { IssueService } from '../shared/issue.service';
 import { IssueDisplayComponent } from './issue-display.component';
+import { RepositoryService } from '../../repository/shared/repository.service';
 
-describe("IssueDisplayComponent", () => {
+describe('IssueDisplayComponent', () => {
   let component: IssueDisplayComponent;
   let fixture: ComponentFixture<IssueDisplayComponent>;
 
@@ -20,7 +21,7 @@ describe("IssueDisplayComponent", () => {
           SharedModule
         ],
         declarations: [IssueDisplayComponent],
-        providers: [IssueService],
+        providers: [IssueService, RepositoryService],
         schemas: [CUSTOM_ELEMENTS_SCHEMA]
       }).compileComponents();
     })
@@ -32,7 +33,7 @@ describe("IssueDisplayComponent", () => {
     fixture.detectChanges();
   });
 
-  it("should create", () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

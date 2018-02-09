@@ -1,33 +1,30 @@
 .title {
-  padding-left: 45%;
+  width: 100%;
+  text-align:center;
   font-family: Roboto, Arial, sans-serif;
 }
 
+.repository-header {
+  margin-left: 10%;
+}
+  
 .repository-container {
   display: flex;
   flex-direction: column;
   min-width: 300px;
 }
-
-.centeredtable {
+  
+.centered-table {
   top: 150px;
-  left: 50%;
-  transform: translate(10%, 0%);
-  padding: 0px;
-  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
 }
-
-.repository-header {
-  left: 10%;
-  min-height: 64px;
-  padding: 8px 24px 0;
-}
-
+  
 .mat-form-field {
   font-size: 14px;
   width: 15%;
 }
-
+  
 .mat-table {
   overflow: auto;
   max-height: 500px;

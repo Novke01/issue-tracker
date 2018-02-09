@@ -14,6 +14,7 @@ import play.api.libs.json.Json
 import play.api.mvc.AbstractController
 import play.api.mvc.Action
 import play.api.mvc.ControllerComponents
+import com.issuetracker.dto.LoggedInUser
 
 class AuthController(
     val cc: ControllerComponents,
@@ -29,9 +30,11 @@ class AuthController(
   def login: Action[JsValue] = Action.async(parse.json) { request =>
     val optionalUser = request.body.validate[LoginUser]
     optionalUser map { loginUser =>
-      authService.login(loginUser) map { result =>
-        logger.info("user successfully logged in")
-        Ok(Json.toJson(result))
+      authService.login(loginUser.username, loginUser.password) map { 
+        case (accessToken, refreshToken) =>
+          val loggedInUser = LoggedInUser(accessToken, refreshToken)
+          logger.info("user successfully logged in")
+          Ok(Json.toJson(loggedInUser))
       } recover {
         case err =>
           logger.error(err.getMessage, err)
@@ -49,9 +52,11 @@ class AuthController(
     val optionToken = request.body.validate[RefreshToken]
     optionToken map { refreshToken =>
       val id: Long = jwtUtil.decode(request) map { _.id } getOrElse { -1 }
-      authService.refresh(id, refreshToken.token) map { loggedInUser =>
-        logger.info("refreshed jwt successfully")
-        Ok(Json.toJson(loggedInUser))
+      authService.refresh(id, refreshToken.token) map { 
+        case (accessToken, refreshToken) =>
+          val loggedInUser = LoggedInUser(accessToken, refreshToken)
+          logger.info("refreshed jwt successfully")
+          Ok(Json.toJson(loggedInUser))
       } recover {
         case err =>
           logger.error(err.getMessage, err)

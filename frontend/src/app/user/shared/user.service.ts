@@ -8,15 +8,16 @@ import { User } from '../../core/auth/user.model';
 import { RegistrationUser } from './registration-user.model';
 
 const httpOptions = {
-  headers: new HttpHeaders({ "Content-Type": "application/json" })
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
 @Injectable()
 export class UserService {
-  private userUrl = "api/user";
-  private registrationUrl = this.userUrl + "/registration";
 
-  constructor(private http: HttpClient) {}
+  private userUrl = 'api/user';
+  private registrationUrl = 'api/user/registration';
+
+  constructor(private http: HttpClient) { }
 
   register(user: RegistrationUser): Observable<User> {
     const url = `${environment.baseUrl}${this.registrationUrl}`;
@@ -40,4 +41,10 @@ export class UserService {
     const url = `${environment.baseUrl}api/user/hello`;
     return this.http.get(url);
   }
+
+  getUserData(id: Number): Observable<User> {
+    const url = `${environment.baseUrl}${this.userUrl}/${id}`;
+    return this.http.get<User>(url);
+  }
+
 }

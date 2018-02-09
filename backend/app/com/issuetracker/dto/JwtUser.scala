@@ -9,14 +9,15 @@ import com.issuetracker.model.User
 
 import play.api.libs.json.Json
 import play.api.libs.json.OFormat
+import play.api.libs.typedmap.TypedKey
 
 case class JwtUser(
-    id: Long,
-    username: String,
-    firstName: String,
-    lastName: String,
-    email: String,
-    exp: Long
+  id: Long,
+  username: String,
+  firstName: String,
+  lastName: String,
+  email: String,
+  exp: Long
 )
 
 object JwtUser {
@@ -31,5 +32,7 @@ object JwtUser {
     user.email,
     (DateTime.now + 1.day).instant.millis / 1000
   )
-
+  
+  val Key: TypedKey[JwtUser] = TypedKey[JwtUser]
+  
 }

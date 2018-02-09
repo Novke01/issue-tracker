@@ -6,34 +6,33 @@ import { UserService } from '../user/shared/user.service';
 import { HomePageComponent } from './home-page.component';
 
 @Component({
-  selector: "it-contributed-repositories",
+  selector: 'it-contributed-repositories',
   template: '<div class="it-contributed-repositories"></div>'
 })
 export class ContributedRepositoriesComponent {}
 
 @Component({
-  selector: "it-owned-repositories",
+  selector: 'it-owned-repositories',
   template: '<div class="it-owned-repositories"></div>'
 })
 export class OwnerRepositoriesComponent {}
 
-describe("HomeComponent", () => {
+describe('HomeComponent', () => {
+
   let component: HomePageComponent;
   let fixture: ComponentFixture<HomePageComponent>;
 
-  beforeEach(
-    async(() => {
-      TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule],
-        declarations: [
-          HomePageComponent,
-          OwnerRepositoriesComponent,
-          ContributedRepositoriesComponent
-        ],
-        providers: [UserService]
-      }).compileComponents();
-    })
-  );
+  beforeEach(async(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      declarations: [
+        HomePageComponent,
+        OwnerRepositoriesComponent,
+        ContributedRepositoriesComponent
+      ],
+      providers: [UserService]
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HomePageComponent);
@@ -41,7 +40,7 @@ describe("HomeComponent", () => {
     fixture.detectChanges();
   });
 
-  it("should create", () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

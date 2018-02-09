@@ -9,29 +9,23 @@ import { User } from '../../core/auth/user.model';
 import { Issue } from '../../issue/shared/issue.model';
 import { RepositorySave } from './repository-save.model';
 import { Repository } from './repository.model';
+import { Label } from '../../label/shared/label.model';
 
 @Injectable()
 export class RepositoryService {
-  private repositoryUrl = "api/repositories";
+
+  private repositoryUrl = 'api/repositories';
 
   constructor(private http: HttpClient) {}
 
-  getOwnedRepositories(): Observable<Repository[]> {
-    const url = `${environment.baseUrl}${this.repositoryUrl}/owned`;
-    return this.http.get<Repository[]>(url).pipe(
-      catchError(err => {
-        return Observable.throw(new Error(err.error));
-      })
-    );
+  getOwnedRepositories(id: number): Observable<Repository[]> {
+    const url = `${environment.baseUrl}${this.repositoryUrl}/owned/${id}`;
+    return this.http.get<Repository[]>(url);
   }
 
-  getContributedRepositories(): Observable<Repository[]> {
-    const url = `${environment.baseUrl}${this.repositoryUrl}/contributed`;
-    return this.http.get<Repository[]>(url).pipe(
-      catchError(err => {
-        return Observable.throw(new Error(err.error));
-      })
-    );
+  getContributedRepositories(id: number): Observable<Repository[]> {
+    const url = `${environment.baseUrl}${this.repositoryUrl}/contributed/${id}`;
+    return this.http.get<Repository[]>(url);
   }
 
   updateRepository(repository: RepositorySave): Observable<Repository> {
@@ -58,9 +52,7 @@ export class RepositoryService {
   }
 
   getContributorsByRepositoryId(id: string): Observable<User[]> {
-    const url = `${environment.baseUrl}${
-      this.repositoryUrl
-    }/${id}/contributors`;
+    const url = `${environment.baseUrl}${this.repositoryUrl}/${id}/contributors`;
     return this.http.get<User[]>(url).pipe(
       catchError(err => {
         return Observable.throw(new Error(err.error));
@@ -78,17 +70,11 @@ export class RepositoryService {
   }
 
   /* GET contributors and owner whose name contains search term */
-  searchOwnerAndContributors(
-    repositoryId: number,
-    term: string
-  ): Observable<User[]> {
+  searchOwnerAndContributors(repositoryId: number, term: string): Observable<User[]> {
     if (!term.trim()) {
-      // if not search term, return empty users array.
       return of([]);
     }
-    const url = `${environment.baseUrl}${
-      this.repositoryUrl
-    }/${repositoryId}/contributors/${term}`;
+    const url = `${environment.baseUrl}${this.repositoryUrl}/${repositoryId}/contributors/${term}`;
     return this.http.get<User[]>(url).pipe(
       catchError(err => {
         return Observable.throw(new Error(err.error));
@@ -99,6 +85,15 @@ export class RepositoryService {
   getIssuesByRepositoryId(repoId: number): Observable<Issue[]> {
     const url = `${environment.baseUrl}${this.repositoryUrl}/${repoId}/issues`;
     return this.http.get<Issue[]>(url).pipe(
+      catchError(err => {
+        return Observable.throw(new Error(err.error));
+      })
+    );
+  }
+
+  getLabelsByRepositoryId(repoId: number): Observable<Label[]> {
+    const url = `${environment.baseUrl}${this.repositoryUrl}/${repoId}/labels`;
+    return this.http.get<Label[]>(url).pipe(
       catchError(err => {
         return Observable.throw(new Error(err.error));
       })

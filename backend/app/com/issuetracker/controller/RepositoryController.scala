@@ -2,12 +2,7 @@ package com.issuetracker.controller
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
-import com.issuetracker.service.{
-  ContributorService,
-  IssueService,
-  RepositoryService,
-  WikiPageService
-}
+import com.issuetracker.service._
 import com.issuetracker.util.JwtUtil
 import dto.PostRepository
 import play.api.Logger
@@ -17,12 +12,14 @@ import play.api.mvc.AbstractController
 import play.api.mvc.Action
 import play.api.mvc.ControllerComponents
 import play.api.mvc.AnyContent
+import com.issuetracker.dto.JwtUser
 
 class RepositoryController(
     val cc: ControllerComponents,
     val repositoryService: RepositoryService,
     val contributorService: ContributorService,
     val issueService: IssueService,
+    val labelService: LabelService,
     val wikiPageService: WikiPageService,
     val jwtUtil: JwtUtil
 )(implicit val ec: ExecutionContext)
@@ -65,8 +62,7 @@ class RepositoryController(
     }
   }
 
-  def getOwned: Action[AnyContent] = Action.async { request =>
-    val id: Long = jwtUtil.decode(request) map { _.id } getOrElse { -1 }
+  def getOwned(id: Long): Action[AnyContent] = Action.async { request =>
     repositoryService.findByOwnerId(id).map { result =>
       Ok(Json.toJson(result))
     } recover {
@@ -75,9 +71,8 @@ class RepositoryController(
         BadRequest("Something went wrong.")
     }
   }
-
-  def getContributed: Action[AnyContent] = Action.async { request =>
-    val id: Long = jwtUtil.decode(request) map { _.id } getOrElse { -1 }
+  
+  def getContributed(id: Long): Action[AnyContent] = Action.async { request => 
     repositoryService.findByContributorId(id) map { result =>
       Ok(Json.toJson(result))
     } recover {
@@ -120,6 +115,12 @@ class RepositoryController(
 
   def getIssues(repoId: Long) = Action.async {
     issueService.findByRepositoryId(repoId) map { result =>
+      Ok(Json.toJson(result))
+    }
+  }
+
+  def getLabels(repoId: Long) = Action.async {
+    labelService.findByRepositoryId(repoId) map { result =>
       Ok(Json.toJson(result))
     }
   }

@@ -8,8 +8,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { SharedModule } from '../../shared/shared.module';
 import { IssueService } from '../shared/issue.service';
 import { CreateIssueComponent } from './create-issue.component';
+import { RepositoryService } from '../../repository/shared/repository.service';
 
-describe("CreateIssueComponent", () => {
+describe('CreateIssueComponent', () => {
   let component: CreateIssueComponent;
   let fixture: ComponentFixture<CreateIssueComponent>;
 
@@ -25,6 +26,7 @@ describe("CreateIssueComponent", () => {
         declarations: [CreateIssueComponent],
         providers: [
           IssueService,
+          RepositoryService,
           { provide: MatDialogRef, useValue: {} },
           { provide: MAT_DIALOG_DATA, useValue: [] }
         ],
@@ -39,7 +41,7 @@ describe("CreateIssueComponent", () => {
     fixture.detectChanges();
   });
 
-  it("should create", () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

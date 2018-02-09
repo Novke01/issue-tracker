@@ -7,4 +7,5 @@ export class Issue {
   ownerId: number;
   status: string;
   assignees: Array<number>;
+  labels: Array<number>;
 }

@@ -9,9 +9,9 @@ import { AuthService } from './../../core/auth/auth.service';
 import { RepositoryService } from './../shared/repository.service';
 
 @Component({
-  selector: "it-new-repository",
-  templateUrl: "./new-repository.component.html",
-  styleUrls: ["./new-repository.component.css"]
+  selector: 'it-new-repository',
+  templateUrl: './new-repository.component.html',
+  styleUrls: ['./new-repository.component.css']
 })
 export class NewRepositoryComponent implements OnInit {
   form: FormGroup;
@@ -31,9 +31,9 @@ export class NewRepositoryComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.formBuilder.group({
-      name: ["", Validators.required],
-      url: ["", Validators.required],
-      description: ["", Validators.required]
+      name: ['', Validators.required],
+      url: ['', Validators.required],
+      description: ['', Validators.required]
     });
     this.userService.getAll().subscribe(data => {
       this.users = data.filter(user => user.id !== this.authService.user.id);
@@ -55,7 +55,7 @@ export class NewRepositoryComponent implements OnInit {
           this.dialogRef.close(repository);
         },
         err => {
-          this.snackBar.open(err.message, "Cancel", {
+          this.snackBar.open(err.message, 'Cancel', {
             duration: 2000
           });
         }
@@ -68,12 +68,12 @@ export class NewRepositoryComponent implements OnInit {
   }
 
   get name() {
-    return this.form.get("name");
+    return this.form.get('name');
   }
   get url() {
-    return this.form.get("url");
+    return this.form.get('url');
   }
   get description() {
-    return this.form.get("description");
+    return this.form.get('description');
   }
 }

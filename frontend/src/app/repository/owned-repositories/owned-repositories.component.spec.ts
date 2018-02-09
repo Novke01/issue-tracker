@@ -13,12 +13,11 @@ import { RepositoryService } from '../shared/repository.service';
 import { Repository } from './../shared/repository.model';
 import { OwnedRepositoriesComponent } from './owned-repositories.component';
 
-describe("OwnedRepositoriesComponent", () => {
+describe('OwnedRepositoriesComponent', () => {
   let component: OwnedRepositoriesComponent;
   let fixture: ComponentFixture<OwnedRepositoriesComponent>;
   let repositoryService: RepositoryService;
   let userService: UserService;
-  let authService: AuthService;
   let repositories: Repository[];
 
   beforeEach(
@@ -51,36 +50,44 @@ describe("OwnedRepositoriesComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(OwnedRepositoriesComponent);
     component = fixture.componentInstance;
-    let spy: jasmine.Spy;
 
     repositoryService = fixture.debugElement.injector.get(RepositoryService);
     userService = fixture.debugElement.injector.get(UserService);
-    authService = fixture.debugElement.injector.get(AuthService);
 
     const repository = new Repository();
     repository.id = 1;
-    repository.name = "repo1";
-    repository.url = "https://github.com/user/repo1";
-    repository.description = "description";
+    repository.name = 'repo1';
+    repository.url = 'https://github.com/user/repo1';
+    repository.description = 'description';
     repository.ownerId = 1;
 
     repositories = [repository];
 
-    spyOn(repositoryService, "getOwnedRepositories").and.returnValue(
+    spyOn(repositoryService, 'getOwnedRepositories').and.returnValue(
       of(repositories)
     );
+
+    const authService = TestBed.get(AuthService);
+    authService.user = {
+      id: 1,
+      username: 'pera',
+      firstName: 'Pera',
+      lastName: 'Peric',
+      email: 'pera@example.com',
+      exp: 100000000
+    };
 
     component.ngOnInit();
 
     fixture.detectChanges();
   });
 
-  it("should create", () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
   it(
-    "should be able to get all owned repositories for that user",
+    'should be able to get all owned repositories for that user',
     async(() => {
       fixture.detectChanges();
       fixture.whenStable().then(() => {
@@ -94,9 +101,9 @@ describe("OwnedRepositoriesComponent", () => {
   );
 
   it(
-    "should apply filter when value has been passed",
+    'should apply filter when value has been passed',
     async(() => {
-      const name = "First Name     Last Name   ";
+      const name = 'First Name     Last Name   ';
       component.applyFilter(name);
       expect(component.dataSource.filter).toBe(name.trim().toLowerCase());
     })

@@ -14,10 +14,10 @@ case class PostRepository(
 
 object PostRepository {
 
-  implicit val repositoryReads = Json.reads[PostRepository]
+  implicit val repositoryReads: Reads[PostRepository] = Json.reads[PostRepository]
 
   implicit def postRepositoryToRepository(postRepository: PostRepository): Repository =
-    new Repository(
+    Repository(
       postRepository.id.getOrElse(-1),
       postRepository.name,
       postRepository.url,
