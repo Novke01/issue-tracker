@@ -1,5 +1,5 @@
-import {RepositoryService} from './../shared/repository.service';
-import {Repository} from './../shared/repository.model';
+import {RepositoryService} from '../shared/repository.service';
+import {Repository} from '../shared/repository.model';
 import {Component, OnInit, Input, AfterContentInit, ViewChild} from '@angular/core';
 import {User} from '../../core/auth/user.model';
 import {Router, ActivatedRoute, ParamMap} from '@angular/router';
@@ -88,6 +88,7 @@ export class RepositoryInformationComponent implements OnInit {
             repository.contributors = this.contributors.map(contributor => contributor.id);
 
             this.repositoryService.updateRepository(repository).subscribe(repo => {
+                // TODO: Reflect on UI if needed.
                 }
             );
         }

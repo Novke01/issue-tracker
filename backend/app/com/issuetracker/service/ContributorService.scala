@@ -29,11 +29,7 @@ class ContributorService(
       repository.getOrElse {
         throw new IllegalArgumentException()
       }
-      /*
-      contributorRepository.addContributors(repository.id, contributors) map { _ =>
-        repository
-      }
-      */
+      // TODO: Update contributors.
     }
   }
 

@@ -84,6 +84,7 @@ describe("RepositoryService", () => {
 
   it("should be able to save new repo", () => {
     const dummyRepo: RepositorySave = {
+      id: -1,
       name: "repo name",
       url: "repo url",
       description: "repo description",
@@ -117,6 +118,7 @@ describe("RepositoryService", () => {
 
   it("should be able to handle rejection from server", () => {
     const dummyRepo: RepositorySave = {
+      id: -1,
       name: "repo name",
       url: "repo url",
       description: "repo description",
