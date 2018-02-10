@@ -9,9 +9,9 @@ import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, ExecutionContext, Future}
 
 class RepositoryService(
-    val repositoryRepository: RepositoryRepository,
-    val contributorService: ContributorService
-)(implicit val ec: ExecutionContext) {
+                         val repositoryRepository: RepositoryRepository,
+                         val contributorService: ContributorService
+                       )(implicit val ec: ExecutionContext) {
 
   def insert(postRepository: PostRepository): Future[GetRepository] = {
     repositoryRepository.insert(postRepository) map { repository =>
@@ -20,15 +20,25 @@ class RepositoryService(
     }
   }
 
-  def update(repository: Repository, contributors: List[Long]): Future[GetRepository] = {
+  /**
+    * Updates a repository, basic information and contributors.
+    *
+    * @param repository    Repository to be updated.
+    * @param contributors  Contributor id list.
+    * @param currentUserId User id of the user requesting to perform the update.
+    * @return
+    */
+  def update(repository: Repository, contributors: List[Long], currentUserId: Long): Future[GetRepository] = {
 
-    // Check if we are the owner of this repository.
     val repositoryRecord = Await.result(repositoryRepository.get(repository.id), Duration.Inf).getOrElse {
       // Repository not found, hence can't update.
       throw new IllegalArgumentException()
     }
 
-    // TODO: Check weather this user is the owner of this repo.
+    // Check weather the current user is the owner of this repository.
+    if (repositoryRecord.ownerId != currentUserId) {
+      throw new IllegalArgumentException()
+    }
 
     repositoryRepository.update(repository) map { repositoryOptional =>
       val repository = repositoryOptional.getOrElse {
@@ -68,7 +78,7 @@ class RepositoryService(
 object RepositoryService {
 
   def apply(repositoryRepository: RepositoryRepository, contributorService: ContributorService)(
-      implicit ec: ExecutionContext): RepositoryService =
+    implicit ec: ExecutionContext): RepositoryService =
     new RepositoryService(repositoryRepository, contributorService)
 
 }

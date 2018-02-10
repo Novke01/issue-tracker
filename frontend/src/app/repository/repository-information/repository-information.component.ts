@@ -97,10 +97,13 @@ export class RepositoryInformationComponent implements OnInit {
             repository.url = form.value.url;
             repository.description = form.value.description;
             repository.ownerId = this.repository.ownerId;
-            // Gather current contributors.
-            repository.contributors = this.control.value.map(
-                contributor => contributor.id
-            );
+            repository.contributors = [];
+            if (this.control.value !== null) {
+                // Gather current contributors.
+                repository.contributors = this.control.value.map(
+                    contributor => contributor.id
+                );
+            }
             // Add previous contributors.
             repository.contributors = repository.contributors.concat(this.contributors.map(contributor => contributor.id));
 

@@ -25,7 +25,7 @@ class RepositoryController(
 )(implicit val ec: ExecutionContext)
     extends AbstractController(cc) {
 
-  val logger: Logger = Logger(this.getClass())
+  val logger: Logger = Logger(this.getClass)
 
   def insert: Action[JsValue] = Action.async(parse.json) { request =>
     val optionalRepository = request.body.validate[PostRepository]
@@ -45,8 +45,11 @@ class RepositoryController(
 
   def update: Action[JsValue] = Action.async(parse.json) { request =>
     val optionalRepository = request.body.validate[PostRepository]
+    val currentUser = request.attrs.get(JwtUser.Key).getOrElse {
+      NotFound
+    }.asInstanceOf[JwtUser]
     optionalRepository map { postRepository =>
-      repositoryService.update(postRepository, postRepository.contributors).map { result =>
+      repositoryService.update(postRepository, postRepository.contributors, currentUser.id).map { result =>
         Ok(Json.toJson(result))
       } recover {
         case notFoundError : IllegalArgumentException =>
