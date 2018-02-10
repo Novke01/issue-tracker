@@ -55,8 +55,8 @@ class ApplicationComponents(context: Context)
 
   lazy val userService        = UserService(userRepository)
   lazy val authService        = AuthService(userRepository, jwtUtil)
-  lazy val repositoryService  = RepositoryService(repositoryRepository)
-  lazy val contributorService = new ContributorService(contributorRepository, repositoryRepository)
+  lazy val contributorService = new ContributorService(contributorRepository)
+  lazy val repositoryService  = RepositoryService(repositoryRepository, contributorService)
   lazy val issueService =
     new IssueService(issueRepository, issueLabelRepository, assignedUserRepository)
   lazy val assignedUserService = new AssignedUserService(assignedUserRepository, issueRepository)

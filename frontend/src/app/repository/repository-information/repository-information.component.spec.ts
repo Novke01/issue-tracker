@@ -6,13 +6,15 @@ import { of } from 'rxjs/observable/of';
 
 import { SharedModule } from '../../shared/shared.module';
 import { RepositoryService } from '../shared/repository.service';
-import { User } from './../../core/auth/user.model';
+import { User } from '../../core/auth/user.model';
 import { RepositoryInformationComponent } from './repository-information.component';
+import {UserService} from '../../user/shared/user.service';
 
 describe('RepositoryInformationComponent', () => {
   let component: RepositoryInformationComponent;
   let fixture: ComponentFixture<RepositoryInformationComponent>;
   let repositoryService: RepositoryService;
+  let userService: UserService;
   let contributors: User[];
   let allContributors: User[];
   let owner: User;
@@ -26,7 +28,7 @@ describe('RepositoryInformationComponent', () => {
           RouterTestingModule.withRoutes([]),
           SharedModule
         ],
-        providers: [RepositoryService],
+        providers: [RepositoryService, UserService],
         declarations: [RepositoryInformationComponent]
       }).compileComponents();
     })
@@ -37,6 +39,7 @@ describe('RepositoryInformationComponent', () => {
     component = fixture.componentInstance;
 
     repositoryService = fixture.debugElement.injector.get(RepositoryService);
+    userService = fixture.debugElement.injector.get(UserService);
 
     const contributor = new User();
     contributor.id = 1;
@@ -63,6 +66,8 @@ describe('RepositoryInformationComponent', () => {
     spyOn(repositoryService, 'getOwnerByRepositoryId').and.returnValue(
       of(owner)
     );
+
+    spyOn(userService, 'getAll').and.returnValue(of([]));
 
     fixture.detectChanges();
   });

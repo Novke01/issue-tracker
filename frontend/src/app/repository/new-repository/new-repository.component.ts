@@ -5,8 +5,8 @@ import { MAT_DIALOG_DATA, MatDialogRef, MatSnackBar } from '@angular/material';
 import { User } from '../../core/auth/user.model';
 import { UserService } from '../../user/shared/user.service';
 import { RepositorySave } from '../shared/repository-save.model';
-import { AuthService } from './../../core/auth/auth.service';
-import { RepositoryService } from './../shared/repository.service';
+import { AuthService } from '../../core/auth/auth.service';
+import { RepositoryService } from '../shared/repository.service';
 
 @Component({
   selector: 'it-new-repository',

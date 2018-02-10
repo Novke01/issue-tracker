@@ -30,7 +30,7 @@ class RepositoryController(
   def insert: Action[JsValue] = Action.async(parse.json) { request =>
     val optionalRepository = request.body.validate[PostRepository]
     optionalRepository map { postRepository =>
-      contributorService.insert(postRepository).map { result =>
+      repositoryService.insert(postRepository).map { result =>
         Created(Json.toJson(result))
       } recover {
         case err =>
@@ -46,7 +46,7 @@ class RepositoryController(
   def update: Action[JsValue] = Action.async(parse.json) { request =>
     val optionalRepository = request.body.validate[PostRepository]
     optionalRepository map { postRepository =>
-      contributorService.update(postRepository, postRepository.contributors).map { result =>
+      repositoryService.update(postRepository, postRepository.contributors).map { result =>
         Ok(Json.toJson(result))
       } recover {
         case notFoundError : IllegalArgumentException =>

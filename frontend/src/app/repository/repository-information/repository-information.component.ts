@@ -1,12 +1,14 @@
 import {RepositoryService} from '../shared/repository.service';
 import {Repository} from '../shared/repository.model';
-import {Component, OnInit, Input, AfterContentInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {User} from '../../core/auth/user.model';
-import {Router, ActivatedRoute, ParamMap} from '@angular/router';
+import {ActivatedRoute, ParamMap} from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 import {MatTableDataSource, MatPaginator, MatSort} from '@angular/material';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {RepositorySave} from '../shared/repository-save.model';
+import {UserService} from '../../user/shared/user.service';
+import {AuthService} from '../../core/auth/auth.service';
 
 @Component({
     selector: 'it-repository-information',
@@ -23,13 +25,18 @@ export class RepositoryInformationComponent implements OnInit {
 
     repository: Repository;
 
+    possibleContributors: User[];
+
     displayedColumns = ['firstName', 'lastName', 'email', 'owner'];
     dataSource: MatTableDataSource<User>;
 
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor(private repositoryService: RepositoryService, private route: ActivatedRoute, private formBuilder: FormBuilder) {
+    constructor(private repositoryService: RepositoryService,
+                private userService: UserService,
+                private route: ActivatedRoute,
+                private formBuilder: FormBuilder) {
     }
 
     ngOnInit() {
@@ -66,6 +73,11 @@ export class RepositoryInformationComponent implements OnInit {
             this.url.setValue(result.url);
             this.description.setValue(result.description);
         });
+
+        this.userService.getAll().subscribe(data => {
+            this.possibleContributors = data.filter(user =>
+                this.contributors.findIndex(contributor => contributor.id === user.id) === -1);
+        });
     }
 
     applyFilter(filterValue: string) {
@@ -85,10 +97,15 @@ export class RepositoryInformationComponent implements OnInit {
             repository.url = form.value.url;
             repository.description = form.value.description;
             repository.ownerId = this.repository.ownerId;
-            repository.contributors = this.contributors.map(contributor => contributor.id);
+            // Gather current contributors.
+            repository.contributors = this.control.value.map(
+                contributor => contributor.id
+            );
+            // Add previous contributors.
+            repository.contributors = repository.contributors.concat(this.contributors.map(contributor => contributor.id));
 
             this.repositoryService.updateRepository(repository).subscribe(repo => {
-                // TODO: Reflect on UI if needed.
+                    this.ngOnInit();
                 }
             );
         }
