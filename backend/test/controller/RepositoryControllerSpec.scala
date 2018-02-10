@@ -1,32 +1,29 @@
 package controller
 
-import scala.concurrent.ExecutionContext.Implicits.global
+import akka.stream.Materializer
+import com.issuetracker.controller.RepositoryController
+import com.issuetracker.dto.{GetWikiPage, JwtUser, RegisteredUser}
+import com.issuetracker.service._
+import com.issuetracker.util.JwtUtil
+import dto.{GetRepository, PostRepository}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito._
 import org.scalatest.Matchers._
 import org.scalatest.mockito.MockitoSugar
 import org.scalatestplus.play.PlaySpec
 import org.scalatestplus.play.components.OneAppPerSuiteWithComponents
-import akka.stream.Materializer
-import play.api.BuiltInComponents
-import play.api.BuiltInComponentsFromContext
-import play.api.NoHttpFiltersComponents
+import play.api.{BuiltInComponents, BuiltInComponentsFromContext, NoHttpFiltersComponents}
+import play.api.libs.json.Json
+import play.api.mvc.{RequestHeader, Result}
 import play.api.routing.Router
 import play.api.test.FakeRequest
-import play.api.libs.json.Json
 import play.api.test.Helpers._
-import com.issuetracker.service._
-import com.issuetracker.controller.RepositoryController
-import com.issuetracker.dto.{GetWikiPage, JwtUser, RegisteredUser}
-import com.issuetracker.model.{Repository, WikiPage}
-import com.issuetracker.util.JwtUtil
-import dto.{GetRepository, PostRepository}
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import play.api.mvc.{RequestHeader, Result}
 
 class RepositoryControllerSpec
-    extends PlaySpec
+  extends PlaySpec
     with MockitoSugar
     with OneAppPerSuiteWithComponents {
 
@@ -41,6 +38,7 @@ class RepositoryControllerSpec
     "return new repository data for valid data" in {
 
       val postRepository = PostRepository(
+        null,
         "repository",
         "https://github.com/User1/repository",
         "repository1 description",
@@ -58,32 +56,35 @@ class RepositoryControllerSpec
 
       val fakeRequest = FakeRequest().withBody(
         Json.obj(
-          "name"         -> postRepository.name,
-          "url"          -> postRepository.url,
-          "description"  -> postRepository.description,
-          "ownerId"      -> postRepository.ownerId,
+          "name" -> postRepository.name,
+          "url" -> postRepository.url,
+          "description" -> postRepository.description,
+          "ownerId" -> postRepository.ownerId,
           "contributors" -> postRepository.contributors
         )
       )
-      val mockContributorService = mock[ContributorService]
-      when(mockContributorService.insert(any[PostRepository])) thenReturn Future { repository }
+      val mockRepositoryService = mock[RepositoryService]
+      when(mockRepositoryService.insert(any[PostRepository])) thenReturn Future {
+        repository
+      }
       val controller = new RepositoryController(stubControllerComponents(),
-                                                mock[RepositoryService],
-                                                mockContributorService,
-                                                mock[IssueService],
-                                                mock[LabelService],
-                                                mock[WikiPageService],
-                                                mock[JwtUtil])
+        mockRepositoryService,
+        mock[ContributorService],
+        mock[IssueService],
+        mock[LabelService],
+        mock[WikiPageService],
+        mock[JwtUtil])
 
       val result: Future[Result] = controller.insert().apply(fakeRequest)
-      val jsonBody               = contentAsJson(result)
-      val jsonNewRepository      = Json.toJson(repository)
+      val jsonBody = contentAsJson(result)
+      val jsonNewRepository = Json.toJson(repository)
       jsonBody mustBe jsonNewRepository
     }
 
     "return Bad Request for failed insert" in {
 
       val postRepository = PostRepository(
+        null,
         "repository",
         "https://github.com/User1/repository",
         "repository1 description",
@@ -93,24 +94,24 @@ class RepositoryControllerSpec
 
       val fakeRequest = FakeRequest().withBody(
         Json.obj(
-          "name"         -> postRepository.name,
-          "url"          -> postRepository.url,
-          "description"  -> postRepository.description,
-          "ownerId"      -> postRepository.ownerId,
+          "name" -> postRepository.name,
+          "url" -> postRepository.url,
+          "description" -> postRepository.description,
+          "ownerId" -> postRepository.ownerId,
           "contributors" -> postRepository.contributors
         )
       )
-      val mockContributorService = mock[ContributorService]
-      when(mockContributorService.insert(any[PostRepository])) thenReturn Future {
+      val mockRepositoryService = mock[RepositoryService]
+      when(mockRepositoryService.insert(any[PostRepository])) thenReturn Future {
         throw new Exception
       }
       val controller = new RepositoryController(stubControllerComponents(),
-                                                mock[RepositoryService],
-                                                mockContributorService,
-                                                mock[IssueService],
-                                                mock[LabelService],
-                                                mock[WikiPageService],
-                                                mock[JwtUtil])
+        mockRepositoryService,
+        mock[ContributorService],
+        mock[IssueService],
+        mock[LabelService],
+        mock[WikiPageService],
+        mock[JwtUtil])
 
       val result: Future[Result] = controller.insert().apply(fakeRequest)
       result map { response =>
@@ -122,6 +123,7 @@ class RepositoryControllerSpec
     "return Bad Request for invalid data" in {
 
       val postRepository = PostRepository(
+        null,
         "repository",
         "https://github.com/User1/repository",
         "repository1 description",
@@ -131,21 +133,21 @@ class RepositoryControllerSpec
 
       val fakeRequest = FakeRequest().withBody(
         Json.obj(
-          "name"        -> postRepository.name,
-          "url"         -> postRepository.url,
+          "name" -> postRepository.name,
+          "url" -> postRepository.url,
           "description" -> postRepository.description,
-          "ownerId"     -> postRepository.ownerId,
+          "ownerId" -> postRepository.ownerId,
           "contributor" -> postRepository.contributors
         )
       )
       val mockContributorService = mock[ContributorService]
       val controller = new RepositoryController(stubControllerComponents(),
-                                                mock[RepositoryService],
-                                                mockContributorService,
-                                                mock[IssueService],
-                                                mock[LabelService],
-                                                mock[WikiPageService],
-                                                mock[JwtUtil])
+        mock[RepositoryService],
+        mockContributorService,
+        mock[IssueService],
+        mock[LabelService],
+        mock[WikiPageService],
+        mock[JwtUtil])
 
       val result: Future[Result] = controller.insert().apply(fakeRequest)
       result map { response =>
@@ -176,24 +178,24 @@ class RepositoryControllerSpec
         ownerId
       )
 
-      val fakeRequest           = FakeRequest()
+      val fakeRequest = FakeRequest()
       val mockRepositoryService = mock[RepositoryService]
-      val mockJwtUtil           = mock[JwtUtil]
+      val mockJwtUtil = mock[JwtUtil]
       when(mockJwtUtil.decode(any[RequestHeader])) thenReturn Some(jwtUser)
       when(mockRepositoryService.findByOwnerId(any[Long])) thenReturn Future {
         Seq(repository)
       }
       val controller = new RepositoryController(stubControllerComponents(),
-                                                mockRepositoryService,
-                                                mock[ContributorService],
-                                                mock[IssueService],
-                                                mock[LabelService],
-                                                mock[WikiPageService],
-                                                mockJwtUtil)
+        mockRepositoryService,
+        mock[ContributorService],
+        mock[IssueService],
+        mock[LabelService],
+        mock[WikiPageService],
+        mockJwtUtil)
 
       val result: Future[Result] = controller.getOwned(ownerId).apply(fakeRequest)
-      val jsonBody               = contentAsJson(result)
-      val jsonRepositories       = Json.toJson(Seq(repository))
+      val jsonBody = contentAsJson(result)
+      val jsonRepositories = Json.toJson(Seq(repository))
       jsonBody mustBe jsonRepositories
     }
 
@@ -210,24 +212,24 @@ class RepositoryControllerSpec
         1
       )
 
-      val fakeRequest           = FakeRequest()
+      val fakeRequest = FakeRequest()
       val mockRepositoryService = mock[RepositoryService]
-      val mockJwtUtil           = mock[JwtUtil]
+      val mockJwtUtil = mock[JwtUtil]
       when(mockJwtUtil.decode(any[RequestHeader])) thenReturn Some(jwtUser)
       when(mockRepositoryService.findByOwnerId(any[Long])) thenReturn Future {
         Seq[GetRepository]()
       }
       val controller = new RepositoryController(stubControllerComponents(),
-                                                mockRepositoryService,
-                                                mock[ContributorService],
-                                                mock[IssueService],
-                                                mock[LabelService],
-                                                mock[WikiPageService],
-                                                mockJwtUtil)
+        mockRepositoryService,
+        mock[ContributorService],
+        mock[IssueService],
+        mock[LabelService],
+        mock[WikiPageService],
+        mockJwtUtil)
 
       val result: Future[Result] = controller.getOwned(ownerId).apply(fakeRequest)
-      val jsonBody               = contentAsJson(result)
-      val jsonRepositories       = Json.toJson(Seq[GetRepository]())
+      val jsonBody = contentAsJson(result)
+      val jsonRepositories = Json.toJson(Seq[GetRepository]())
       jsonBody mustBe jsonRepositories
     }
 
@@ -244,20 +246,20 @@ class RepositoryControllerSpec
         1
       )
 
-      val fakeRequest           = FakeRequest()
+      val fakeRequest = FakeRequest()
       val mockRepositoryService = mock[RepositoryService]
-      val mockJwtUtil           = mock[JwtUtil]
+      val mockJwtUtil = mock[JwtUtil]
       when(mockJwtUtil.decode(any[RequestHeader])) thenReturn Some(jwtUser)
       when(mockRepositoryService.findByOwnerId(any[Long])) thenReturn Future {
         throw new Exception
       }
       val controller = new RepositoryController(stubControllerComponents(),
-                                                mockRepositoryService,
-                                                mock[ContributorService],
-                                                mock[IssueService],
-                                                mock[LabelService],
-                                                mock[WikiPageService],
-                                                mockJwtUtil)
+        mockRepositoryService,
+        mock[ContributorService],
+        mock[IssueService],
+        mock[LabelService],
+        mock[WikiPageService],
+        mockJwtUtil)
 
       val result: Future[Result] = controller.getOwned(ownerId).apply(fakeRequest)
       result map { response =>
@@ -287,24 +289,24 @@ class RepositoryControllerSpec
         ownerId
       )
 
-      val fakeRequest           = FakeRequest()
+      val fakeRequest = FakeRequest()
       val mockRepositoryService = mock[RepositoryService]
-      val mockJwtUtil           = mock[JwtUtil]
+      val mockJwtUtil = mock[JwtUtil]
       when(mockJwtUtil.decode(any[RequestHeader])) thenReturn Some(jwtUser)
       when(mockRepositoryService.findByContributorId(any[Long])) thenReturn Future {
         Seq(repository)
       }
       val controller = new RepositoryController(stubControllerComponents(),
-                                                mockRepositoryService,
-                                                mock[ContributorService],
-                                                mock[IssueService],
-                                                mock[LabelService],
-                                                mock[WikiPageService],
-                                                mockJwtUtil)
+        mockRepositoryService,
+        mock[ContributorService],
+        mock[IssueService],
+        mock[LabelService],
+        mock[WikiPageService],
+        mockJwtUtil)
 
       val result: Future[Result] = controller.getContributed(ownerId).apply(fakeRequest)
-      val jsonBody               = contentAsJson(result)
-      val jsonRepositories       = Json.toJson(Seq(repository))
+      val jsonBody = contentAsJson(result)
+      val jsonRepositories = Json.toJson(Seq(repository))
       jsonBody mustBe jsonRepositories
     }
 
@@ -321,24 +323,24 @@ class RepositoryControllerSpec
         1
       )
 
-      val fakeRequest           = FakeRequest()
+      val fakeRequest = FakeRequest()
       val mockRepositoryService = mock[RepositoryService]
-      val mockJwtUtil           = mock[JwtUtil]
+      val mockJwtUtil = mock[JwtUtil]
       when(mockJwtUtil.decode(any[RequestHeader])) thenReturn Some(jwtUser)
       when(mockRepositoryService.findByContributorId(any[Long])) thenReturn Future {
         Seq[GetRepository]()
       }
       val controller = new RepositoryController(stubControllerComponents(),
-                                                mockRepositoryService,
-                                                mock[ContributorService],
-                                                mock[IssueService],
-                                                mock[LabelService],
-                                                mock[WikiPageService],
-                                                mockJwtUtil)
+        mockRepositoryService,
+        mock[ContributorService],
+        mock[IssueService],
+        mock[LabelService],
+        mock[WikiPageService],
+        mockJwtUtil)
 
       val result: Future[Result] = controller.getContributed(ownerId).apply(fakeRequest)
-      val jsonBody               = contentAsJson(result)
-      val jsonRepositories       = Json.toJson(Seq[GetRepository]())
+      val jsonBody = contentAsJson(result)
+      val jsonRepositories = Json.toJson(Seq[GetRepository]())
       jsonBody mustBe jsonRepositories
     }
   }
@@ -356,20 +358,20 @@ class RepositoryControllerSpec
       1
     )
 
-    val fakeRequest           = FakeRequest()
+    val fakeRequest = FakeRequest()
     val mockRepositoryService = mock[RepositoryService]
-    val mockJwtUtil           = mock[JwtUtil]
+    val mockJwtUtil = mock[JwtUtil]
     when(mockJwtUtil.decode(any[RequestHeader])) thenReturn Some(jwtUser)
     when(mockRepositoryService.findByContributorId(any[Long])) thenReturn Future {
       throw new Exception
     }
     val controller = new RepositoryController(stubControllerComponents(),
-                                              mockRepositoryService,
-                                              mock[ContributorService],
-                                              mock[IssueService],
-                                              mock[LabelService],
-                                              mock[WikiPageService],
-                                              mockJwtUtil)
+      mockRepositoryService,
+      mock[ContributorService],
+      mock[IssueService],
+      mock[LabelService],
+      mock[WikiPageService],
+      mockJwtUtil)
 
     val result: Future[Result] = controller.getContributed(ownerId).apply(fakeRequest)
     result map { response =>
@@ -390,20 +392,22 @@ class RepositoryControllerSpec
         ownerId
       )
 
-      val fakeRequest           = FakeRequest()
+      val fakeRequest = FakeRequest()
       val mockRepositoryService = mock[RepositoryService]
-      when(mockRepositoryService.get(any[Long])) thenReturn Future { Some(repository) }
+      when(mockRepositoryService.get(any[Long])) thenReturn Future {
+        Some(repository)
+      }
       val controller = new RepositoryController(stubControllerComponents(),
-                                                mockRepositoryService,
-                                                mock[ContributorService],
-                                                mock[IssueService],
-                                                mock[LabelService],
-                                                mock[WikiPageService],
-                                                mock[JwtUtil])
+        mockRepositoryService,
+        mock[ContributorService],
+        mock[IssueService],
+        mock[LabelService],
+        mock[WikiPageService],
+        mock[JwtUtil])
 
       val result: Future[Result] = controller.get(repository.id).apply(fakeRequest)
-      val jsonBody               = contentAsJson(result)
-      val jsonRepository         = Json.toJson(repository)
+      val jsonBody = contentAsJson(result)
+      val jsonRepository = Json.toJson(repository)
       jsonBody mustBe jsonRepository
     }
 
@@ -411,16 +415,18 @@ class RepositoryControllerSpec
 
       val repositoryId = 1
 
-      val fakeRequest           = FakeRequest()
+      val fakeRequest = FakeRequest()
       val mockRepositoryService = mock[RepositoryService]
-      when(mockRepositoryService.get(any[Long])) thenReturn Future { None }
+      when(mockRepositoryService.get(any[Long])) thenReturn Future {
+        None
+      }
       val controller = new RepositoryController(stubControllerComponents(),
-                                                mockRepositoryService,
-                                                mock[ContributorService],
-                                                mock[IssueService],
-                                                mock[LabelService],
-                                                mock[WikiPageService],
-                                                mock[JwtUtil])
+        mockRepositoryService,
+        mock[ContributorService],
+        mock[IssueService],
+        mock[LabelService],
+        mock[WikiPageService],
+        mock[JwtUtil])
 
       val result: Future[Result] = controller.get(repositoryId).apply(fakeRequest)
       result map { response =>
@@ -450,20 +456,22 @@ class RepositoryControllerSpec
         ownerId
       )
 
-      val fakeRequest           = FakeRequest()
+      val fakeRequest = FakeRequest()
       val mockRepositoryService = mock[RepositoryService]
-      when(mockRepositoryService.getRepositoryOwner(any[Long])) thenReturn Future { Some(owner) }
+      when(mockRepositoryService.getRepositoryOwner(any[Long])) thenReturn Future {
+        Some(owner)
+      }
       val controller = new RepositoryController(stubControllerComponents(),
-                                                mockRepositoryService,
-                                                mock[ContributorService],
-                                                mock[IssueService],
-                                                mock[LabelService],
-                                                mock[WikiPageService],
-                                                mock[JwtUtil])
+        mockRepositoryService,
+        mock[ContributorService],
+        mock[IssueService],
+        mock[LabelService],
+        mock[WikiPageService],
+        mock[JwtUtil])
 
       val result: Future[Result] = controller.getOwner(repository.id).apply(fakeRequest)
-      val jsonBody               = contentAsJson(result)
-      val jsonRepository         = Json.toJson(owner)
+      val jsonBody = contentAsJson(result)
+      val jsonRepository = Json.toJson(owner)
       jsonBody mustBe jsonRepository
     }
 
@@ -471,16 +479,18 @@ class RepositoryControllerSpec
 
       val repositoryId = 1
 
-      val fakeRequest           = FakeRequest()
+      val fakeRequest = FakeRequest()
       val mockRepositoryService = mock[RepositoryService]
-      when(mockRepositoryService.getRepositoryOwner(any[Long])) thenReturn Future { None }
+      when(mockRepositoryService.getRepositoryOwner(any[Long])) thenReturn Future {
+        None
+      }
       val controller = new RepositoryController(stubControllerComponents(),
-                                                mockRepositoryService,
-                                                mock[ContributorService],
-                                                mock[IssueService],
-                                                mock[LabelService],
-                                                mock[WikiPageService],
-                                                mock[JwtUtil])
+        mockRepositoryService,
+        mock[ContributorService],
+        mock[IssueService],
+        mock[LabelService],
+        mock[WikiPageService],
+        mock[JwtUtil])
 
       val result: Future[Result] = controller.getOwner(repositoryId).apply(fakeRequest)
       result map { response =>
@@ -500,20 +510,22 @@ class RepositoryControllerSpec
         repoId
       )
 
-      val fakeRequest         = FakeRequest()
+      val fakeRequest = FakeRequest()
       val mockWikiPageService = mock[WikiPageService]
-      when(mockWikiPageService.findByRepositoryId(any[Long])) thenReturn Future { Seq(wikiPage) }
+      when(mockWikiPageService.findByRepositoryId(any[Long])) thenReturn Future {
+        Seq(wikiPage)
+      }
       val controller = new RepositoryController(stubControllerComponents(),
-                                                mock[RepositoryService],
-                                                mock[ContributorService],
-                                                mock[IssueService],
-                                                mock[LabelService],
-                                                mockWikiPageService,
-                                                mock[JwtUtil])
+        mock[RepositoryService],
+        mock[ContributorService],
+        mock[IssueService],
+        mock[LabelService],
+        mockWikiPageService,
+        mock[JwtUtil])
 
       val result: Future[Result] = controller.getWikiPages(repoId).apply(fakeRequest)
-      val jsonBody               = contentAsJson(result)
-      val jsonRepository         = Json.toJson(Seq(wikiPage))
+      val jsonBody = contentAsJson(result)
+      val jsonRepository = Json.toJson(Seq(wikiPage))
       jsonBody mustBe jsonRepository
     }
 
@@ -521,16 +533,18 @@ class RepositoryControllerSpec
 
       val repositoryId = 1
 
-      val fakeRequest         = FakeRequest()
+      val fakeRequest = FakeRequest()
       val mockWikiPageService = mock[WikiPageService]
-      when(mockWikiPageService.findByRepositoryId(any[Long])) thenReturn Future { Seq() }
+      when(mockWikiPageService.findByRepositoryId(any[Long])) thenReturn Future {
+        Seq()
+      }
       val controller = new RepositoryController(stubControllerComponents(),
-                                                mock[RepositoryService],
-                                                mock[ContributorService],
-                                                mock[IssueService],
-                                                mock[LabelService],
-                                                mockWikiPageService,
-                                                mock[JwtUtil])
+        mock[RepositoryService],
+        mock[ContributorService],
+        mock[IssueService],
+        mock[LabelService],
+        mockWikiPageService,
+        mock[JwtUtil])
 
       val result: Future[Result] = controller.getWikiPages(repositoryId).apply(fakeRequest)
       result map { response =>
