@@ -3,6 +3,7 @@ package controller
 import akka.stream.Materializer
 import com.issuetracker.controller.RepositoryController
 import com.issuetracker.dto.{GetWikiPage, JwtUser, RegisteredUser}
+import com.issuetracker.model.{Repository, User}
 import com.issuetracker.service._
 import com.issuetracker.util.JwtUtil
 import dto.{GetRepository, PostRepository}
@@ -154,6 +155,58 @@ class RepositoryControllerSpec
         response.header.status mustBe 400
       }
 
+    }
+  }
+
+  "RepositoryController#update" should {
+    "return updated repository data for valid data" in {
+
+      val postRepository = PostRepository(
+        Option(1),
+        "repository update",
+        "https://github.com/User1/repository",
+        "repository1 description",
+        1,
+        List(2, 3)
+      )
+
+      val repository = GetRepository(
+        1,
+        postRepository.name,
+        postRepository.url,
+        postRepository.description,
+        postRepository.ownerId
+      )
+
+      val jwtUser: JwtUser = User(1, null, null, null, null, null, null)
+
+      val fakeRequest = FakeRequest().withMethod("PATCH").withBody(
+        Json.obj(
+          "id" -> 1,
+          "name" -> postRepository.name,
+          "url" -> postRepository.url,
+          "description" -> postRepository.description,
+          "ownerId" -> postRepository.ownerId,
+          "contributors" -> postRepository.contributors
+        )
+      ).addAttr(JwtUser.Key, jwtUser)
+
+      val mockRepositoryService = mock[RepositoryService]
+      when(mockRepositoryService.update(any[Repository], any[List[Long]], any[Int])) thenReturn Future {
+        repository
+      }
+      val controller = new RepositoryController(stubControllerComponents(),
+        mockRepositoryService,
+        mock[ContributorService],
+        mock[IssueService],
+        mock[LabelService],
+        mock[WikiPageService],
+        mock[JwtUtil])
+
+      val result: Future[Result] = controller.update().apply(fakeRequest)
+      val jsonBody = contentAsJson(result)
+      val jsonUpdatedRepository = Json.toJson(repository)
+      jsonBody mustBe jsonUpdatedRepository
     }
   }
 
@@ -552,5 +605,4 @@ class RepositoryControllerSpec
       }
     }
   }
-
 }
