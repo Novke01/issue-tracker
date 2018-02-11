@@ -1,6 +1,6 @@
 package com.issuetracker.dto
 
-import play.api.libs.json.Json
+import play.api.libs.json.{Json, Reads}
 
 case class LoginUser(
     username: String,
@@ -8,5 +8,5 @@ case class LoginUser(
 )
 
 object LoginUser {
-  implicit val loginUserReads = Json.reads[LoginUser]
+  implicit val loginUserReads: Reads[LoginUser] = Json.reads[LoginUser]
 }

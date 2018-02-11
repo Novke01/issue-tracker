@@ -1,6 +1,6 @@
 package com.issuetracker.dto
 
-import play.api.libs.json.Json
+import play.api.libs.json.{Json, OWrites}
 
 case class LoggedInUser(
     accessToken: String,
@@ -8,5 +8,5 @@ case class LoggedInUser(
 )
 
 object LoggedInUser {
-  implicit val loggedInUserWrites = Json.writes[LoggedInUser]
+  implicit val loggedInUserWrites: OWrites[LoggedInUser] = Json.writes[LoggedInUser]
 }

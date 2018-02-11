@@ -39,7 +39,6 @@ class AuthServiceSpec extends PlaySpec with MockitoSugar {
         "pera@example.com",
         refreshToken
       )
-      val loginUser          = LoginUser(user.username, password)
       val mockUserRepository = mock[UserRepository]
       when(mockUserRepository.findByUsername(any[String])) thenReturn Future { Option(user) }
       val mockJwtUtil = mock[JwtUtil]
@@ -64,7 +63,6 @@ class AuthServiceSpec extends PlaySpec with MockitoSugar {
         "pera@example.com",
         "refreshtoken"
       )
-      val loginUser          = LoginUser(user.username, "testtestt")
       val mockUserRepository = mock[UserRepository]
       when(mockUserRepository.findByUsername(any[String])) thenReturn Future { Option(user) }
       val mockJwtUtil = mock[JwtUtil]

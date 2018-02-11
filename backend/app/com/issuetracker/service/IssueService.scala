@@ -26,14 +26,11 @@ class IssueService(val issueRepository: IssueRepository,
   }
 
   def update(updateIssue: UpdateIssue): Future[GetIssue] = {
-    issueRepository.update(updateIssue) map { result =>
-      result match {
-        case Some(issue: Issue) =>
-          GetIssue.issueToGetIssue(issue)
-        case None =>
-          throw new IllegalArgumentException()
-      }
-
+    issueRepository.update(updateIssue) map {
+      case Some(issue: Issue) =>
+        GetIssue.issueToGetIssue(issue)
+      case None =>
+        throw new IllegalArgumentException()
     }
   }
 
@@ -46,14 +43,12 @@ class IssueService(val issueRepository: IssueRepository,
   }
 
   def findById(id: Long): Future[GetIssue] = {
-    issueRepository.findById(id).map { result =>
-      result match {
-        case Some(issue: Issue) =>
-          GetIssue.issueToGetIssue(issue)
-        case None =>
-          logger.info("Issue not found.")
-          throw new IssueNotFoundException(s"Issue with id ${id} doesn't exist.")
-      }
+    issueRepository.findById(id).map {
+      case Some(issue: Issue) =>
+        GetIssue.issueToGetIssue(issue)
+      case None =>
+        logger.info("Issue not found.")
+        throw new IssueNotFoundException(s"Issue with id $id doesn't exist.")
     }
   }
 

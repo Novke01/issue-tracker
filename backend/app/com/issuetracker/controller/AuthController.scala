@@ -25,8 +25,6 @@ class AuthController(
 
   val logger: Logger = Logger(this.getClass())
 
-  private val header = "Authorization"
-
   def login: Action[JsValue] = Action.async(parse.json) { request =>
     val optionalUser = request.body.validate[LoginUser]
     optionalUser map { loginUser =>

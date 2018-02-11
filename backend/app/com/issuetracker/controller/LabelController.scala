@@ -37,14 +37,14 @@ class LabelController(val cc: ControllerComponents, val labelService: LabelServi
     }
   }
 
-  def getOne(id: Long) = Action.async {
+  def getOne(id: Long): Action[AnyContent] = Action.async {
     labelService.findById(id) map {
       case Some(label) => Ok(Json.toJson(label))
       case None        => NotFound
     }
   }
 
-  def remove(labelId: Long) = Action.async {
+  def remove(labelId: Long): Action[AnyContent] = Action.async {
     labelService.remove(labelId: Long) map { result =>
       Ok(Json.toJson(result))
     }

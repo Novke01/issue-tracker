@@ -18,14 +18,14 @@ class ContributorRepository(db: Database) {
   def insert(contributor: Contributor): Future[Contributor] =
     db.run((contributors returning contributors) += contributor)
 
-  def addContributors(repoId: Long, contributorIds: Seq[Long]) =
+  def addContributors(repoId: Long, contributorIds: Seq[Long]): Future[Option[Int]] =
     db.run({
       contributors ++= contributorIds.map(Contributor(-1, _, repoId))
     })
 
   //finds all contributors (and owner) of repository with id repoId, whose firstName, lastName or username contain searchTerm
   def findByRepositoryIdAndSearchTerm(repoId: Long, searchTerm: String): Future[Seq[User]] = {
-    val searchTermQuery = s"%$searchTerm%".toLowerCase;
+    val searchTermQuery = s"%$searchTerm%".toLowerCase
     db.run({
 
       for {
@@ -34,7 +34,7 @@ class ContributorRepository(db: Database) {
         user <- users.filter(u =>
           ((u.id === c.userId) || u.id === r.ownerId) &&
             ((u.firstName.toLowerCase like searchTermQuery) || (u.lastName.toLowerCase like searchTermQuery) || (u.username.toLowerCase like searchTermQuery)))
-      } yield (user)
+      } yield user
     }.result)
   }
 
@@ -43,7 +43,7 @@ class ContributorRepository(db: Database) {
       for {
         c    <- contributors.filter(_.repositoryId === repoId)
         user <- users.filter(_.id === c.userId)
-      } yield (user)
+      } yield user
     }.result)
 }
 

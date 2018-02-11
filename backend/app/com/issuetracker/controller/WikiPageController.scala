@@ -8,9 +8,7 @@ import com.issuetracker.service.WikiPageService
 import play.api.Logger
 import play.api.libs.json.JsValue
 import play.api.libs.json.Json
-import play.api.mvc.AbstractController
-import play.api.mvc.Action
-import play.api.mvc.ControllerComponents
+import play.api.mvc.{AbstractController, Action, AnyContent, ControllerComponents}
 
 class WikiPageController(
     val cc: ControllerComponents,
@@ -36,7 +34,7 @@ class WikiPageController(
     }
   }
 
-  def get(id: Long) = Action.async {
+  def get(id: Long): Action[AnyContent] = Action.async {
     wikiPageService.get(id) map {
       case Some(repository) => Ok(Json.toJson(repository))
       case None             => NotFound

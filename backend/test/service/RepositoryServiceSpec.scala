@@ -255,14 +255,6 @@ class RepositoryServiceSpec extends PlaySpec with MockitoSugar {
 
     "throw IllegalArgumentException if the repository doesn't exist" in {
 
-      val repository = Repository(
-        1,
-        "Issue",
-        "github.com",
-        "Description",
-        1
-      )
-
       val updatedRepository = Repository(
         1,
         "IssueTracker",

@@ -13,7 +13,7 @@ case class GetUser(
 
 object GetUser {
 
-  implicit val getUserWrites = Json.writes[GetUser]
+  implicit val getUserWrites: OWrites[GetUser] = Json.writes[GetUser]
 
   implicit def userToGetUser(user: User): GetUser =
     new GetUser(

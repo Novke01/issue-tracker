@@ -74,7 +74,7 @@ class IssueController(val cc: ControllerComponents,
   }
 
   def insertAssignee(issueId: Long, userId: Long): Action[AnyContent] = Action.async {
-    assignedUserService.insertAssignee(issueId, userId) map { result =>
+    assignedUserService.insertAssignee(issueId, userId) map { _ =>
       Ok
     }
   }

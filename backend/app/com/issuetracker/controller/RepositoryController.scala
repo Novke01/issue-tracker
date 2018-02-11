@@ -65,7 +65,7 @@ class RepositoryController(
     }
   }
 
-  def getOwned(id: Long): Action[AnyContent] = Action.async { request =>
+  def getOwned(id: Long): Action[AnyContent] = Action.async { _ =>
     repositoryService.findByOwnerId(id).map { result =>
       Ok(Json.toJson(result))
     } recover {
@@ -75,7 +75,7 @@ class RepositoryController(
     }
   }
   
-  def getContributed(id: Long): Action[AnyContent] = Action.async { request => 
+  def getContributed(id: Long): Action[AnyContent] = Action.async { _ =>
     repositoryService.findByContributorId(id) map { result =>
       Ok(Json.toJson(result))
     } recover {
@@ -85,20 +85,20 @@ class RepositoryController(
     }
   }
 
-  def get(id: Long) = Action.async {
+  def get(id: Long): Action[AnyContent] = Action.async {
     repositoryService.get(id) map {
       case Some(repository) => Ok(Json.toJson(repository))
       case None             => NotFound
     }
   }
 
-  def getContributors(id: Long) = Action.async {
+  def getContributors(id: Long): Action[AnyContent] = Action.async {
     contributorService.getContributorsByRepositoryId(id) map { result =>
       Ok(Json.toJson(result))
     }
   }
 
-  def getOwner(id: Long) = Action.async {
+  def getOwner(id: Long): Action[AnyContent] = Action.async {
     repositoryService.getRepositoryOwner(id) map {
       case Some(user) => Ok(Json.toJson(user))
       case None       => NotFound
@@ -116,19 +116,19 @@ class RepositoryController(
       }
     }
 
-  def getIssues(repoId: Long) = Action.async {
+  def getIssues(repoId: Long): Action[AnyContent] = Action.async {
     issueService.findByRepositoryId(repoId) map { result =>
       Ok(Json.toJson(result))
     }
   }
 
-  def getLabels(repoId: Long) = Action.async {
+  def getLabels(repoId: Long): Action[AnyContent] = Action.async {
     labelService.findByRepositoryId(repoId) map { result =>
       Ok(Json.toJson(result))
     }
   }
 
-  def getWikiPages(id: Long) = Action.async {
+  def getWikiPages(id: Long): Action[AnyContent] = Action.async {
     wikiPageService.findByRepositoryId(id) map { result =>
       Ok(Json.toJson(result))
     }

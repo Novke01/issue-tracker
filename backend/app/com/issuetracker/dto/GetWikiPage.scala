@@ -12,7 +12,7 @@ case class GetWikiPage(
 
 object GetWikiPage {
 
-  implicit val wikiPageWrites = Json.writes[GetWikiPage]
+  implicit val wikiPageWrites: OWrites[GetWikiPage] = Json.writes[GetWikiPage]
 
   implicit def wikiPageToGetWikiPage(wikiPage: WikiPage): GetWikiPage =
     new GetWikiPage(

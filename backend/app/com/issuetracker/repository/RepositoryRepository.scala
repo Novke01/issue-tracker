@@ -32,7 +32,7 @@ class RepositoryRepository(db: Database) {
       for {
         (repository, _) <- repositories join contributors
           .filter(_.userId === id) on (_.id === _.repositoryId)
-      } yield (repository)
+      } yield repository
     }.result)
 
   def get(id: Long): Future[Option[Repository]] =
@@ -43,7 +43,7 @@ class RepositoryRepository(db: Database) {
       for {
         (repository) <- repositories.filter(_.id === id)
         (user)       <- users.filter(_.id === repository.ownerId)
-      } yield (user)
+      } yield user
     }.result.headOption)
 }
 

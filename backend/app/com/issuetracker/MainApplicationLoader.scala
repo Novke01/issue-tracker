@@ -1,16 +1,13 @@
 package com.issuetracker
 
 import scala.collection.Seq
-
 import com.issuetracker.controller._
 import com.issuetracker.filter.JwtFilter
 import com.issuetracker.repository._
 import com.issuetracker.service._
 import com.issuetracker.util.JwtUtil
-
-import play.api.ApplicationLoader
+import play.api.{Application, ApplicationLoader, BuiltInComponentsFromContext}
 import play.api.ApplicationLoader.Context
-import play.api.BuiltInComponentsFromContext
 import play.api.db.slick.DbName
 import play.api.db.slick.SlickComponents
 import play.api.mvc.EssentialFilter
@@ -20,7 +17,7 @@ import router.Routes
 import slick.jdbc.JdbcProfile
 
 class MainApplicationLoader extends ApplicationLoader {
-  def load(context: Context) = {
+  def load(context: Context): Application = {
     new ApplicationComponents(context).application
   }
 }

@@ -20,10 +20,10 @@ class AssignedUserRepository(db: Database) {
     db.run({
       for {
         (issue, _) <- issues join assignees.filter(_.userId === id) on (_.id === _.issueId)
-      } yield (issue)
+      } yield issue
     }.result)
 
-  def insertAssignees(issueId: Long, userIds: Seq[Long]) =
+  def insertAssignees(issueId: Long, userIds: Seq[Long]): Future[Option[Int]] =
     db.run({
       assignees ++= userIds.map(AssignedUser(-1, _, issueId))
     })
@@ -39,7 +39,7 @@ class AssignedUserRepository(db: Database) {
       for {
         c    <- assignees.filter(_.issueId === issueId)
         user <- users.filter(_.id === c.userId)
-      } yield (user)
+      } yield user
     }.result)
 
 }
