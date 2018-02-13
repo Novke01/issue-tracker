@@ -14,10 +14,13 @@ class IssueTable(tag: Tag) extends Table[Issue](tag, "issues") {
   def created      = column[Long]("created")
   def status       = column[IssueStatus]("status")
   def ownerId      = column[Long]("ownerId")
-  def owner        = foreignKey("owner_FK", ownerId, UserTable.users)(_.id)
+  def milestoneId  = column[Option[Long]]("milestoneId")
+
+  def owner     = foreignKey("owner_FK", ownerId, UserTable.users)(_.id)
+  def milestone = foreignKey("milestone_FK", milestoneId, MilestoneTable.milestones)(_.id)
 
   def * =
-    (id, repositoryId, title, description, created, ownerId, status) <> (Issue.tupled, Issue.unapply)
+    (id, repositoryId, title, description, created, ownerId, status, milestoneId) <> (Issue.tupled, Issue.unapply)
 
 }
 

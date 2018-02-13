@@ -1,0 +1,34 @@
+<br>
+<br>
+<div class="milestone-header">
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="openCreateMilestoneDialog()">New Milestone</button>
+</div>
+<div class="milestone-container mat-elevation-z8 centeredtable">
+
+  <mat-table [dataSource]="dataSource" matSort>
+
+    <ng-container matColumnDef="title">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Title </mat-header-cell>
+      <mat-cell *matCellDef="let milestone">{{milestone.title}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Description </mat-header-cell>
+      <mat-cell *matCellDef="let milestone"> {{(milestone.description | slice:0:40)+'...'}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="dueDate">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Due date </mat-header-cell>
+      <mat-cell *matCellDef="let milestone">{{milestone.dueDate}}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let milestone; columns: displayedColumns;">
+    </mat-row>
+  </mat-table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>

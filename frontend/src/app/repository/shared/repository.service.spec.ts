@@ -329,7 +329,9 @@ describe('RepositoryService', () => {
             ownerId: 1,
             status: 'OPENED',
             assignees: [1, 2],
-            labels: []
+            labels: [],
+            milestoneId: 1,
+            milestoneTitle: 'milestone title'
         };
 
         const term = 'username';

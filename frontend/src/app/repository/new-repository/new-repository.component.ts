@@ -1,3 +1,4 @@
+import { SharedModule } from './../../shared/shared.module';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef, MatSnackBar } from '@angular/material';
@@ -7,6 +8,7 @@ import { UserService } from '../../user/shared/user.service';
 import { RepositorySave } from '../shared/repository-save.model';
 import { AuthService } from '../../core/auth/auth.service';
 import { RepositoryService } from '../shared/repository.service';
+
 
 @Component({
   selector: 'it-new-repository',
@@ -46,9 +48,13 @@ export class NewRepositoryComponent implements OnInit {
       this.repository.url = this.form.value.url;
       this.repository.description = this.form.value.description;
       this.repository.ownerId = this.authService.user.id;
-      this.repository.contributors = this.control.value.map(
-        contributor => contributor.id
-      );
+      if (this.control.value !== null) {
+        this.repository.contributors = this.control.value.map(
+          contributor => contributor.id
+        );
+      } else {
+        this.repository.contributors = [];
+      }
 
       this.repositoryService.saveRepository(this.repository).subscribe(
         repository => {

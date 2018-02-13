@@ -8,4 +8,6 @@ export class Issue {
   status: string;
   assignees: Array<number>;
   labels: Array<number>;
+  milestoneId: number;
+  milestoneTitle: string;
 }

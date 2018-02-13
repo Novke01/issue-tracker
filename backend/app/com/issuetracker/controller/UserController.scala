@@ -55,5 +55,5 @@ class UserController(
         BadRequest("User not found")
     }
   }
-  
+
 }

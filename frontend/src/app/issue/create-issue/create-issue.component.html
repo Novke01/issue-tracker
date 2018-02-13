@@ -34,6 +34,15 @@
         </mat-form-field>
     </mat-dialog-content>
     <mat-dialog-content>
+        <mat-form-field>
+            <mat-select placeholder="Milestone" formControlName="milestone">
+                <mat-option *ngFor="let milestone of milestones" [value]="milestone.id">
+                    {{ milestone.title }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-content>
         <h3>Assignees</h3>
         <it-possible-assignees-search [repositoryId]="repositoryId" [assignees]="assignees" (userAssigned)="onUserAssigned(assignees)"></it-possible-assignees-search>
         <mat-list>
