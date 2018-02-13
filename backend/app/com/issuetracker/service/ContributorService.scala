@@ -1,27 +1,31 @@
 package com.issuetracker.service
 
 import com.issuetracker.dto.RegisteredUser
-
 import com.issuetracker.dto.GetUser
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import com.issuetracker.repository.ContributorRepository
-import com.issuetracker.repository.RepositoryRepository
-import dto.GetRepository
-import dto.PostRepository
 
 class ContributorService(
-    val contributorRepository: ContributorRepository,
-    val repositoryRepository: RepositoryRepository,
-)(implicit val executionContext: ExecutionContext) {
+                          val contributorRepository: ContributorRepository
+                        )(implicit val executionContext: ExecutionContext) {
 
-  def insert(postRepository: PostRepository): Future[GetRepository] = {
-    repositoryRepository.insert(postRepository) flatMap { repository =>
-      contributorRepository.addContributors(repository.id, postRepository.contributors) map { _ =>
-        repository
-      }
-    }
+  def addContributors(id: Long, contributors: List[Long]): Future[Option[Int]] = {
+    contributorRepository.addContributors(id, contributors)
+  }
+
+  /**
+    * Updates contributors for a repository. Can only add new contributors, not replace/delete existing.
+    *
+    * @param id           Repository id.
+    * @param contributors New proposed set of contributors.
+    */
+  def updateContributors(id: Long, contributors: List[Long]): Unit = {
+    contributorRepository.getContributorsByRepositoryId(id).map(currentContributors => {
+      val newContributors = contributors.filter(contributor => !currentContributors.map(user => user.id).contains(contributor))
+      contributorRepository.addContributors(id, newContributors)
+    })
   }
 
   def findByRepositoryIdAndSearchTerm(repoId: Long, searchTerm: String): Future[Seq[GetUser]] = {
@@ -41,9 +45,8 @@ class ContributorService(
 object ContributorService {
 
   def apply(
-      contributorRepository: ContributorRepository,
-      repositoryRepository: RepositoryRepository
-  )(implicit ec: ExecutionContext): ContributorService =
-    new ContributorService(contributorRepository, repositoryRepository)
+             contributorRepository: ContributorRepository
+           )(implicit ec: ExecutionContext): ContributorService =
+    new ContributorService(contributorRepository)
 
 }

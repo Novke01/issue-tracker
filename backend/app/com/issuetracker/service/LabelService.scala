@@ -8,8 +8,6 @@ import play.api.Logger
 class LabelService(val labelRepository: LabelRepository)(
     implicit val executionContext: ExecutionContext) {
 
-  private val logger = Logger(this.getClass())
-
   def insert(postLabel: PostLabel): Future[GetLabel] = {
     labelRepository.insert(postLabel).map(GetLabel.labelToGetLabel)
   }

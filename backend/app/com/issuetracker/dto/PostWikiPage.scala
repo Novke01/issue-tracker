@@ -11,10 +11,10 @@ case class PostWikiPage(
 
 object PostWikiPage {
 
-  implicit val repositoryReads = Json.reads[PostWikiPage]
+  implicit val repositoryReads: Reads[PostWikiPage] = Json.reads[PostWikiPage]
 
   implicit def postWikiPageToWikiPage(postWikiPage: PostWikiPage): WikiPage =
-    new WikiPage(
+    WikiPage(
       -1,
       postWikiPage.name,
       postWikiPage.content,

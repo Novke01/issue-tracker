@@ -1,16 +1,13 @@
 package com.issuetracker
 
 import scala.collection.Seq
-
 import com.issuetracker.controller._
 import com.issuetracker.filter.JwtFilter
 import com.issuetracker.repository._
 import com.issuetracker.service._
 import com.issuetracker.util.JwtUtil
-
-import play.api.ApplicationLoader
+import play.api.{Application, ApplicationLoader, BuiltInComponentsFromContext}
 import play.api.ApplicationLoader.Context
-import play.api.BuiltInComponentsFromContext
 import play.api.db.slick.DbName
 import play.api.db.slick.SlickComponents
 import play.api.mvc.EssentialFilter
@@ -20,7 +17,7 @@ import router.Routes
 import slick.jdbc.JdbcProfile
 
 class MainApplicationLoader extends ApplicationLoader {
-  def load(context: Context) = {
+  def load(context: Context): Application = {
     new ApplicationComponents(context).application
   }
 }
@@ -57,8 +54,8 @@ class ApplicationComponents(context: Context)
 
   lazy val userService        = UserService(userRepository)
   lazy val authService        = AuthService(userRepository, jwtUtil)
-  lazy val repositoryService  = RepositoryService(repositoryRepository)
-  lazy val contributorService = new ContributorService(contributorRepository, repositoryRepository)
+  lazy val contributorService = new ContributorService(contributorRepository)
+  lazy val repositoryService  = RepositoryService(repositoryRepository, contributorService)
   lazy val issueService =
     new IssueService(issueRepository, issueLabelRepository, assignedUserRepository)
   lazy val assignedUserService = new AssignedUserService(assignedUserRepository, issueRepository)

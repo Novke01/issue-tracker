@@ -13,7 +13,7 @@ case class GetRepository(
 
 object GetRepository {
 
-  implicit val repositoryWrites = Json.writes[GetRepository]
+  implicit val repositoryWrites: OWrites[GetRepository] = Json.writes[GetRepository]
 
   implicit def repositoryToGetRepository(repository: Repository): GetRepository =
     new GetRepository(

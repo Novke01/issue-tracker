@@ -28,6 +28,11 @@ export class RepositoryService {
     return this.http.get<Repository[]>(url);
   }
 
+  updateRepository(repository: RepositorySave): Observable<Repository> {
+        const url = `${environment.baseUrl}${this.repositoryUrl}`;
+        return this.http.patch<Repository>(url, repository);
+  }
+
   saveRepository(repository: RepositorySave): Observable<Repository> {
     const url = `${environment.baseUrl}${this.repositoryUrl}`;
     return this.http.post<Repository>(url, repository).pipe(

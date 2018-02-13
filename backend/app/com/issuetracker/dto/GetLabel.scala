@@ -12,7 +12,7 @@ case class GetLabel(
 
 object GetLabel {
 
-  implicit val getLabelWrites = Json.writes[GetLabel]
+  implicit val getLabelWrites: OWrites[GetLabel] = Json.writes[GetLabel]
 
   implicit def labelToGetLabel(label: Label): GetLabel =
     new GetLabel(

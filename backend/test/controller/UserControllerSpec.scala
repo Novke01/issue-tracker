@@ -129,13 +129,6 @@ class UserControllerSpec extends PlaySpec with MockitoSugar with OneAppPerSuiteW
     
     "return Bad Request if user with given id doesn't exist" in {
       val id = -1
-      val registeredUser = RegisteredUser(
-        id,
-        "pera",
-        "Pera",
-        "Peric",
-        "pera@example.com"
-      )
       val fakeRequest = FakeRequest()
       val mockUserService = mock[UserService]
       when(mockUserService.get(any[Long])) thenReturn Future { 

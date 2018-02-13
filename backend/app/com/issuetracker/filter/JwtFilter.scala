@@ -35,9 +35,8 @@ class JwtFilter(jwtUtil: JwtUtil)(
       authOption map { auth =>
         if (jwtUtil.isValid(auth)) {
           jwtUtil.decode(requestHeader) map { jwtUser =>
-            requestHeader.addAttr(JwtUser.Key, jwtUser)
-            nextFilter(requestHeader)
-          } getOrElse {
+            nextFilter(requestHeader.addAttr(JwtUser.Key, jwtUser))
+          } getOrElse {  
             Future { Unauthorized("You are not logged in.") }
           }
         } else {

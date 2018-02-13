@@ -1,23 +1,24 @@
 package dto
 
-import play.api.libs.json._
 import com.issuetracker.model.Repository
+import play.api.libs.json._
 
 case class PostRepository(
-    name: String,
-    url: String,
-    description: String,
-    ownerId: Long,
-    contributors: List[Long]
-)
+                           id: Option[Long],
+                           name: String,
+                           url: String,
+                           description: String,
+                           ownerId: Long,
+                           contributors: List[Long]
+                         )
 
 object PostRepository {
 
-  implicit val repositoryReads = Json.reads[PostRepository]
+  implicit val repositoryReads: Reads[PostRepository] = Json.reads[PostRepository]
 
   implicit def postRepositoryToRepository(postRepository: PostRepository): Repository =
-    new Repository(
-      -1,
+    Repository(
+      postRepository.id.getOrElse(-1),
       postRepository.name,
       postRepository.url,
       postRepository.description,

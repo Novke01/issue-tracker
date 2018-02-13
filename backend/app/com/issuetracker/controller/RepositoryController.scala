@@ -25,12 +25,12 @@ class RepositoryController(
 )(implicit val ec: ExecutionContext)
     extends AbstractController(cc) {
 
-  val logger: Logger = Logger(this.getClass())
+  val logger: Logger = Logger(this.getClass)
 
   def insert: Action[JsValue] = Action.async(parse.json) { request =>
     val optionalRepository = request.body.validate[PostRepository]
     optionalRepository map { postRepository =>
-      contributorService.insert(postRepository).map { result =>
+      repositoryService.insert(postRepository).map { result =>
         Created(Json.toJson(result))
       } recover {
         case err =>
@@ -43,7 +43,29 @@ class RepositoryController(
     }
   }
 
-  def getOwned(id: Long): Action[AnyContent] = Action.async { request =>
+  def update: Action[JsValue] = Action.async(parse.json) { request =>
+    val optionalRepository = request.body.validate[PostRepository]
+    val currentUser = request.attrs.get(JwtUser.Key).getOrElse {
+      NotFound
+    }.asInstanceOf[JwtUser]
+    optionalRepository map { postRepository =>
+      repositoryService.update(postRepository, postRepository.contributors, currentUser.id).map { result =>
+        Ok(Json.toJson(result))
+      } recover {
+        case notFoundError : IllegalArgumentException =>
+          logger.error(notFoundError.getMessage, notFoundError)
+          NotFound
+        case err =>
+          logger.error(err.getMessage, err)
+          BadRequest("Something went wrong.")
+      }
+    } getOrElse {
+      logger.error("Invalid repository data.")
+      Future { BadRequest("Invalid repository data.") }
+    }
+  }
+
+  def getOwned(id: Long): Action[AnyContent] = Action.async { _ =>
     repositoryService.findByOwnerId(id).map { result =>
       Ok(Json.toJson(result))
     } recover {
@@ -52,8 +74,8 @@ class RepositoryController(
         BadRequest("Something went wrong.")
     }
   }
-
-  def getContributed(id: Long): Action[AnyContent] = Action.async { request =>
+  
+  def getContributed(id: Long): Action[AnyContent] = Action.async { _ =>
     repositoryService.findByContributorId(id) map { result =>
       Ok(Json.toJson(result))
     } recover {
@@ -63,20 +85,20 @@ class RepositoryController(
     }
   }
 
-  def get(id: Long) = Action.async {
+  def get(id: Long): Action[AnyContent] = Action.async {
     repositoryService.get(id) map {
       case Some(repository) => Ok(Json.toJson(repository))
       case None             => NotFound
     }
   }
 
-  def getContributors(id: Long) = Action.async {
+  def getContributors(id: Long): Action[AnyContent] = Action.async {
     contributorService.getContributorsByRepositoryId(id) map { result =>
       Ok(Json.toJson(result))
     }
   }
 
-  def getOwner(id: Long) = Action.async {
+  def getOwner(id: Long): Action[AnyContent] = Action.async {
     repositoryService.getRepositoryOwner(id) map {
       case Some(user) => Ok(Json.toJson(user))
       case None       => NotFound
@@ -94,19 +116,19 @@ class RepositoryController(
       }
     }
 
-  def getIssues(repoId: Long) = Action.async {
+  def getIssues(repoId: Long): Action[AnyContent] = Action.async {
     issueService.findByRepositoryId(repoId) map { result =>
       Ok(Json.toJson(result))
     }
   }
 
-  def getLabels(repoId: Long) = Action.async {
+  def getLabels(repoId: Long): Action[AnyContent] = Action.async {
     labelService.findByRepositoryId(repoId) map { result =>
       Ok(Json.toJson(result))
     }
   }
 
-  def getWikiPages(id: Long) = Action.async {
+  def getWikiPages(id: Long): Action[AnyContent] = Action.async {
     wikiPageService.findByRepositoryId(id) map { result =>
       Ok(Json.toJson(result))
     }

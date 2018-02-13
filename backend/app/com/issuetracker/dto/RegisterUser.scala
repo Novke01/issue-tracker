@@ -25,7 +25,7 @@ object RegisterUser {
   )(RegisterUser.apply _)
 
   implicit def registerUserToUser(registerUser: RegisterUser): User =
-    new User(
+    User(
       -1,
       registerUser.username,
       registerUser.password,

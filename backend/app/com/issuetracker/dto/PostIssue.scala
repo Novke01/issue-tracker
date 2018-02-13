@@ -16,10 +16,10 @@ case class PostIssue(
 )
 object PostIssue {
 
-  implicit val postIssueReads = Json.reads[PostIssue]
+  implicit val postIssueReads: Reads[PostIssue] = Json.reads[PostIssue]
 
   implicit def postIssueToIssue(postIssue: PostIssue): Issue =
-    new Issue(
+    Issue(
       -1,
       postIssue.repositoryId,
       postIssue.title,
