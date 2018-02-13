@@ -16,7 +16,7 @@
   overflow-y: scroll;
   border: 3px solid rgb(42, 96, 141);
   overflow-y: scroll;
-  height: 630px;
+  height: 600px;
   margin-top: 10px;
 }
 
@@ -29,7 +29,7 @@
   box-sizing: border-box;
   width: 100%;
   border: 3px solid rgb(42, 96, 141);
-  min-height: 660px;
+  min-height: 630px;
 }
 
 .create {

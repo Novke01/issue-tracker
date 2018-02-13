@@ -44,7 +44,7 @@ class UserController(
   def getAll = Action.async {
     userService.getAll map (users => Ok(Json.toJson(users)))
   }
-  
+
   def getUserData(id: Long): Action[AnyContent] = Action.async { request =>
     userService.get(id) map { result =>
       val user: RegisteredUser = result
@@ -55,5 +55,5 @@ class UserController(
         BadRequest("User not found")
     }
   }
-  
+
 }

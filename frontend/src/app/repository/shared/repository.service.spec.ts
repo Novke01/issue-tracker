@@ -1,8 +1,5 @@
 import { HttpRequest } from '@angular/common/http';
-import {
-  HttpClientTestingModule,
-  HttpTestingController
-} from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { async, TestBed } from '@angular/core/testing';
 
 import { environment } from '../../../environments/environment';
@@ -50,10 +47,11 @@ describe('RepositoryService', () => {
 
     const url = `${environment.baseUrl}${repositoryUrl}/owned/${userId}`;
 
-    httpMock.expectOne((req: HttpRequest<any>) => {
-      return req.url === url && req.method === 'GET';
-    }, `GET to api/repositories/owned/${userId}`)
-    .flush(responseOwnedRepositories, { status: 200, statusText: 'OK' });
+    httpMock
+      .expectOne((req: HttpRequest<any>) => {
+        return req.url === url && req.method === 'GET';
+      }, `GET to api/repositories/owned/${userId}`)
+      .flush(responseOwnedRepositories, { status: 200, statusText: 'OK' });
 
     httpMock.verify();
   });
@@ -76,10 +74,11 @@ describe('RepositoryService', () => {
 
     const url = `${environment.baseUrl}${repositoryUrl}/contributed/${userId}`;
 
-    httpMock.expectOne((req: HttpRequest<any>) => {
-      return req.url === url && req.method === 'GET';
-    }, `GET to api/repositories/contributed/${userId}`)
-    .flush(contributedRepositories, { status: 200, statusText: 'OK' });
+    httpMock
+      .expectOne((req: HttpRequest<any>) => {
+        return req.url === url && req.method === 'GET';
+      }, `GET to api/repositories/contributed/${userId}`)
+      .flush(contributedRepositories, { status: 200, statusText: 'OK' });
 
     httpMock.verify();
   });
@@ -107,11 +106,12 @@ describe('RepositoryService', () => {
 
     const url = `${environment.baseUrl}${repositoryUrl}`;
 
-    httpMock.expectOne((req: HttpRequest<any>) => {
-      const body: RepositorySave = req.body;
-      return req.url === url && req.method === 'POST' && body === dummyRepo;
-    }, 'POST to api/repositories with repository data in json format')
-    .flush(responseRepo, { status: 201, statusText: 'Created' });
+    httpMock
+      .expectOne((req: HttpRequest<any>) => {
+        const body: RepositorySave = req.body;
+        return req.url === url && req.method === 'POST' && body === dummyRepo;
+      }, 'POST to api/repositories with repository data in json format')
+      .flush(responseRepo, { status: 201, statusText: 'Created' });
 
     httpMock.verify();
   });
@@ -144,11 +144,12 @@ describe('RepositoryService', () => {
 
     const url = `${environment.baseUrl}${repositoryUrl}`;
 
-    httpMock.expectOne((req: HttpRequest<any>) => {
-      const body: RepositorySave = req.body;
-      return req.url === url && req.method === 'POST' && body === dummyRepo;
-    }, 'POST to api/repositories with repository data in json format')
-    .flush(null, { status: 400, statusText: 'BadRequest' });
+    httpMock
+      .expectOne((req: HttpRequest<any>) => {
+        const body: RepositorySave = req.body;
+        return req.url === url && req.method === 'POST' && body === dummyRepo;
+      }, 'POST to api/repositories with repository data in json format')
+      .flush(null, { status: 400, statusText: 'BadRequest' });
 
     httpMock.verify();
   });
@@ -169,10 +170,11 @@ describe('RepositoryService', () => {
 
     const url = `${environment.baseUrl}${repositoryUrl}/${id}`;
 
-    httpMock.expectOne((req: HttpRequest<any>) => {
-      return req.url === url && req.method === 'GET';
-    }, 'GET to api/repositories/{id} with repository id')
-    .flush(responseRepo, { status: 200, statusText: 'OK' });
+    httpMock
+      .expectOne((req: HttpRequest<any>) => {
+        return req.url === url && req.method === 'GET';
+      }, 'GET to api/repositories/{id} with repository id')
+      .flush(responseRepo, { status: 200, statusText: 'OK' });
 
     httpMock.verify();
   });
@@ -223,10 +225,11 @@ describe('RepositoryService', () => {
 
     const url = `${environment.baseUrl}${repositoryUrl}/${repoId}/owner`;
 
-    httpMock.expectOne((req: HttpRequest<any>) => {
-      return req.url === url && req.method === 'GET';
-    }, 'GET to api/repositories/{id}/owner with repository id')
-    .flush(responseOwner, { status: 200, statusText: 'OK' });
+    httpMock
+      .expectOne((req: HttpRequest<any>) => {
+        return req.url === url && req.method === 'GET';
+      }, 'GET to api/repositories/{id}/owner with repository id')
+      .flush(responseOwner, { status: 200, statusText: 'OK' });
 
     httpMock.verify();
   });
@@ -254,10 +257,11 @@ describe('RepositoryService', () => {
       environment.baseUrl
     }${repositoryUrl}/${repoId}/contributors/${term}`;
 
-    httpMock.expectOne((req: HttpRequest<any>) => {
-      return req.url === url && req.method === 'GET';
-    }, 'GET to api/repositories/{id}/contributors/{term} with repository id and search term')
-    .flush(responseUsers, { status: 200, statusText: 'OK' });
+    httpMock
+      .expectOne((req: HttpRequest<any>) => {
+        return req.url === url && req.method === 'GET';
+      }, 'GET to api/repositories/{id}/contributors/{term} with repository id and search term')
+      .flush(responseUsers, { status: 200, statusText: 'OK' });
 
     httpMock.verify();
   });
@@ -273,7 +277,9 @@ describe('RepositoryService', () => {
       ownerId: 1,
       status: 'OPENED',
       assignees: [1, 2],
-      labels: []
+      labels: [],
+      milestoneId: 1,
+      milestoneTitle: 'title'
     };
 
     const term = 'username';
@@ -286,10 +292,11 @@ describe('RepositoryService', () => {
 
     const url = `${environment.baseUrl}${repositoryUrl}/${repoId}/issues`;
 
-    httpMock.expectOne((req: HttpRequest<any>) => {
-      return req.url === url && req.method === 'GET';
-    }, 'GET to api/repositories/{id}/issues with repository id')
-    .flush(responseIssues, { status: 200, statusText: 'OK' });
+    httpMock
+      .expectOne((req: HttpRequest<any>) => {
+        return req.url === url && req.method === 'GET';
+      }, 'GET to api/repositories/{id}/issues with repository id')
+      .flush(responseIssues, { status: 200, statusText: 'OK' });
 
     httpMock.verify();
   });

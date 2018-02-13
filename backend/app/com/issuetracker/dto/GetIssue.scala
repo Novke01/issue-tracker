@@ -11,7 +11,8 @@ case class GetIssue(
     description: String,
     created: Long,
     ownerId: Long,
-    status: IssueStatus
+    status: IssueStatus,
+    milestoneId: Option[Long]
 )
 
 object GetIssue {
@@ -26,7 +27,8 @@ object GetIssue {
       issue.description,
       issue.created,
       issue.ownerId,
-      issue.status
+      issue.status,
+      issue.milestoneId
     )
 
 }

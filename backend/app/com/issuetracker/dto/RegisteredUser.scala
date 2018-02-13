@@ -5,11 +5,11 @@ import com.issuetracker.model.User
 import play.api.libs.json.Json
 
 case class RegisteredUser(
-  id: Long,
-  username: String,
-  firstName: String,
-  lastName: String,
-  email: String
+    id: Long,
+    username: String,
+    firstName: String,
+    lastName: String,
+    email: String
 )
 
 object RegisteredUser {

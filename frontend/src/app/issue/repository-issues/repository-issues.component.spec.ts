@@ -6,9 +6,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { RepositoryService } from '../../repository/shared/repository.service';
 import { SharedModule } from '../../shared/shared.module';
+import { MilestoneService } from './../../milestone/shared/milestone.service';
 import { RepositoryIssuesComponent } from './repository-issues.component';
 
-describe('RepositoryIssuesComponen', () => {
+describe('RepositoryIssuesComponent', () => {
   let component: RepositoryIssuesComponent;
   let fixture: ComponentFixture<RepositoryIssuesComponent>;
 
@@ -21,7 +22,7 @@ describe('RepositoryIssuesComponen', () => {
           RouterTestingModule.withRoutes([]),
           SharedModule
         ],
-        providers: [RepositoryService],
+        providers: [RepositoryService, MilestoneService],
         declarations: [RepositoryIssuesComponent],
         schemas: [CUSTOM_ELEMENTS_SCHEMA]
       }).compileComponents();

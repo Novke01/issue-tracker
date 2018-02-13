@@ -52,8 +52,8 @@ class RepositoryController(
         BadRequest("Something went wrong.")
     }
   }
-  
-  def getContributed(id: Long): Action[AnyContent] = Action.async { request => 
+
+  def getContributed(id: Long): Action[AnyContent] = Action.async { request =>
     repositoryService.findByContributorId(id) map { result =>
       Ok(Json.toJson(result))
     } recover {

@@ -30,7 +30,7 @@ class AuthController(
   def login: Action[JsValue] = Action.async(parse.json) { request =>
     val optionalUser = request.body.validate[LoginUser]
     optionalUser map { loginUser =>
-      authService.login(loginUser.username, loginUser.password) map { 
+      authService.login(loginUser.username, loginUser.password) map {
         case (accessToken, refreshToken) =>
           val loggedInUser = LoggedInUser(accessToken, refreshToken)
           logger.info("user successfully logged in")
@@ -52,7 +52,7 @@ class AuthController(
     val optionToken = request.body.validate[RefreshToken]
     optionToken map { refreshToken =>
       val id: Long = jwtUtil.decode(request) map { _.id } getOrElse { -1 }
-      authService.refresh(id, refreshToken.token) map { 
+      authService.refresh(id, refreshToken.token) map {
         case (accessToken, refreshToken) =>
           val loggedInUser = LoggedInUser(accessToken, refreshToken)
           logger.info("refreshed jwt successfully")

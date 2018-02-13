@@ -11,7 +11,8 @@ case class PostIssue(
     description: String,
     ownerId: Long,
     assignees: List[Long],
-    labels: List[Long]
+    labels: List[Long],
+    milestoneId: Option[Long]
 )
 object PostIssue {
 
@@ -25,7 +26,8 @@ object PostIssue {
       postIssue.description,
       currentTimeMillis(),
       postIssue.ownerId,
-      IssueStatus.OPENED
+      IssueStatus.OPENED,
+      postIssue.milestoneId
     )
 
 }

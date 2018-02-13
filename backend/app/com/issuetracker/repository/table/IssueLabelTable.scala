@@ -8,8 +8,10 @@ class IssueLabelTable(tag: Tag) extends Table[IssueLabel](tag, "issueLabels") {
   def id      = column[Long]("id", O.PrimaryKey, O.AutoInc)
   def labelId = column[Long]("labelId")
   def issueId = column[Long]("issueId")
-  def label   = foreignKey("label_FK", labelId, LabelTable.labels)(_.id, onDelete=ForeignKeyAction.Cascade)
-  def issue   = foreignKey("issue_FK", issueId, IssueTable.issues)(_.id, onDelete=ForeignKeyAction.Cascade)
+  def label =
+    foreignKey("label_FK", labelId, LabelTable.labels)(_.id, onDelete = ForeignKeyAction.Cascade)
+  def issue =
+    foreignKey("issue_FK", issueId, IssueTable.issues)(_.id, onDelete = ForeignKeyAction.Cascade)
 
   def * = (id, labelId, issueId) <> (IssueLabel.tupled, IssueLabel.unapply)
 
