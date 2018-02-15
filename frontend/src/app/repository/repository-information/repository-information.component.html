@@ -1,5 +1,30 @@
 <br>
 <br>
+<div class="contributors-container mat-elevation-z8 centeredtable">
+    <mat-table [dataSource]="dataSourceRepo">
+        <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef> Repository name</mat-header-cell>
+            <mat-cell *matCellDef="let repository"> {{repository.name}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+            <mat-header-cell *matHeaderCellDef> Description</mat-header-cell>
+            <mat-cell *matCellDef="let repository"> {{(repository.description | slice:0:40)+'...'}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="url">
+            <mat-header-cell *matHeaderCellDef> Url</mat-header-cell>
+            <mat-cell *matCellDef="let repository">
+                <a class="nav-link" href="{{repository.url}}" target="_blank">{{repository.url}}</a>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumnsRepo"></mat-header-row>
+        <mat-row *matRowDef="let repository; columns: displayedColumnsRepo;">
+        </mat-row>
+    </mat-table>
+
+</div>
 <div class="contributors-header">
     <mat-form-field>
         <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
@@ -64,8 +89,8 @@
             </mat-form-field>
             <br>
             <mat-form-field>
-            <textarea matInput formControlName="description" placeholder="Enter description" matTextareaAutosize
-                      matAutosizeMinRows="2" matAutosizeMaxRows="8" required></textarea>
+                <textarea matInput formControlName="description" placeholder="Enter description" matTextareaAutosize matAutosizeMinRows="2"
+                    matAutosizeMaxRows="8" required></textarea>
                 <mat-error *ngIf="description.invalid && description.touched">
                     Please enter description.
                 </mat-error>

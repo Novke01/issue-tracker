@@ -1,0 +1,3 @@
+POST    /                                        com.issuetracker.controller.PullRequestController.insert
+GET     /:id                                     com.issuetracker.controller.PullRequestController.get(id: Long)
+GET     /repository/:id                          com.issuetracker.controller.PullRequestController.getByRepositoryId(id: Long)

@@ -11,6 +11,7 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { IssueModule } from './issue/issue.module';
 import { LabelModule } from './label/label.module';
 import { MilestoneModule } from './milestone/milestone.module';
+import { PullRequestModule } from './pull-request/pull-request.module';
 import { RepositoryPageComponent } from './repository-page/repository-page.component';
 import { RepositoryModule } from './repository/repository.module';
 import { SharedModule } from './shared/shared.module';
@@ -38,6 +39,7 @@ import { WikiModule } from './wiki/wiki.module';
     WikiModule,
     LabelModule,
     MilestoneModule,
+    PullRequestModule,
     MarkdownModule.forRoot()
   ],
   providers: [],

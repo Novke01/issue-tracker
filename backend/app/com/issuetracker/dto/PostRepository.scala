@@ -4,13 +4,13 @@ import com.issuetracker.model.Repository
 import play.api.libs.json._
 
 case class PostRepository(
-                           id: Option[Long],
-                           name: String,
-                           url: String,
-                           description: String,
-                           ownerId: Long,
-                           contributors: List[Long]
-                         )
+    id: Option[Long],
+    name: String,
+    url: String,
+    description: String,
+    ownerId: Long,
+    contributors: List[Long]
+)
 
 object PostRepository {
 

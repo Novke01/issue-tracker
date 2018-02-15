@@ -3,7 +3,7 @@
   font-family: Roboto, Arial, sans-serif;
 }
 
-.milestone-container {
+.pull-request-container {
   display: flex;
   flex-direction: column;
   min-width: 300px;
@@ -12,12 +12,12 @@
 .centeredtable {
   top: 150px;
   left: 50%;
-  transform: translate(10%, 0%);
+  transform: translate(30%, 0%);
   padding: 0px;
-  width: 80%;
+  width: 60%;
 }
 
-.milestone-header {
+.pull-request-header {
   left: 10%;
   min-height: 64px;
   padding: 8px 24px 0;
@@ -26,6 +26,7 @@
 .mat-form-field {
   font-size: 14px;
   width: 15%;
+  margin-left: 80px;
 }
 
 .mat-table {
