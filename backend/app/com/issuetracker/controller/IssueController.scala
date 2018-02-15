@@ -19,9 +19,12 @@ class IssueController(val cc: ControllerComponents,
   val logger: Logger = Logger(this.getClass)
 
   def insert: Action[JsValue] = Action.async(parse.json) { request =>
-    val currentUser = request.attrs.get(JwtUser.Key).getOrElse {
-      NotFound
-    }.asInstanceOf[JwtUser]
+    val currentUser = request.attrs
+      .get(JwtUser.Key)
+      .getOrElse {
+        NotFound
+      }
+      .asInstanceOf[JwtUser]
     val optionalIssue = request.body.validate[PostIssue]
     Future {
       BadRequest

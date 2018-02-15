@@ -1,0 +1,23 @@
+<form [formGroup]="form" (ngSubmit)="onCreatePullRequest()">
+  <h1 mat-dialog-title>New Pull request</h1>
+  <mat-dialog-content>
+    <mat-form-field>
+      <input matInput formControlName="title" placeholder="Enter pull request title" required>
+      <mat-error *ngIf="title.invalid && title.touched">
+        Please title name.
+      </mat-error>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-content>
+    <mat-form-field>
+      <input matInput formControlName="url" placeholder="Enter pull request url" required>
+      <mat-error *ngIf="url.invalid && url.touched">
+        Please enter url.
+      </mat-error>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button type="submit">Add</button>
+    <button mat-button type="button" mat-dialog-close>Cancel</button>
+  </mat-dialog-actions>
+</form>

@@ -91,7 +91,7 @@ class MilestoneServiceSpec extends PlaySpec with MockitoSugar {
   }
 
   "MilestoneService#save" should {
-    "save milestone and return this milestone with id" in {
+    "save milestone and return that milestone with id" in {
 
       val date = new DateTime()
 

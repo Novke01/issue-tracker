@@ -8,8 +8,8 @@ import scala.concurrent.Future
 import com.issuetracker.repository.ContributorRepository
 
 class ContributorService(
-                          val contributorRepository: ContributorRepository
-                        )(implicit val executionContext: ExecutionContext) {
+    val contributorRepository: ContributorRepository
+)(implicit val executionContext: ExecutionContext) {
 
   def addContributors(id: Long, contributors: List[Long]): Future[Option[Int]] = {
     contributorRepository.addContributors(id, contributors)
@@ -22,10 +22,13 @@ class ContributorService(
     * @param contributors New proposed set of contributors.
     */
   def updateContributors(id: Long, contributors: List[Long]): Unit = {
-    contributorRepository.getContributorsByRepositoryId(id).map(currentContributors => {
-      val newContributors = contributors.filter(contributor => !currentContributors.map(user => user.id).contains(contributor))
-      contributorRepository.addContributors(id, newContributors)
-    })
+    contributorRepository
+      .getContributorsByRepositoryId(id)
+      .map(currentContributors => {
+        val newContributors = contributors.filter(contributor =>
+          !currentContributors.map(user => user.id).contains(contributor))
+        contributorRepository.addContributors(id, newContributors)
+      })
   }
 
   def findByRepositoryIdAndSearchTerm(repoId: Long, searchTerm: String): Future[Seq[GetUser]] = {
@@ -45,8 +48,8 @@ class ContributorService(
 object ContributorService {
 
   def apply(
-             contributorRepository: ContributorRepository
-           )(implicit ec: ExecutionContext): ContributorService =
+      contributorRepository: ContributorRepository
+  )(implicit ec: ExecutionContext): ContributorService =
     new ContributorService(contributorRepository)
 
 }
