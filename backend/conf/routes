@@ -6,3 +6,4 @@
 ->      /api/labels             label.Routes
 ->      /api/milestones         milestone.Routes
 ->      /api/pull-requests      pullrequest.Routes
+->      /api/comments           comment.Routes

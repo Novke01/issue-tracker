@@ -23,7 +23,7 @@ export class DisplayPullRequestComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap
       .switchMap((params: ParamMap) =>
-        this.pullRequestService.get(params.get('id'))
+        this.pullRequestService.get(params.get('pullRequestId'))
       )
       .subscribe(result => {
         this.pullRequest = result;

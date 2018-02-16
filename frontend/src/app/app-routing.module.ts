@@ -34,7 +34,7 @@ const appRoutes: Routes = [
     canActivate: [AuthGuardService]
   },
   {
-    path: 'repository/:repoId/pull-request/:id',
+    path: 'repository/:repoId/pull-request/:pullRequestId',
     component: DisplayPullRequestComponent,
     canActivate: [AuthGuardService]
   }

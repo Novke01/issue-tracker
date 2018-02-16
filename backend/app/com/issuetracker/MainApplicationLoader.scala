@@ -40,6 +40,7 @@ class ApplicationComponents(context: Context)
   lazy val issueLabelRepository   = new IssueLabelRepository(dbConfig.db)
   lazy val milestoneRepository    = new MilestoneRepository(dbConfig.db)
   lazy val pullRequestRepository  = new PullRequestRepository(dbConfig.db)
+  lazy val commentRepository      = new CommentRepository(dbConfig.db)
 
   lazy val jwtUtil = JwtUtil(configuration)
 
@@ -53,6 +54,7 @@ class ApplicationComponents(context: Context)
   issueLabelRepository.create()
   milestoneRepository.create()
   pullRequestRepository.create()
+  commentRepository.create()
 
   lazy val userService        = UserService(userRepository)
   lazy val authService        = AuthService(userRepository, jwtUtil)
@@ -66,6 +68,7 @@ class ApplicationComponents(context: Context)
   lazy val issueLabelService   = new IssueLabelService(issueLabelRepository, issueRepository)
   lazy val milestoneService    = new MilestoneService(milestoneRepository)
   lazy val pullRequestService  = new PullRequestService(pullRequestRepository)
+  lazy val commentService      = new CommentService(commentRepository)
 
   lazy val userController = new UserController(controllerComponents, userService)
   lazy val authController = new AuthController(controllerComponents, jwtUtil, authService)
@@ -87,6 +90,7 @@ class ApplicationComponents(context: Context)
   lazy val milestoneController = new MilestoneController(controllerComponents, milestoneService)
   lazy val pullRequestController =
     new PullRequestController(controllerComponents, pullRequestService)
+  lazy val commentController = new CommentController(controllerComponents, commentService)
 
   lazy val authRouter        = new auth.Routes(httpErrorHandler, authController)
   lazy val userRouter        = new user.Routes(httpErrorHandler, userController)
@@ -96,6 +100,7 @@ class ApplicationComponents(context: Context)
   lazy val labelRouter       = new label.Routes(httpErrorHandler, labelController)
   lazy val milestoneRouter   = new milestone.Routes(httpErrorHandler, milestoneController)
   lazy val pullRequestRouter = new pullrequest.Routes(httpErrorHandler, pullRequestController)
+  lazy val commentRouter     = new comment.Routes(httpErrorHandler, commentController)
 
   lazy val router =
     new Routes(httpErrorHandler,
@@ -106,7 +111,8 @@ class ApplicationComponents(context: Context)
                wikipageRouter,
                labelRouter,
                milestoneRouter,
-               pullRequestRouter)
+               pullRequestRouter,
+               commentRouter)
 
   lazy val jwtFilter = JwtFilter(jwtUtil)
 
