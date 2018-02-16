@@ -1,9 +1,9 @@
-.container {
+#issue-display {
   position: fixed;
   top: 100px;
-  left: 25%;
+  left: 2%;
   padding: 0px;
-  width: 50%;
+  width: 45%;
 }
 
 .left-side {

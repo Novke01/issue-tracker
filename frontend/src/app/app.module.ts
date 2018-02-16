@@ -6,6 +6,7 @@ import { MarkdownModule } from 'ngx-md';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { CommentModule } from './comment/comment.module';
 import { CoreModule } from './core/core.module';
 import { HomePageComponent } from './home-page/home-page.component';
 import { IssueModule } from './issue/issue.module';
@@ -40,6 +41,7 @@ import { WikiModule } from './wiki/wiki.module';
     LabelModule,
     MilestoneModule,
     PullRequestModule,
+    CommentModule,
     MarkdownModule.forRoot()
   ],
   providers: [],

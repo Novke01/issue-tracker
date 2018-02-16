@@ -1,12 +1,13 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { RepositoryService } from '../../repository/shared/repository.service';
 import { SharedModule } from '../../shared/shared.module';
 import { IssueService } from '../shared/issue.service';
 import { IssueDisplayComponent } from './issue-display.component';
-import { RepositoryService } from '../../repository/shared/repository.service';
 
 describe('IssueDisplayComponent', () => {
   let component: IssueDisplayComponent;
@@ -16,6 +17,7 @@ describe('IssueDisplayComponent', () => {
     async(() => {
       TestBed.configureTestingModule({
         imports: [
+          ReactiveFormsModule,
           HttpClientTestingModule,
           RouterTestingModule.withRoutes([]),
           SharedModule

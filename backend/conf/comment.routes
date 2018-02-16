@@ -1,0 +1,4 @@
+POST    /                                        com.issuetracker.controller.CommentController.insert
+GET     /:id                                     com.issuetracker.controller.CommentController.get(id: Long)
+GET     /issue/:id                               com.issuetracker.controller.CommentController.getByIssueId(id: Long)
+GET     /pull-request/:id                        com.issuetracker.controller.CommentController.getByPullRequestId(id: Long)
