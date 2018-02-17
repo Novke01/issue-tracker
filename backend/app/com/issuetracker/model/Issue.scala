@@ -11,6 +11,4 @@ case class Issue(
     ownerId: Long,
     status: IssueStatus,
     milestoneId: Option[Long]
-    //labels: List<Label>
-    //history: List<Item>*/
 )

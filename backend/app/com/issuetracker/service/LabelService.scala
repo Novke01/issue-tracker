@@ -2,14 +2,15 @@ package com.issuetracker.service
 
 import scala.concurrent.{ExecutionContext, Future}
 import com.issuetracker.dto._
+import com.issuetracker.model.Label
 import com.issuetracker.repository.LabelRepository
 import play.api.Logger
 
 class LabelService(val labelRepository: LabelRepository)(
     implicit val executionContext: ExecutionContext) {
 
-  def insert(postLabel: PostLabel): Future[GetLabel] = {
-    labelRepository.insert(postLabel).map(GetLabel.labelToGetLabel)
+  def insert(label: Label): Future[GetLabel] = {
+    labelRepository.insert(label).map(GetLabel.labelToGetLabel)
   }
 
   def findByRepositoryId(repoId: Long): Future[Seq[GetLabel]] = {

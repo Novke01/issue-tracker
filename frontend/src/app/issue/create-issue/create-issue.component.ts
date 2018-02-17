@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators
+} from '@angular/forms';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -9,6 +14,7 @@ import { Milestone } from '../../milestone/shared/milestone.model';
 import { RepositoryService } from '../../repository/shared/repository.service';
 import { Issue } from '../shared/issue.model';
 import { IssueService } from '../shared/issue.service';
+import { AuthService } from '../../core/auth/auth.service';
 import { MilestoneService } from './../../milestone/shared/milestone.service';
 
 @Component({
@@ -30,6 +36,7 @@ export class CreateIssueComponent implements OnInit {
     private formBuilder: FormBuilder,
     private issueService: IssueService,
     private repositoryService: RepositoryService,
+    private authService: AuthService,
     private milestoneService: MilestoneService,
     private snackBar: MatSnackBar,
     private dialogRef: MatDialogRef<CreateIssueComponent>
@@ -85,7 +92,7 @@ export class CreateIssueComponent implements OnInit {
       issue.repositoryId = this.repositoryId;
       issue.title = this.title.value;
       issue.description = this.description.value;
-      issue.ownerId = -1;
+      issue.ownerId = this.authService.user.id;
       issue.milestoneId = this.milestone.value;
       issue.assignees = this.assignees.map(a => a.id);
       issue.labels = [];
