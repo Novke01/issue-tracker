@@ -13,6 +13,7 @@ import { Issue } from '../shared/issue.model';
 import { IssueService } from '../shared/issue.service';
 import { RepositoryService } from '../../repository/shared/repository.service';
 import { Label } from '../../label/shared/label.model';
+import { AuthService } from '../../core/auth/auth.service';
 
 @Component({
   selector: 'it-create-issue',
@@ -32,6 +33,7 @@ export class CreateIssueComponent implements OnInit {
     private formBuilder: FormBuilder,
     private issueService: IssueService,
     private repositoryService: RepositoryService,
+    private authService: AuthService,
     private snackBar: MatSnackBar,
     private dialogRef: MatDialogRef<CreateIssueComponent>
   ) {}
@@ -76,7 +78,7 @@ export class CreateIssueComponent implements OnInit {
       issue.repositoryId = this.repositoryId;
       issue.title = this.title.value;
       issue.description = this.description.value;
-      issue.ownerId = -1;
+      issue.ownerId = this.authService.user.id;
       issue.assignees = this.assignees.map(a => a.id);
       issue.labels = [];
       if (this.labels.value) {

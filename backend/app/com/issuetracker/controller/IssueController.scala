@@ -19,17 +19,13 @@ class IssueController(val cc: ControllerComponents,
   val logger: Logger = Logger(this.getClass)
 
   def insert: Action[JsValue] = Action.async(parse.json) { request =>
-    val currentUser = request.attrs.get(JwtUser.Key).getOrElse {
-      NotFound
-    }.asInstanceOf[JwtUser]
     val optionalIssue = request.body.validate[PostIssue]
     Future {
       BadRequest
     }
     optionalIssue match {
       case JsSuccess(postIssue: PostIssue, _) =>
-        val modifiedPostIssue = postIssue.copy(ownerId = currentUser.id)
-        issueService.insert(modifiedPostIssue).map { result =>
+        issueService.insert(postIssue, postIssue.assignees, postIssue.labels).map { result =>
           Created(Json.toJson(result))
         } recover {
           case err =>
@@ -64,12 +60,9 @@ class IssueController(val cc: ControllerComponents,
   }
 
   def getOne(id: Long): Action[AnyContent] = Action.async {
-    issueService.findById(id).map { result =>
-      Ok(Json.toJson(result))
-    } recover {
-      case err =>
-        logger.error(err.getMessage, err)
-        BadRequest("Something went wrong.")
+    issueService.findById(id) map {
+      case Some(issue) => Ok(Json.toJson(issue))
+      case None        => NotFound
     }
   }
 

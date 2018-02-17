@@ -1,6 +1,6 @@
 package com.issuetracker.service
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.{Await, ExecutionContext, Future}
 import com.issuetracker.dto.{GetIssue, PostIssue, UpdateIssue}
 import com.issuetracker.exception.IssueNotFoundException
 import com.issuetracker.model.Issue
@@ -14,18 +14,18 @@ class IssueService(val issueRepository: IssueRepository,
 
   private val logger = Logger(this.getClass())
 
-  def insert(postIssue: PostIssue): Future[GetIssue] = {
+  def insert(postIssue: Issue, assignees: List[Long], labels: List[Long]): Future[GetIssue] = {
     issueRepository.insert(postIssue) flatMap { issue =>
-      assignedUserRepository.insertAssignees(issue.id, postIssue.assignees) map { _ =>
+      assignedUserRepository.insertAssignees(issue.id, assignees) map { _ =>
         issue
       }
-      issueLabelRepository.insertIssueLabels(issue.id, postIssue.labels) map { _ =>
+      issueLabelRepository.insertIssueLabels(issue.id, labels) map { _ =>
         issue
       }
     }
   }
 
-  def update(updateIssue: UpdateIssue): Future[GetIssue] = {
+  def update(updateIssue: Issue): Future[GetIssue] = {
     issueRepository.update(updateIssue) map {
       case Some(issue: Issue) =>
         GetIssue.issueToGetIssue(issue)
@@ -34,22 +34,8 @@ class IssueService(val issueRepository: IssueRepository,
     }
   }
 
-  def findByOwnerId(id: Long): Future[Seq[GetIssue]] = {
-    issueRepository.findByOwnerId(id).map(_.map(GetIssue.issueToGetIssue))
-  }
-
-  def findByAssignedUserId(id: Long): Future[Seq[GetIssue]] = {
-    assignedUserRepository.findIssueByAssignedUserId(id).map(_.map(GetIssue.issueToGetIssue))
-  }
-
-  def findById(id: Long): Future[GetIssue] = {
-    issueRepository.findById(id).map {
-      case Some(issue: Issue) =>
-        GetIssue.issueToGetIssue(issue)
-      case None =>
-        logger.info("Issue not found.")
-        throw new IssueNotFoundException(s"Issue with id $id doesn't exist.")
-    }
+  def findById(id: Long): Future[Option[GetIssue]] = {
+    issueRepository.findById(id).map(_.map(GetIssue.issueToGetIssue))
   }
 
   def findByRepositoryId(repoId: Long): Future[Seq[GetIssue]] = {
