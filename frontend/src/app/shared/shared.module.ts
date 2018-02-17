@@ -18,6 +18,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatColorPickerModule } from 'mat-color-picker';
 import {MatSelectModule} from '@angular/material/select';
+import {MatListModule} from '@angular/material/list';
 
 @NgModule({
   exports: [
@@ -41,7 +42,8 @@ import {MatSelectModule} from '@angular/material/select';
     MatColorPickerModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatSelectModule
+    MatSelectModule,
+    MatListModule
   ],
   declarations: []
 })

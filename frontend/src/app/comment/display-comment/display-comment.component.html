@@ -12,7 +12,7 @@
 
         <ng-container matColumnDef="content">
             <mat-header-cell *matHeaderCellDef> Comment </mat-header-cell>
-            <mat-cell *matCellDef="let comment">{{ comment.content }}</mat-cell>
+            <mat-cell *matCellDef="let comment" [innerHTML]="comment.content"></mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -23,12 +23,17 @@
 </div>
 <br>
 <br>
-<form [formGroup]="form" (ngSubmit)="onCreateComment()">
+<form [formGroup]="form" (ngSubmit)="onCreateComment()" class="example-form">
     <mat-form-field class="example-full-width">
-        <textarea matInput formControlName="content" placeholder="Leave a Comment" required></textarea>
+        <textarea (keyup)="onKey($event)" matInput formControlName="content" matTextareaAutosize matAutosizeMinRows="2" matAutosizeMaxRows="10"
+            placeholder="Leave a Comment" required #comment></textarea>
         <mat-error *ngIf="content.invalid && content.touched">
             Please enter comment.
         </mat-error>
     </mat-form-field>
     <button mat-raised-button color="primary" type="submit">Add</button>
 </form>
+
+<mat-list role="list">
+    <mat-list-item role="listitem" (click)="clickOnItem(item)" *ngFor="let item of items">{{ item }}</mat-list-item>
+</mat-list>
