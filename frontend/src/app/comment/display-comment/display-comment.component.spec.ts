@@ -5,7 +5,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs/observable/of';
 
 import { AuthService } from '../../core/auth/auth.service';
+import { RepositoryService } from '../../repository/shared/repository.service';
 import { SharedModule } from '../../shared/shared.module';
+import { PullRequestService } from './../../pull-request/shared/pull-request.service';
 import { Comment } from './../shared/comment.model';
 import { CommentService } from './../shared/comment.service';
 import { DisplayCommentComponent } from './display-comment.component';
@@ -35,7 +37,12 @@ describe('DisplayCommentComponent', () => {
           RouterTestingModule.withRoutes([]),
           SharedModule
         ],
-        providers: [CommentService, AuthService],
+        providers: [
+          CommentService,
+          AuthService,
+          RepositoryService,
+          PullRequestService
+        ],
         declarations: [DisplayCommentComponent]
       }).compileComponents();
     })
