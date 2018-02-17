@@ -1,19 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators
-} from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import * as _ from 'underscore';
 
 import { User } from '../../core/auth/user.model';
-import { Issue } from '../shared/issue.model';
-import { IssueService } from '../shared/issue.service';
 import { Label } from '../../label/shared/label.model';
 import { RepositoryService } from '../../repository/shared/repository.service';
-import * as _ from 'underscore';
+import { Issue } from '../shared/issue.model';
+import { IssueService } from '../shared/issue.service';
 
 @Component({
   selector: 'it-issue-display',
@@ -140,14 +135,12 @@ export class IssueDisplayComponent implements OnInit {
       this.issue.description = this.description.value;
       this.issueService.updateIssue(this.issue).subscribe(
         issue => {
-          console.log(issue);
           this.disableForm();
           this.snackBar.open('You have successfully updated an issue.', 'OK', {
             duration: 2000
           });
         },
         err => {
-          console.log(err);
           this.snackBar.open(err.message, 'Cancel', {
             duration: 2000
           });

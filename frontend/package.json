@@ -24,6 +24,7 @@
     "@angular/platform-browser": "^5.2.4",
     "@angular/platform-browser-dynamic": "^5.2.4",
     "@angular/router": "^5.2.4",
+    "@angular-devkit/core": "0.0.29",
     "@types/underscore": "^1.8.7",
     "angular2-jwt": "^0.2.3",
     "core-js": "^2.4.1",

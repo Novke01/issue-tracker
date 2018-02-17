@@ -1,0 +1,3 @@
+POST    /                                        com.issuetracker.controller.MilestoneController.insert
+GET     /:id                                     com.issuetracker.controller.MilestoneController.get(id: Long)
+GET     /repository/:id                          com.issuetracker.controller.MilestoneController.getByRepositoryId(id: Long)

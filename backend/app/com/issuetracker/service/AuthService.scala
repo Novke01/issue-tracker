@@ -18,10 +18,10 @@ class AuthService(
     val jwtUtil: JwtUtil
 )(implicit ec: ExecutionContext) {
 
-  private val logger = Logger(this.getClass)
-  
+  private val logger = Logger(this.getClass())
+
   def login(username: String, password: String): Future[(String, String)] = {
-    userRepository.findByUsername(username).map { result => 
+    userRepository.findByUsername(username).map { result =>
       result map { user =>
         if (password.isBcrypted(user.password)) {
           logger.info("user successfully logged in")
@@ -32,11 +32,11 @@ class AuthService(
         }
       } getOrElse {
         logger.error("user not found")
-        throw new UserNotFoundException(s"User with username $username doesn't exist.")
+        throw new UserNotFoundException(s"User with username ${username} doesn't exist.")
       }
     }
   }
-  
+
   def refresh(id: Long, refreshToken: String): Future[(String, String)] = {
     userRepository.findById(id).map { userOption =>
       userOption map { user =>

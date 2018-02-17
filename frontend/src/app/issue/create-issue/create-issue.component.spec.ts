@@ -1,14 +1,15 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { MilestoneService } from '../../milestone/shared/milestone.service';
+import { RepositoryService } from '../../repository/shared/repository.service';
 import { SharedModule } from '../../shared/shared.module';
 import { IssueService } from '../shared/issue.service';
 import { CreateIssueComponent } from './create-issue.component';
-import { RepositoryService } from '../../repository/shared/repository.service';
 import { UserService } from '../../user/shared/user.service';
 import { AuthService } from '../../core/auth/auth.service';
 import { User } from '../../core/auth/user.model';
@@ -55,8 +56,10 @@ describe('CreateIssueComponent', () => {
           RepositoryService,
           UserService,
           AuthService,
+          MilestoneService,
           { provide: MatDialogRef, useValue: mockDialogRef },
-          { provide: MAT_DIALOG_DATA, useValue: [] }
+          { provide: MAT_DIALOG_DATA, useValue: [] },
+          { provide: NG_VALUE_ACCESSOR}
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA]
       }).compileComponents();

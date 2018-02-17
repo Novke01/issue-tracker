@@ -1,12 +1,13 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { RepositoryService } from '../../repository/shared/repository.service';
 import { SharedModule } from '../../shared/shared.module';
 import { IssueService } from '../shared/issue.service';
 import { IssueDisplayComponent } from './issue-display.component';
-import { RepositoryService } from '../../repository/shared/repository.service';
 import { Issue } from '../shared/issue.model';
 import { of } from 'rxjs/observable/of';
 import { User } from '../../core/auth/user.model';
@@ -25,6 +26,7 @@ describe('IssueDisplayComponent', () => {
     async(() => {
       TestBed.configureTestingModule({
         imports: [
+          ReactiveFormsModule,
           HttpClientTestingModule,
           RouterTestingModule.withRoutes([]),
           SharedModule
@@ -50,6 +52,8 @@ describe('IssueDisplayComponent', () => {
       ownerId: 1,
       labels: [1, 2],
       assignees: [1, 2],
+      milestoneId: 1,
+      milestoneTitle: 'milestone1',
       created: 1518810162338,
       status: 'OPENED'
     };

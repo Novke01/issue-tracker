@@ -24,10 +24,17 @@
 
     <ng-container matColumnDef="status">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Status </mat-header-cell>
-      <mat-cell *matCellDef="let issue"> 
+      <mat-cell *matCellDef="let issue">
         <mat-chip-list>
           <mat-chip [ngStyle]="{'background-color': issue.status === 'OPENED' ? 'green' : 'red'}" selected="true">{{issue.status}}</mat-chip>
-        </mat-chip-list> 
+        </mat-chip-list>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="milestoneTitle">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Milestone </mat-header-cell>
+      <mat-cell *matCellDef="let issue">
+        <button mat-button (click)="applyFilter(issue.milestoneTitle)">{{issue.milestoneTitle}}</button>
       </mat-cell>
     </ng-container>
 

@@ -24,7 +24,8 @@ class IssueServiceSpec extends PlaySpec with MockitoSugar {
         "newIssueDescription",
         1l,
         List[Long](),
-        List[Long]()
+        List[Long](),
+        Some(1)
       )
 
       val newIssue = Issue(
@@ -34,7 +35,8 @@ class IssueServiceSpec extends PlaySpec with MockitoSugar {
         "newIssueDescription",
         currentTimeMillis(),
         1l,
-        IssueStatus.OPENED
+        IssueStatus.OPENED,
+        Some(1)
       )
 
       val mockIssueRepository        = mock[IssueRepository]
@@ -64,7 +66,8 @@ class IssueServiceSpec extends PlaySpec with MockitoSugar {
         "description",
         currentTimeMillis(),
         1,
-        IssueStatus.OPENED
+        IssueStatus.OPENED,
+        Some(1)
       )
 
       val updatedIssue = Issue(
@@ -74,7 +77,8 @@ class IssueServiceSpec extends PlaySpec with MockitoSugar {
         "updatedDescription",
         issue.created,
         1,
-        IssueStatus.CLOSED
+        IssueStatus.CLOSED,
+        Some(1)
       )
 
       val mockIssueRepository = mock[IssueRepository]
@@ -104,7 +108,8 @@ class IssueServiceSpec extends PlaySpec with MockitoSugar {
         "description",
         currentTimeMillis(),
         1,
-        IssueStatus.OPENED
+        IssueStatus.OPENED,
+        Some(1)
       )
       val mockIssueRepository = mock[IssueRepository]
       when(mockIssueRepository.findById(any[Int])) thenReturn Future {
@@ -149,7 +154,8 @@ class IssueServiceSpec extends PlaySpec with MockitoSugar {
         "description",
         currentTimeMillis(),
         1,
-        IssueStatus.OPENED
+        IssueStatus.OPENED,
+        Some(1)
       )
       val mockIssueRepository = mock[IssueRepository]
       when(mockIssueRepository.findByRepositoryId(any[Int])) thenReturn Future {

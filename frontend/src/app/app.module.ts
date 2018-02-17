@@ -6,16 +6,19 @@ import { MarkdownModule } from 'ngx-md';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { CommentModule } from './comment/comment.module';
 import { CoreModule } from './core/core.module';
 import { HomePageComponent } from './home-page/home-page.component';
 import { IssueModule } from './issue/issue.module';
+import { LabelModule } from './label/label.module';
+import { MilestoneModule } from './milestone/milestone.module';
+import { PullRequestModule } from './pull-request/pull-request.module';
 import { RepositoryPageComponent } from './repository-page/repository-page.component';
 import { RepositoryModule } from './repository/repository.module';
 import { SharedModule } from './shared/shared.module';
 import { StarterPageComponent } from './starter-page/starter-page.component';
 import { UserModule } from './user/user.module';
 import { WikiModule } from './wiki/wiki.module';
-import { LabelModule } from './label/label.module';
 
 @NgModule({
   declarations: [
@@ -36,6 +39,9 @@ import { LabelModule } from './label/label.module';
     IssueModule,
     WikiModule,
     LabelModule,
+    MilestoneModule,
+    PullRequestModule,
+    CommentModule,
     MarkdownModule.forRoot()
   ],
   providers: [],

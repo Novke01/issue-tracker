@@ -1,73 +1,82 @@
 <div class="container">
-    <mat-card>
-        <mat-card-title class="title">{{issue.title}}</mat-card-title>
-        <mat-chip-list>
-            <mat-chip [ngStyle]="{'background-color': issue.status === 'OPENED' ? 'green' : 'red'}" selected="true">{{issue.status}}</mat-chip>
-        </mat-chip-list>
-        <br>
-        <br>
-        <div fxLayout="row" fxLayoutAlign="center center">
-            <div class="left-side" fxFlex="60">
-                <form [formGroup]="form" (ngSubmit)="onUpdateIssue()">
-                    <div class="form-full-width">
-                        <mat-form-field>
-                            <input matInput formControlName="title" placeholder="Issue title" [ngModel]="issue.title" required>
-                            <mat-error *ngIf="title.invalid && title.touched">
-                                Please enter name.
-                            </mat-error>
-                        </mat-form-field>
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <div class="left-side" fxFlex="50">
+            <div class="container" id="issue-display">
+                <mat-card>
+                    <mat-card-title class="title">{{issue.title}}</mat-card-title>
+                    <mat-chip-list>
+                        <mat-chip [ngStyle]="{'background-color': issue.status === 'OPENED' ? 'green' : 'red'}" selected="true">{{issue.status}}</mat-chip>
+                    </mat-chip-list>
+                    <br>
+                    <br>
+                    <div fxLayout="row" fxLayoutAlign="center center">
+                        <div class="left-side" fxFlex="60">
+                            <form [formGroup]="form" (ngSubmit)="onUpdateIssue()">
+                                <div class="form-full-width">
+                                    <mat-form-field>
+                                        <input matInput formControlName="title" placeholder="Issue title" [ngModel]="issue.title" required>
+                                        <mat-error *ngIf="title.invalid && title.touched">
+                                            Please enter name.
+                                        </mat-error>
+                                    </mat-form-field>
 
 
-                        <mat-form-field>
-                            <textarea matInput formControlName="description" placeholder="Description" [ngModel]="issue.description" matTextareaAutosize
-                                matAutosizeMinRows="6" matAutosizeMaxRows="10"></textarea>
-                            <mat-error *ngIf="description.invalid && description.touched">
-                                Please enter description.
-                            </mat-error>
-                        </mat-form-field>
-                        <p></p>
-                        <div>
-                            <button mat-raised-button color="primary" type="submit" *ngIf="form.valid">Update issue</button>
-                            <button mat-raised-button color="primary" *ngIf="!form.valid" (click)="enableForm()">Edit</button>
+                                    <mat-form-field>
+                                        <textarea matInput formControlName="description" placeholder="Description" [ngModel]="issue.description" matTextareaAutosize
+                                            matAutosizeMinRows="6" matAutosizeMaxRows="10"></textarea>
+                                        <mat-error *ngIf="description.invalid && description.touched">
+                                            Please enter description.
+                                        </mat-error>
+                                    </mat-form-field>
+                                    <p></p>
+                                    <div>
+                                        <button mat-raised-button color="primary" type="submit" *ngIf="form.valid">Update issue</button>
+                                        <button mat-raised-button color="primary" *ngIf="!form.valid" (click)="enableForm()">Edit</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="right-side" fxFlex="40">
+                            <div>
+                                <h4>Labels</h4>
+                                <form [formGroup]="labelsForm">
+                                    <mat-select placeholder="Select labels..." formControlName="labels" (selectionChange)="addOrRemoveLabel()" [ngModelOptions]="{standalone: true}"
+                                        [(ngModel)]="selectedLabelsIds" multiple>
+                                        <mat-select-trigger>
+                                            <mat-chip-list>
+                                                <mat-chip *ngFor="let label of issueLabels" [ngStyle]="{'background-color':label.color}">{{label.name}}</mat-chip>
+                                            </mat-chip-list>
+                                        </mat-select-trigger>
+                                        <mat-option *ngFor="let label of repositoryLabels" [value]="label.id">
+                                            <mat-chip-list>
+                                                <mat-chip [ngStyle]="{'background-color':label.color}">{{label.name}}</mat-chip>
+                                            </mat-chip-list>
+                                        </mat-option>
+                                    </mat-select>
+                                </form>
+                            </div>
+
+                            <div>
+                                <h3>Assignees</h3>
+                                <it-possible-assignees-search [repositoryId]="repositoryId" [assignees]="assignees" (userAssigned)="onUserAssigned(assignees)"></it-possible-assignees-search>
+                                <mat-list>
+                                    <mat-list-item *ngFor="let assignee of assignees">
+                                        <div class="module hero">
+                                            <b>{{assignee.username}}</b>
+                                            <i>{{assignee.firstName}} {{assignee.lastName}}</i>
+                                            <button mat-raised-button class="del" (click)="unassignUser(assignee)" type="button" color="warn"> - </button>
+                                        </div>
+                                    </mat-list-item>
+                                </mat-list>
+                            </div>
                         </div>
                     </div>
-                </form>
-            </div>
-
-            <div class="right-side" fxFlex="40">
-                <div>
-                    <h4>Labels</h4>
-                    <form [formGroup]="labelsForm">
-                        <mat-select placeholder="Select labels..." formControlName="labels" (selectionChange)="addOrRemoveLabel()" [ngModelOptions]="{standalone: true}"
-                            [(ngModel)]="selectedLabelsIds" multiple>
-                            <mat-select-trigger>
-                                <mat-chip-list>
-                                    <mat-chip *ngFor="let label of issueLabels" [ngStyle]="{'background-color':label.color}">{{label.name}}</mat-chip>
-                                </mat-chip-list>
-                            </mat-select-trigger>
-                            <mat-option *ngFor="let label of repositoryLabels" [value]="label.id">
-                                <mat-chip-list>
-                                    <mat-chip [ngStyle]="{'background-color':label.color}">{{label.name}}</mat-chip>
-                                </mat-chip-list>
-                            </mat-option>
-                        </mat-select>
-                    </form>
-                </div>
-
-                <div>
-                    <h3>Assignees</h3>
-                    <it-possible-assignees-search [repositoryId]="repositoryId" [assignees]="assignees" (userAssigned)="onUserAssigned(assignees)"></it-possible-assignees-search>
-                    <mat-list>
-                        <mat-list-item *ngFor="let assignee of assignees">
-                            <div class="module hero">
-                                <b>{{assignee.username}}</b>
-                                <i>{{assignee.firstName}} {{assignee.lastName}}</i>
-                                <button mat-raised-button class="del" (click)="unassignUser(assignee)" type="button" color="warn"> - </button>
-                            </div>
-                        </mat-list-item>
-                    </mat-list>
-                </div>
+                </mat-card>
             </div>
         </div>
-    </mat-card>
+        <div class="right-side" fxFlex="50">
+            <it-display-comment [type]="'issue'"></it-display-comment>
+        </div>
+    </div>
 </div>

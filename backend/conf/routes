@@ -4,3 +4,6 @@
 ->      /api/issues             issue.Routes
 ->      /api/wiki-pages         wikipage.Routes
 ->      /api/labels             label.Routes
+->      /api/milestones         milestone.Routes
+->      /api/pull-requests      pullrequest.Routes
+->      /api/comments           comment.Routes

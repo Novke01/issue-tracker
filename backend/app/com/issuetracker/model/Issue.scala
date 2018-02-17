@@ -9,7 +9,6 @@ case class Issue(
     description: String,
     created: Long,
     ownerId: Long,
-    status: IssueStatus
-    //labels: List<Label>
-    //history: List<Item>*/
+    status: IssueStatus,
+    milestoneId: Option[Long]
 )

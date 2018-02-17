@@ -9,9 +9,9 @@ import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, ExecutionContext, Future}
 
 class RepositoryService(
-                         val repositoryRepository: RepositoryRepository,
-                         val contributorService: ContributorService
-                       )(implicit val ec: ExecutionContext) {
+    val repositoryRepository: RepositoryRepository,
+    val contributorService: ContributorService
+)(implicit val ec: ExecutionContext) {
 
   def insert(postRepository: PostRepository): Future[GetRepository] = {
     repositoryRepository.insert(postRepository) map { repository =>
@@ -28,12 +28,15 @@ class RepositoryService(
     * @param currentUserId User id of the user requesting to perform the update.
     * @return
     */
-  def update(repository: Repository, contributors: List[Long], currentUserId: Long): Future[GetRepository] = {
+  def update(repository: Repository,
+             contributors: List[Long],
+             currentUserId: Long): Future[GetRepository] = {
 
-    val repositoryRecord = Await.result(repositoryRepository.get(repository.id), Duration.Inf).getOrElse {
-      // Repository not found, hence can't update.
-      throw new IllegalArgumentException()
-    }
+    val repositoryRecord =
+      Await.result(repositoryRepository.get(repository.id), Duration.Inf).getOrElse {
+        // Repository not found, hence can't update.
+        throw new IllegalArgumentException()
+      }
 
     // Check weather the current user is the owner of this repository.
     if (repositoryRecord.ownerId != currentUserId) {
@@ -78,7 +81,7 @@ class RepositoryService(
 object RepositoryService {
 
   def apply(repositoryRepository: RepositoryRepository, contributorService: ContributorService)(
-    implicit ec: ExecutionContext): RepositoryService =
+      implicit ec: ExecutionContext): RepositoryService =
     new RepositoryService(repositoryRepository, contributorService)
 
 }

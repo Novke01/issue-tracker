@@ -42,7 +42,8 @@ class IssueControllerSpec extends PlaySpec with MockitoSugar with OneAppPerSuite
         "newIssueDescription",
         1l,
         List[Long](),
-        List[Long]()
+        List[Long](),
+        Some(1l)
       )
 
       val issue = GetIssue(
@@ -52,7 +53,8 @@ class IssueControllerSpec extends PlaySpec with MockitoSugar with OneAppPerSuite
         postIssue.description,
         currentTimeMillis(),
         postIssue.ownerId,
-        IssueStatus.OPENED
+        IssueStatus.OPENED,
+        postIssue.milestoneId
       )
 
       val fakeRequest = FakeRequest().withBody(
@@ -90,7 +92,8 @@ class IssueControllerSpec extends PlaySpec with MockitoSugar with OneAppPerSuite
         "newIssueDescription",
         1l,
         List[Long](),
-        List[Long]()
+        List[Long](),
+        Some(1l)
       )
 
       val fakeRequest = FakeRequest().withBody(
@@ -128,7 +131,8 @@ class IssueControllerSpec extends PlaySpec with MockitoSugar with OneAppPerSuite
         "newIssueDescription",
         1l,
         List[Long](),
-        List[Long]()
+        List[Long](),
+        Some(1l)
       )
 
       val fakeRequest = FakeRequest().withBody(
@@ -165,7 +169,8 @@ class IssueControllerSpec extends PlaySpec with MockitoSugar with OneAppPerSuite
         "updatedDescription",
         currentTimeMillis(),
         1,
-        IssueStatus.CLOSED
+        IssueStatus.CLOSED,
+        Some(1)
       )
 
       val issue = GetIssue(
@@ -175,7 +180,8 @@ class IssueControllerSpec extends PlaySpec with MockitoSugar with OneAppPerSuite
         updateIssue.description,
         updateIssue.created,
         updateIssue.ownerId,
-        updateIssue.status
+        updateIssue.status,
+        updateIssue.milestoneId
       )
 
       val fakeRequest = FakeRequest()
@@ -217,7 +223,8 @@ class IssueControllerSpec extends PlaySpec with MockitoSugar with OneAppPerSuite
         "updatedDescription",
         currentTimeMillis(),
         1,
-        IssueStatus.CLOSED
+        IssueStatus.CLOSED,
+        Some(1)
       )
 
       val fakeRequest = FakeRequest()
@@ -259,7 +266,8 @@ class IssueControllerSpec extends PlaySpec with MockitoSugar with OneAppPerSuite
         "updatedDescription",
         currentTimeMillis(),
         1,
-        IssueStatus.CLOSED
+        IssueStatus.CLOSED,
+        Some(1)
       )
 
       val fakeRequest = FakeRequest()
@@ -300,7 +308,8 @@ class IssueControllerSpec extends PlaySpec with MockitoSugar with OneAppPerSuite
         "newIssueDescription",
         currentTimeMillis(),
         1l,
-        IssueStatus.OPENED
+        IssueStatus.OPENED,
+        Some(1)
       )
 
       val fakeRequest = FakeRequest()

@@ -1,0 +1,34 @@
+<form [formGroup]="form" (ngSubmit)="onCreateMilestone()">
+    <h1 mat-dialog-title>New Milestone</h1>
+    <mat-dialog-content>
+        <mat-form-field>
+            <input matInput formControlName="title" placeholder="Enter milestone title" required>
+            <mat-error *ngIf="title.invalid && title.touched">
+                Please title name.
+            </mat-error>
+        </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-content>
+        <mat-form-field>
+            <textarea matInput formControlName="description" placeholder="Enter description" matTextareaAutosize matAutosizeMinRows="4"
+                matAutosizeMaxRows="8"></textarea>
+            <mat-error *ngIf="description.invalid && description.touched">
+                Please enter description.
+            </mat-error>
+        </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-content>
+        <mat-form-field>
+            <input matInput formControlName="dueDate" [matDatepicker]="picker" placeholder="Choose a date">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error *ngIf="dueDate.invalid && dueDate.touched">
+                Please enter due date.
+            </mat-error>
+        </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button mat-button type="submit">Add</button>
+        <button mat-button type="button" mat-dialog-close>Cancel</button>
+    </mat-dialog-actions>
+</form>

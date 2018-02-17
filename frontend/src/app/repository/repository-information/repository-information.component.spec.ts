@@ -4,11 +4,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs/observable/of';
 
-import { SharedModule } from '../../shared/shared.module';
-import { RepositoryService } from '../shared/repository.service';
 import { User } from '../../core/auth/user.model';
+import { SharedModule } from '../../shared/shared.module';
+import { UserService } from '../../user/shared/user.service';
+import { RepositoryService } from '../shared/repository.service';
 import { RepositoryInformationComponent } from './repository-information.component';
-import {UserService} from '../../user/shared/user.service';
 
 describe('RepositoryInformationComponent', () => {
   let component: RepositoryInformationComponent;

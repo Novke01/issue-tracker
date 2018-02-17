@@ -45,14 +45,18 @@ class RepositoryController(
 
   def update: Action[JsValue] = Action.async(parse.json) { request =>
     val optionalRepository = request.body.validate[PostRepository]
-    val currentUser = request.attrs.get(JwtUser.Key).getOrElse {
-      NotFound
-    }.asInstanceOf[JwtUser]
+    val currentUser = request.attrs
+      .get(JwtUser.Key)
+      .getOrElse {
+        NotFound
+      }
+      .asInstanceOf[JwtUser]
     optionalRepository map { postRepository =>
-      repositoryService.update(postRepository, postRepository.contributors, currentUser.id).map { result =>
-        Ok(Json.toJson(result))
+      repositoryService.update(postRepository, postRepository.contributors, currentUser.id).map {
+        result =>
+          Ok(Json.toJson(result))
       } recover {
-        case notFoundError : IllegalArgumentException =>
+        case notFoundError: IllegalArgumentException =>
           logger.error(notFoundError.getMessage, notFoundError)
           NotFound
         case err =>
@@ -74,7 +78,7 @@ class RepositoryController(
         BadRequest("Something went wrong.")
     }
   }
-  
+
   def getContributed(id: Long): Action[AnyContent] = Action.async { _ =>
     repositoryService.findByContributorId(id) map { result =>
       Ok(Json.toJson(result))

@@ -1,0 +1,34 @@
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="contributors-container mat-elevation-z8 centeredtable">
+    <mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="userUsername">
+            <mat-header-cell *matHeaderCellDef> User</mat-header-cell>
+            <mat-cell *matCellDef="let comment">{{comment.userUsername}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="content">
+            <mat-header-cell *matHeaderCellDef> Comment </mat-header-cell>
+            <mat-cell *matCellDef="let comment">{{ comment.content }}</mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let comment; columns: displayedColumns;">
+        </mat-row>
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>
+<br>
+<br>
+<form [formGroup]="form" (ngSubmit)="onCreateComment()">
+    <mat-form-field class="example-full-width">
+        <textarea matInput formControlName="content" placeholder="Leave a Comment" required></textarea>
+        <mat-error *ngIf="content.invalid && content.touched">
+            Please enter comment.
+        </mat-error>
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit">Add</button>
+</form>

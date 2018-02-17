@@ -5,13 +5,14 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from '../app-routing.module';
 import { CreateIssueComponent } from '../issue/create-issue/create-issue.component';
 import { RepositoryIssuesComponent } from '../issue/repository-issues/repository-issues.component';
+import { CreateLabelComponent } from '../label/create-label/create-label.component';
+import { CreateMilestoneComponent } from '../milestone/create-milestone/create-milestone.component';
 import { SharedModule } from '../shared/shared.module';
 import { ContributedRepositoriesComponent } from './contributed-repositories/contributed-repositories.component';
 import { NewRepositoryComponent } from './new-repository/new-repository.component';
 import { OwnedRepositoriesComponent } from './owned-repositories/owned-repositories.component';
 import { RepositoryInformationComponent } from './repository-information/repository-information.component';
 import { RepositoryService } from './shared/repository.service';
-import { CreateLabelComponent } from '../label/create-label/create-label.component';
 
 @NgModule({
   imports: [CommonModule, SharedModule, HttpClientModule, AppRoutingModule],
@@ -31,7 +32,8 @@ import { CreateLabelComponent } from '../label/create-label/create-label.compone
     NewRepositoryComponent,
     RepositoryIssuesComponent,
     CreateIssueComponent,
-    CreateLabelComponent
+    CreateLabelComponent,
+    CreateMilestoneComponent
   ],
   providers: [RepositoryService]
 })

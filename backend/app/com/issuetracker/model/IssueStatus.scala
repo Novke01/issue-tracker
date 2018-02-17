@@ -16,9 +16,10 @@ case object IssueStatus extends Enumeration {
 
   implicit val enumTypeFormat: Format[model.IssueStatus.Value] = EnumUtils.enumFormat(IssueStatus)
 
-  implicit val statusMapper: JdbcType[IssueStatus] with BaseTypedType[IssueStatus] = MappedColumnType.base[IssueStatus, String](
-    e => e.toString,
-    s => IssueStatus.withName(s)
-  )
+  implicit val statusMapper: JdbcType[IssueStatus] with BaseTypedType[IssueStatus] =
+    MappedColumnType.base[IssueStatus, String](
+      e => e.toString,
+      s => IssueStatus.withName(s)
+    )
 
 }
