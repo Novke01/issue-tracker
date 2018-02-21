@@ -26,7 +26,6 @@ class RepositoryService(
     * @param repository    Repository to be updated.
     * @param contributors  Contributor id list.
     * @param currentUserId User id of the user requesting to perform the update.
-    * @return
     */
   def update(repository: Repository,
              contributors: List[Long],

@@ -6,6 +6,7 @@ import slick.jdbc.PostgresProfile.api._
 import com.issuetracker.repository.table.RepositoryTable
 import com.issuetracker.repository.table.ContributorTable
 import com.issuetracker.repository.table.UserTable
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class RepositoryRepository(db: Database) {
 
@@ -20,8 +21,10 @@ class RepositoryRepository(db: Database) {
 
   def update(repository: Repository): Future[Option[Repository]] =
     db.run({
-      (repositories returning repositories).insertOrUpdate(repository)
-      repositories.filter(_.id === repository.id).result.headOption
+      repositories.filter(_.id === repository.id).update(repository).map {
+        case 0 => None
+        case _ => Some(repository)
+      }
     })
 
   def findByOwnerId(id: Long): Future[Seq[Repository]] =
