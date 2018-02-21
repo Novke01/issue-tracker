@@ -2,7 +2,7 @@ package service
 
 import com.issuetracker.dto.{GetWikiPage, PostWikiPage}
 import com.issuetracker.model.WikiPage
-import com.issuetracker.repository.WikiPageRepository
+import com.issuetracker.repository.{RepositoryRepository, WikiPageRepository}
 import com.issuetracker.service.WikiPageService
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
@@ -29,7 +29,7 @@ class WikiPageServiceSpec extends PlaySpec with MockitoSugar {
       )
       val mockWikiPageRepository = mock[WikiPageRepository]
       when(mockWikiPageRepository.findByRepositoryId(any[Int])) thenReturn Future { Seq(wikiPage) }
-      val service = WikiPageService(mockWikiPageRepository)
+      val service = WikiPageService(mockWikiPageRepository, mock[RepositoryRepository])
       service.findByRepositoryId(repoId) map { wikiPages =>
         wikiPages.length mustBe 1
         val returnedWikiPage = wikiPages.head
@@ -45,7 +45,7 @@ class WikiPageServiceSpec extends PlaySpec with MockitoSugar {
 
       val mockWikiPageRepository = mock[WikiPageRepository]
       when(mockWikiPageRepository.findByRepositoryId(any[Int])) thenReturn Future { Seq() }
-      val service = WikiPageService(mockWikiPageRepository)
+      val service = WikiPageService(mockWikiPageRepository, mock[RepositoryRepository])
       service.findByRepositoryId(repoId) map { repositories =>
         repositories.length mustBe 0
       }
@@ -64,7 +64,7 @@ class WikiPageServiceSpec extends PlaySpec with MockitoSugar {
       )
       val mockWikiPageRepository = mock[WikiPageRepository]
       when(mockWikiPageRepository.get(any[Int])) thenReturn Future { Some(wikiPage) }
-      val service = WikiPageService(mockWikiPageRepository)
+      val service = WikiPageService(mockWikiPageRepository, mock[RepositoryRepository])
       service.get(wikiId) map { returnedWikiPage =>
         returnedWikiPage.get.id mustBe wikiPage.id
         returnedWikiPage.get.name mustBe wikiPage.name
@@ -78,7 +78,7 @@ class WikiPageServiceSpec extends PlaySpec with MockitoSugar {
 
       val mockWikiPageRepository = mock[WikiPageRepository]
       when(mockWikiPageRepository.get(any[Int])) thenReturn Future { None }
-      val service = WikiPageService(mockWikiPageRepository)
+      val service = WikiPageService(mockWikiPageRepository, mock[RepositoryRepository])
       service.get(wikiId) map { wikiPage =>
         wikiPage mustBe None
       }
@@ -89,6 +89,7 @@ class WikiPageServiceSpec extends PlaySpec with MockitoSugar {
     "return new wiki page with valid data" in {
 
       val wikiPage = PostWikiPage(
+        None,
         "wiki page",
         "wiki page content",
         1
@@ -101,7 +102,7 @@ class WikiPageServiceSpec extends PlaySpec with MockitoSugar {
       )
       val mockWikiPageRepository = mock[WikiPageRepository]
       when(mockWikiPageRepository.insert(any[WikiPage])) thenReturn Future { createdWikiPage }
-      val service = WikiPageService(mockWikiPageRepository)
+      val service = WikiPageService(mockWikiPageRepository, mock[RepositoryRepository])
       service.insert(wikiPage) map { returnedWikiPage =>
         returnedWikiPage.name mustBe wikiPage.name
         returnedWikiPage.content mustBe wikiPage.content
@@ -111,6 +112,7 @@ class WikiPageServiceSpec extends PlaySpec with MockitoSugar {
     "throw PSQLException when repository with given id doesn't exist" in {
 
       val wikiPage = PostWikiPage(
+        None,
         "wiki page",
         "wiki page content",
         1
@@ -119,7 +121,7 @@ class WikiPageServiceSpec extends PlaySpec with MockitoSugar {
       when(mockWikiPageRepository.insert(any[WikiPage])) thenReturn Future {
         throw new PSQLException("Foreign key constraint violated.", PSQLState.DATA_ERROR)
       }
-      val service = WikiPageService(mockWikiPageRepository)
+      val service = WikiPageService(mockWikiPageRepository, mock[RepositoryRepository])
       ScalaFutures.whenReady(service.insert(wikiPage).failed) { e =>
         e shouldBe an[PSQLException]
       }

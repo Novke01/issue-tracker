@@ -33,6 +33,7 @@ class WikiPageControllerSpec extends PlaySpec with MockitoSugar with OneAppPerSu
     "return new wikiPage data for valid data" in {
 
       val postWikiPage = PostWikiPage(
+        null,
         "wiki page name",
         "wiki page content",
         1
@@ -64,6 +65,7 @@ class WikiPageControllerSpec extends PlaySpec with MockitoSugar with OneAppPerSu
     "return Bad Request for failed insert" in {
 
       val postWikiPage = PostWikiPage(
+        null,
         "wiki page name",
         "wiki page content",
         1
