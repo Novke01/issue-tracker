@@ -2,25 +2,32 @@
 <br>
 <br>
 <br>
-<div class="contributors-container mat-elevation-z8 centeredtable">
-  <mat-table [dataSource]="dataSource">
-    <ng-container matColumnDef="title">
-      <mat-header-cell *matHeaderCellDef> Title</mat-header-cell>
-      <mat-cell *matCellDef="let pullRequest">{{pullRequest.title}}</mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="url">
-      <mat-header-cell *matHeaderCellDef> URL</mat-header-cell>
-      <mat-cell *matCellDef="let pullRequest">
-        <a class="nav-link" href="{{pullRequest.url}}" target="_blank">{{pullRequest.url}}</a>
-      </mat-cell>
-    </ng-container>
-
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let pullRequest; columns: displayedColumns;">
-    </mat-row>
-  </mat-table>
+<div class="backDiv" fxLayout="row">
+  <button class="backButton" mat-raised-button color="primary" [routerLink]=" ['/repository', repoId] ">
+    Back to repository
+  </button>
 </div>
-<div class="contributors-container centeredtable">
-  <it-display-comment [type]="'pull-request'"></it-display-comment>
+<div class="pr-display" fxLayout="row">
+  <div class="contributors-container mat-elevation-z8 centeredtable">
+    <mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="title">
+        <mat-header-cell *matHeaderCellDef> Title</mat-header-cell>
+        <mat-cell *matCellDef="let pullRequest">{{pullRequest.title}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="url">
+        <mat-header-cell *matHeaderCellDef> URL</mat-header-cell>
+        <mat-cell *matCellDef="let pullRequest">
+          <a class="nav-link" href="{{pullRequest.url}}" target="_blank">{{pullRequest.url}}</a>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let pullRequest; columns: displayedColumns;">
+      </mat-row>
+    </mat-table>
+  </div>
+  <div class="contributors-container centeredtable">
+    <it-display-comment [type]="'pull-request'"></it-display-comment>
+  </div>
 </div>

@@ -59,7 +59,8 @@ export class RepositoryLabelsComponent implements OnInit {
 
   openCreateLabelDialog() {
     const dialogRef = this.dialog.open(CreateLabelComponent, {
-      hasBackdrop: false
+      hasBackdrop: false,
+      position: { top: '200px' }
     });
 
     dialogRef.componentInstance.repositoryId = this.repositoryId;
