@@ -12,8 +12,6 @@ class IssueService(val issueRepository: IssueRepository,
                    val assignedUserRepository: AssignedUserRepository)(
     implicit val executionContext: ExecutionContext) {
 
-  private val logger = Logger(this.getClass())
-
   def insert(postIssue: Issue, assignees: List[Long], labels: List[Long]): Future[GetIssue] = {
     issueRepository.insert(postIssue) flatMap { issue =>
       assignedUserRepository.insertAssignees(issue.id, assignees) map { _ =>

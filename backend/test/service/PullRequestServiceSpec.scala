@@ -91,8 +91,6 @@ class PullRequestServiceSpec extends PlaySpec with MockitoSugar {
   "PullRequestService#save" should {
     "save pull request and return that pull request with id" in {
 
-      val date = new DateTime()
-
       val pullRequest = PostPullRequest(
         "PR title",
         "PR url",

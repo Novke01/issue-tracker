@@ -354,7 +354,7 @@ class IssueControllerSpec extends PlaySpec with MockitoSugar with OneAppPerSuite
   "IssueController#delete" should {
     "return delete issue and return OK status" in {
 
-      val issueId = 1;
+      val issueId = 1
 
       val fakeRequest = FakeRequest()
       val mockIssueService = mock[IssueService]
@@ -375,7 +375,7 @@ class IssueControllerSpec extends PlaySpec with MockitoSugar with OneAppPerSuite
 
     "return Not found if issue with given id doesn't exist" in {
 
-      val issueId = 1;
+      val issueId = 1
 
       val fakeRequest = FakeRequest()
       val mockIssueService = mock[IssueService]

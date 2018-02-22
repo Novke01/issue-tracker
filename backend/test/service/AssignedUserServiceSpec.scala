@@ -61,8 +61,8 @@ class AssignedUserServiceSpec extends PlaySpec with MockitoSugar {
   "AssignedUserService#insertAssignee" should {
 
     "return newAssignee data for valid assignee data" in {
-      val issueId = 1l;
-      val userId = 1l;
+      val issueId = 1l
+      val userId = 1l
 
       val newAssignee = AssignedUser(
         1l,

@@ -14,11 +14,11 @@ import com.issuetracker.dto.RegisteredUser
 
 class UserService(val userRepository: UserRepository)(implicit val ec: ExecutionContext) {
 
-  private val logger = Logger(this.getClass())
+  private val logger = Logger(this.getClass)
 
   def register(user: User): Future[User] = {
     val hashedUser =
-      user.copy(password = user.password.bcrypt, refreshToken = generateRefreshToken)
+      user.copy(password = user.password.bcrypt, refreshToken = generateRefreshToken())
     userRepository.insert(hashedUser) map { result =>
       logger.info("user created")
       result
