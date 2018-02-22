@@ -1,9 +1,9 @@
 package service
 
 import com.issuetracker.dto.{GetWikiPage, PostWikiPage}
-import com.issuetracker.model.WikiPage
+import com.issuetracker.model.{Repository, WikiPage}
 import com.issuetracker.repository.{RepositoryRepository, WikiPageRepository}
-import com.issuetracker.service.WikiPageService
+import com.issuetracker.service.{ContributorService, RepositoryService, WikiPageService}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.when
 import org.postgresql.util.{PSQLException, PSQLState}
@@ -128,4 +128,136 @@ class WikiPageServiceSpec extends PlaySpec with MockitoSugar {
     }
   }
 
+  "WikiPageService#update" should {
+
+    "return updated wiki page" in {
+
+      val wikiPage = WikiPage(
+        1,
+        "Title",
+        "Content",
+        1
+      )
+
+      val repository = Repository(
+        1,
+        "IssueTracker",
+        "github.com",
+        "Description",
+        1
+      )
+
+      val updatedWikiPage = WikiPage(
+        1,
+        "Updated title",
+        "Updated content",
+        1
+      )
+
+      val currentUserId = 1
+
+      val mockWikiPageRepository = mock[WikiPageRepository]
+      when(mockWikiPageRepository.get(updatedWikiPage.id)) thenReturn Future {
+        Some(wikiPage)
+      }
+      when(mockWikiPageRepository.update(any[WikiPage])) thenReturn Future {
+        Some(updatedWikiPage)
+      }
+
+      val mockRepositoryRepository = mock[RepositoryRepository]
+      when(mockRepositoryRepository.get(updatedWikiPage.repositoryId)) thenReturn Future {
+        Some(repository)
+      }
+
+      val service = WikiPageService(mockWikiPageRepository, mockRepositoryRepository)
+      service.update(updatedWikiPage, currentUserId) map { repository =>
+        repository mustBe updatedWikiPage
+      }
+    }
+
+    "throw IllegalArgumentException if a user tries to update a wiki page belonging to a repository he is not the owner of" in {
+
+      val wikiPage = WikiPage(
+        1,
+        "Title",
+        "Content",
+        1
+      )
+
+      val repository = Repository(
+        1,
+        "IssueTracker",
+        "github.com",
+        "Description",
+        1
+      )
+
+      val updatedWikiPage = WikiPage(
+        1,
+        "Updated title",
+        "Updated content",
+        1
+      )
+
+      val currentUserId = 2
+
+      val mockWikiPageRepository = mock[WikiPageRepository]
+      when(mockWikiPageRepository.get(updatedWikiPage.id)) thenReturn Future {
+        Some(wikiPage)
+      }
+      when(mockWikiPageRepository.update(any[WikiPage])) thenReturn Future {
+        Some(updatedWikiPage)
+      }
+
+      val mockRepositoryRepository = mock[RepositoryRepository]
+      when(mockRepositoryRepository.get(updatedWikiPage.repositoryId)) thenReturn Future {
+        Some(repository)
+      }
+
+      val service = WikiPageService(mockWikiPageRepository, mockRepositoryRepository)
+
+      assertThrows[IllegalArgumentException] {
+        service.update(updatedWikiPage, currentUserId)
+      }
+    }
+
+    "throw IllegalArgumentException if the wiki page doesn't exist" in {
+
+      val updatedWikiPage = WikiPage(
+        1,
+        "Updated title",
+        "Updated content",
+        1
+      )
+
+      val repository = Repository(
+        1,
+        "IssueTracker",
+        "github.com",
+        "Description",
+        1
+      )
+
+      val currentUserId = 1
+
+      val mockWikiPageRepository = mock[WikiPageRepository]
+      when(mockWikiPageRepository.get(updatedWikiPage.id)) thenReturn Future {
+        None
+      }
+      when(mockWikiPageRepository.update(any[WikiPage])) thenReturn Future {
+        Some(updatedWikiPage)
+      }
+
+      val mockRepositoryRepository = mock[RepositoryRepository]
+      when(mockRepositoryRepository.get(updatedWikiPage.repositoryId)) thenReturn Future {
+        Some(repository)
+      }
+
+      val service = WikiPageService(mockWikiPageRepository, mockRepositoryRepository)
+
+      assertThrows[IllegalArgumentException] {
+        service.update(updatedWikiPage, currentUserId)
+      }
+    }
+  }
 }

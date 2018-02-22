@@ -35,6 +35,11 @@ class WikiPageService(
     */
   def update(wikiPage: WikiPage, currentUserId: Long): Future[GetWikiPage] = {
 
+    Await.result(wikiPageRepository.get(wikiPage.id), Duration.Inf).getOrElse {
+      // Wiki page not found, hence can't update.
+      throw new IllegalArgumentException()
+    }
+
     val repositoryRecord =
       Await.result(repositoryRepository.get(wikiPage.repositoryId), Duration.Inf).getOrElse {
         // Repository not found, hence can't update.
