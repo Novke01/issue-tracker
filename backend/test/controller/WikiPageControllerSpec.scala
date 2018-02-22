@@ -1,23 +1,24 @@
 package controller
 
-import scala.concurrent.ExecutionContext.Implicits.global
+import akka.stream.Materializer
+import com.issuetracker.controller.WikiPageController
+import com.issuetracker.dto.{GetWikiPage, JwtUser, PostWikiPage}
+import com.issuetracker.model.{User, WikiPage}
+import com.issuetracker.service._
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito._
-import akka.stream.Materializer
-import play.api.test.Helpers._
-import com.issuetracker.controller.WikiPageController
-import com.issuetracker.dto.{GetWikiPage, PostWikiPage}
-import com.issuetracker.service.WikiPageService
+import org.scalatest.Matchers._
 import org.scalatest.mockito.MockitoSugar
 import org.scalatestplus.play.PlaySpec
 import org.scalatestplus.play.components.OneAppPerSuiteWithComponents
 import play.api.libs.json.Json
-import play.api.{BuiltInComponents, BuiltInComponentsFromContext, NoHttpFiltersComponents}
+import play.api.mvc.Result
 import play.api.routing.Router
 import play.api.test.FakeRequest
-import org.scalatest.Matchers._
-import play.api.mvc.Result
+import play.api.test.Helpers._
+import play.api.{BuiltInComponents, BuiltInComponentsFromContext, NoHttpFiltersComponents}
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class WikiPageControllerSpec extends PlaySpec with MockitoSugar with OneAppPerSuiteWithComponents {
@@ -33,6 +34,7 @@ class WikiPageControllerSpec extends PlaySpec with MockitoSugar with OneAppPerSu
     "return new wikiPage data for valid data" in {
 
       val postWikiPage = PostWikiPage(
+        null,
         "wiki page name",
         "wiki page content",
         1
@@ -64,6 +66,7 @@ class WikiPageControllerSpec extends PlaySpec with MockitoSugar with OneAppPerSu
     "return Bad Request for failed insert" in {
 
       val postWikiPage = PostWikiPage(
+        null,
         "wiki page name",
         "wiki page content",
         1
@@ -88,6 +91,47 @@ class WikiPageControllerSpec extends PlaySpec with MockitoSugar with OneAppPerSu
         response.header.status mustBe 400
       }
 
+    }
+  }
+
+  "WikiPageController#update" should {
+    "return updated wiki page data for valid data" in {
+
+      val postWikiPage = PostWikiPage(
+        Option(1),
+        "Wiki title",
+        "Wiki content",
+        1
+      )
+
+      val wikiPage = GetWikiPage(
+        1,
+        postWikiPage.name,
+        postWikiPage.content,
+        postWikiPage.repositoryId
+      )
+
+      val jwtUser: JwtUser = User(1, null, null, null, null, null, null)
+
+      val fakeRequest = FakeRequest().withMethod("PATCH").withBody(
+        Json.obj(
+          "id" -> 1,
+          "name" -> postWikiPage.name,
+          "content" -> postWikiPage.content,
+          "repositoryId" -> postWikiPage.repositoryId
+        )
+      ).addAttr(JwtUser.Key, jwtUser)
+
+      val mockWikiService = mock[WikiPageService]
+      when(mockWikiService.update(any[WikiPage], any[Long])) thenReturn Future {
+        wikiPage
+      }
+      val controller = new WikiPageController(stubControllerComponents(), mockWikiService)
+
+      val result: Future[Result] = controller.update().apply(fakeRequest)
+      val jsonBody = contentAsJson(result)
+      val jsonUpdatedWikiPage = Json.toJson(wikiPage)
+      jsonBody mustBe jsonUpdatedWikiPage
     }
   }
 

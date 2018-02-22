@@ -12,7 +12,7 @@ case class GetPullRequest(
 
 object GetPullRequest {
 
-  implicit val getPRWrites = Json.writes[GetPullRequest]
+  implicit val getPRWrites: OWrites[GetPullRequest] = Json.writes[GetPullRequest]
 
   implicit def pullRequestToGetPullRequest(pullRequest: PullRequest): GetPullRequest =
     new GetPullRequest(

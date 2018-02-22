@@ -25,7 +25,7 @@ class UserService(val userRepository: UserRepository)(implicit val ec: Execution
     }
   }
 
-  def getAll(): Future[Seq[RegisteredUser]] = {
+  def getAll: Future[Seq[RegisteredUser]] = {
     userRepository.all().map(_.map(RegisteredUser.userToRegisteredUser))
   }
 

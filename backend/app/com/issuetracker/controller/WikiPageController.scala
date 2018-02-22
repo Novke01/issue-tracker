@@ -1,6 +1,6 @@
 package com.issuetracker.controller
 
-import com.issuetracker.dto.PostWikiPage
+import com.issuetracker.dto.{JwtUser, PostWikiPage}
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
@@ -16,7 +16,7 @@ class WikiPageController(
 )(implicit val ec: ExecutionContext)
     extends AbstractController(cc) {
 
-  val logger: Logger = Logger(this.getClass())
+  val logger: Logger = Logger(this.getClass)
 
   def insert: Action[JsValue] = Action.async(parse.json) { request =>
     val optionalWikiPage = request.body.validate[PostWikiPage]
@@ -24,6 +24,31 @@ class WikiPageController(
       wikiPageService.insert(postWikiPage).map { result =>
         Created(Json.toJson(result))
       } recover {
+        case err =>
+          logger.error(err.getMessage, err)
+          BadRequest("Something went wrong.")
+      }
+    } getOrElse {
+      logger.error("Invalid repository data.")
+      Future { BadRequest("Invalid repository data.") }
+    }
+  }
+
+  def update: Action[JsValue] = Action.async(parse.json) { request =>
+    val optionalWikiPage = request.body.validate[PostWikiPage]
+    val currentUser = request.attrs
+      .get(JwtUser.Key)
+      .getOrElse {
+        NotFound
+      }
+      .asInstanceOf[JwtUser]
+    optionalWikiPage map { postWikiPage =>
+      wikiPageService.update(postWikiPage, currentUser.id).map { result =>
+        Ok(Json.toJson(result))
+      } recover {
+        case notFoundError: IllegalArgumentException =>
+          logger.error(notFoundError.getMessage, notFoundError)
+          NotFound
         case err =>
           logger.error(err.getMessage, err)
           BadRequest("Something went wrong.")

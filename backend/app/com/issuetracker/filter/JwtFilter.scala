@@ -4,6 +4,7 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import scala.util.Try
 
+import com.issuetracker.dto.JwtUser
 import com.issuetracker.util.JwtUtil
 
 import akka.stream.Materializer
@@ -12,18 +13,16 @@ import play.api.mvc.RequestHeader
 import play.api.mvc.Result
 import play.api.mvc.Results.Unauthorized
 import play.api.routing.Router
-import play.api.libs.typedmap.TypedKey
-import com.issuetracker.dto.JwtUser
 
 class JwtFilter(jwtUtil: JwtUtil)(
-    implicit val mat: Materializer,
-    implicit val ec: ExecutionContext
+  implicit val mat: Materializer,
+  implicit val ec: ExecutionContext
 ) extends Filter {
 
   private val header = "Authorization"
 
   def apply(nextFilter: RequestHeader => Future[Result])(
-      requestHeader: RequestHeader): Future[Result] = {
+    requestHeader: RequestHeader): Future[Result] = {
 
     val handler   = Try(requestHeader.attrs(Router.Attrs.HandlerDef))
     val modifiers = handler.map(_.modifiers).getOrElse(Seq())

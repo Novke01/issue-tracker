@@ -22,7 +22,7 @@ export class RepositoryWikiComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.wikiPages = new Array<WikiPage>();
+    this.wikiPages = [];
     this.route.paramMap
       .switchMap((params: ParamMap) =>
         this.wikiPageService.getWikiPageByRepositoryId(params.get('id'))

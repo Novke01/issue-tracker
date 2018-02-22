@@ -38,3 +38,21 @@
   flex-direction: column;
   min-width: 300px;
 }
+
+.backDiv {
+  left: 0;
+  width: 100%;
+}
+
+.backButton {
+  float: left;
+  margin-left: 30px;
+  margin-top: 10px;
+}
+
+.pr-display {
+  position: fixed;
+  left: 0;
+  width: 100%;
+  margin-top: 60px;
+}

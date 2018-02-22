@@ -1,3 +1,8 @@
+<div class="backDiv">
+  <button class="backButton" mat-raised-button color="primary" [routerLink]=" ['/repository', repoId] ">
+    Back to repository
+  </button>
+</div>
 <div class="wiki">
   <div class="textAreaColumn">
     <div id="markdown">
@@ -9,7 +14,8 @@
     </div>
   </div>
 
-  <button class="create" mat-raised-button color="primary" (click)="create(wikiPage)">Create</button>
+  <button class="create" mat-raised-button color="primary" *ngIf="!wikiPage.id" (click)="create(wikiPage)">Create</button>
+  <button class="create" mat-raised-button color="primary" *ngIf="wikiPage.id" (click)="update(wikiPage)">Update</button>
   <mat-form-field class="example-full-width create">
     <input matInput placeholder="Wiki page name" [(ngModel)]="wikiPage.name">
   </mat-form-field>

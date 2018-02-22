@@ -12,7 +12,7 @@ class CommentController(val cc: ControllerComponents, val commentService: Commen
     implicit val executionContext: ExecutionContext)
     extends AbstractController(cc) {
 
-  val logger: Logger = Logger(this.getClass())
+  val logger: Logger = Logger(this.getClass)
 
   def insert: Action[JsValue] = Action.async(parse.json) { request =>
     val optionalPostComment = request.body.validate[PostComment]

@@ -2,11 +2,10 @@ package controller
 
 import akka.stream.Materializer
 import com.issuetracker.controller.RepositoryController
-import com.issuetracker.dto.{GetWikiPage, JwtUser, RegisteredUser}
+import com.issuetracker.dto._
 import com.issuetracker.model.{Repository, User}
 import com.issuetracker.service._
 import com.issuetracker.util.JwtUtil
-import dto.{GetRepository, PostRepository}
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito._
 import org.scalatest.Matchers._

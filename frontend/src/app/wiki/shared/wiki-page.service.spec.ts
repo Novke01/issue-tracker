@@ -29,7 +29,7 @@ describe('WikiPageService', () => {
   });
 
   it('should be able to save new wiki page', () => {
-    const dummyWikiPage = new WikiPageSave('name', 'content', 1);
+    const dummyWikiPage = new WikiPageSave(null, 'name', 'content', 1);
 
     const responseWikiPage: WikiPage = {
       id: 1,
@@ -57,7 +57,7 @@ describe('WikiPageService', () => {
   });
 
   it('should be able to handle rejection from server', () => {
-    const dummyWikiPage = new WikiPageSave('name', 'content', 1);
+    const dummyWikiPage = new WikiPageSave(null, 'name', 'content', 1);
 
     const responseWikiPage: WikiPage = {
       id: 1,

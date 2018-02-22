@@ -78,7 +78,7 @@ class ApplicationComponents(context: Context)
   lazy val issueService =
     new IssueService(issueRepository, issueLabelRepository, assignedUserRepository)
   lazy val assignedUserService = new AssignedUserService(assignedUserRepository, issueRepository)
-  lazy val wikiPageService     = new WikiPageService(wikiPageRepository)
+  lazy val wikiPageService     = new WikiPageService(wikiPageRepository, repositoryRepository)
   lazy val labelService        = new LabelService(labelRepository)
   lazy val issueLabelService   = new IssueLabelService(issueLabelRepository, issueRepository)
   lazy val milestoneService    = new MilestoneService(milestoneRepository)

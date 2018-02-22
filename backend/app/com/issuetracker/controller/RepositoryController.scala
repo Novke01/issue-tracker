@@ -4,7 +4,6 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.Future
 import com.issuetracker.service._
 import com.issuetracker.util.JwtUtil
-import dto.PostRepository
 import play.api.Logger
 import play.api.libs.json.JsValue
 import play.api.libs.json.Json
@@ -12,7 +11,7 @@ import play.api.mvc.AbstractController
 import play.api.mvc.Action
 import play.api.mvc.ControllerComponents
 import play.api.mvc.AnyContent
-import com.issuetracker.dto.JwtUser
+import com.issuetracker.dto.{JwtUser, PostRepository}
 
 class RepositoryController(
     val cc: ControllerComponents,

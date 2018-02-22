@@ -1,3 +1,5 @@
 POST    /           com.issuetracker.controller.WikiPageController.insert
+PATCH   /           com.issuetracker.controller.WikiPageController.update
 GET     /:id        com.issuetracker.controller.WikiPageController.get(id: Long)
 DELETE  /:id        com.issuetracker.controller.WikiPageController.delete(id: Long)
+

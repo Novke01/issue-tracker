@@ -1,11 +1,10 @@
 package com.issuetracker.service
 
-import com.issuetracker.dto.RegisteredUser
+import com.issuetracker.dto.{GetRepository, PostRepository, RegisteredUser}
 import com.issuetracker.model.Repository
 import com.issuetracker.repository.RepositoryRepository
-import dto.{GetRepository, PostRepository}
-import scala.concurrent.duration.Duration
 
+import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, ExecutionContext, Future}
 
 class RepositoryService(
@@ -26,7 +25,6 @@ class RepositoryService(
     * @param repository    Repository to be updated.
     * @param contributors  Contributor id list.
     * @param currentUserId User id of the user requesting to perform the update.
-    * @return
     */
   def update(repository: Repository,
              contributors: List[Long],

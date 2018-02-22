@@ -84,6 +84,8 @@ describe('IssueDisplayComponent', () => {
     spyOn(issueService, 'removeAssignee').and.returnValue(of({}));
     spyOn(issueService, 'updateIssue').and.returnValue(of(issue));
 
+    component.repositoryId = 1;
+
     fixture.detectChanges();
   });
 
@@ -194,7 +196,6 @@ describe('IssueDisplayComponent', () => {
     async(() => {
       component.enableForm();
       fixture.detectChanges();
-      component.repositoryId = 1;
       component.title.setValue('updated issue');
       component.description.setValue('updated description');
       expect(component.form.valid).toBeTruthy();
@@ -203,6 +204,34 @@ describe('IssueDisplayComponent', () => {
       fixture.whenStable().then(() => {
         expect(issueService.updateIssue).toHaveBeenCalled();
         expect(component.form.disabled).toBeTruthy();
+      });
+    })
+  );
+
+  it(
+    'should be able to close opened issue',
+    async(() => {
+      component.issue = issue;
+      component.issue.status = 'OPENED';
+      component.closeIssue();
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        expect(issueService.updateIssue).toHaveBeenCalled();
+        expect(component.issue.status).toBe('CLOSED');
+      });
+    })
+  );
+
+  it(
+    'should be able to reopen closed issue',
+    async(() => {
+      component.issue = issue;
+      component.issue.status = 'CLOSED';
+      component.reopenIssue();
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        expect(issueService.updateIssue).toHaveBeenCalled();
+        expect(component.issue.status).toBe('OPENED');
       });
     })
   );

@@ -14,6 +14,7 @@ export class DisplayPullRequestComponent implements OnInit {
   displayedColumns = ['title', 'url'];
   dataSource: MatTableDataSource<PullRequest>;
   pullRequest: PullRequest;
+  repoId: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -21,6 +22,9 @@ export class DisplayPullRequestComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.repoId = +params['repoId'];
+    });
     this.route.paramMap
       .switchMap((params: ParamMap) =>
         this.pullRequestService.get(params.get('pullRequestId'))

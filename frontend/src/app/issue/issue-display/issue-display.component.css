@@ -1,6 +1,6 @@
 #issue-display {
   position: fixed;
-  top: 100px;
+  top: 140px;
   left: 2%;
   padding: 0px;
   width: 45%;
@@ -31,4 +31,15 @@ button {
 
 .mat-form-field {
   width: 100%;
+}
+
+.backDiv {
+  left: 0;
+  width: 100%;
+}
+
+.backButton {
+  float: left;
+  margin-left: 30px;
+  margin-top: 80px;
 }

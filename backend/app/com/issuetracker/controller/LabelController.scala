@@ -1,19 +1,18 @@
 package com.issuetracker.controller
 
-import play.api.mvc._
-import play.api.libs.json._
-
-import scala.concurrent.{ExecutionContext, Future}
 import com.issuetracker.dto.PostLabel
 import com.issuetracker.service.LabelService
-import com.issuetracker.util.JwtUtil
 import play.api.Logger
+import play.api.libs.json._
+import play.api.mvc._
+
+import scala.concurrent.{ExecutionContext, Future}
 
 class LabelController(val cc: ControllerComponents, val labelService: LabelService)(
     implicit val executionContext: ExecutionContext)
     extends AbstractController(cc) {
 
-  val logger: Logger = Logger(this.getClass())
+  val logger: Logger = Logger(this.getClass)
 
   def insert: Action[JsValue] = Action.async(parse.json) { request =>
     val optionalLabel = request.body.validate[PostLabel]

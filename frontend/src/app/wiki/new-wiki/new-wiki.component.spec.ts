@@ -9,7 +9,7 @@ import { of } from 'rxjs/observable/of';
 import { SharedModule } from '../../shared/shared.module';
 import { WikiPageSave } from '../shared/wiki-page-save.model';
 import { WikiPage } from '../shared/wiki-page.model';
-import { WikiPageService } from './../shared/wiki-page.service';
+import { WikiPageService } from '../shared/wiki-page.service';
 import { NewWikiComponent } from './new-wiki.component';
 
 describe('NewWikiComponent', () => {
@@ -61,7 +61,7 @@ describe('NewWikiComponent', () => {
   it(
     'should be able create new wiki page',
     async(() => {
-      const wikiPage = new WikiPageSave('name', 'content', null);
+      const wikiPage = new WikiPageSave(null, 'name', 'content', null);
       component.create(wikiPage);
       fixture.detectChanges();
       fixture.whenStable().then(() => {

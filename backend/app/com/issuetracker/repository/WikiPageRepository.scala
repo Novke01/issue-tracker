@@ -1,11 +1,12 @@
 package com.issuetracker.repository
 
-import scala.concurrent.Future
-import com.issuetracker.model.{Repository, WikiPage}
+import com.issuetracker.model.WikiPage
+import com.issuetracker.repository.table.{RepositoryTable, UserTable, WikiPageTable}
 import slick.jdbc.PostgresProfile.api._
-import com.issuetracker.repository.table.RepositoryTable
-import com.issuetracker.repository.table.WikiPageTable
-import com.issuetracker.repository.table.UserTable
+
+import scala.concurrent.ExecutionContext.Implicits.global
+
+import scala.concurrent.Future
 
 class WikiPageRepository(db: Database) {
 
@@ -19,6 +20,14 @@ class WikiPageRepository(db: Database) {
 
   def insert(wikiPage: WikiPage): Future[WikiPage] =
     db.run((wikiPages returning wikiPages) += wikiPage)
+
+  def update(wikiPage: WikiPage): Future[Option[WikiPage]] =
+    db.run({
+      wikiPages.filter(_.id === wikiPage.id).update(wikiPage).map {
+        case 0 => None
+        case _ => Some(wikiPage)
+      }
+    })
 
   def findByRepositoryId(id: Long): Future[Seq[WikiPage]] =
     db.run(wikiPages.filter(_.repositoryId === id).result)

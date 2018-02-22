@@ -23,6 +23,15 @@ export class WikiPageService {
     );
   }
 
+  updateWikiPage(wikiPage: WikiPageSave): Observable<WikiPage> {
+      const url = `${environment.baseUrl}${this.wikiPageUrl}`;
+      return this.http.patch<WikiPage>(url, wikiPage).pipe(
+          catchError(err => {
+              return Observable.throw(new Error(err.error));
+          })
+      );
+  }
+
   getWikiPageById(id: string): Observable<WikiPage> {
     const url = `${environment.baseUrl}${this.wikiPageUrl}/${id}`;
     return this.http.get<WikiPage>(url).pipe(

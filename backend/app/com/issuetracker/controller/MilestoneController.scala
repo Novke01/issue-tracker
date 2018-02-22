@@ -12,7 +12,7 @@ class MilestoneController(val cc: ControllerComponents, val milestoneService: Mi
     implicit val executionContext: ExecutionContext)
     extends AbstractController(cc) {
 
-  val logger: Logger = Logger(this.getClass())
+  val logger: Logger = Logger(this.getClass)
 
   def insert: Action[JsValue] = Action.async(parse.json) { request =>
     val optionalMilestone = request.body.validate[PostMilestone]
