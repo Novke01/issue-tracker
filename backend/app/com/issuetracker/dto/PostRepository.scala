@@ -1,4 +1,4 @@
-package dto
+package com.issuetracker.dto
 
 import com.issuetracker.model.Repository
 import play.api.libs.json._

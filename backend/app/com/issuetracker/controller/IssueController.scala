@@ -1,13 +1,13 @@
 package com.issuetracker.controller
 
-import play.api.mvc._
-import play.api.libs.json._
-
-import scala.concurrent.{ExecutionContext, Future}
-import com.issuetracker.dto.{JwtUser, PostIssue, UpdateIssue}
+import com.issuetracker.dto.{PostIssue, UpdateIssue}
 import com.issuetracker.service.{AssignedUserService, IssueLabelService, IssueService}
 import com.issuetracker.util.JwtUtil
 import play.api.Logger
+import play.api.libs.json._
+import play.api.mvc._
+
+import scala.concurrent.{ExecutionContext, Future}
 
 class IssueController(val cc: ControllerComponents,
                       val issueService: IssueService,

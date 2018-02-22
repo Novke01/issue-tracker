@@ -13,7 +13,7 @@ case class PostComment(
 
 object PostComment {
 
-  implicit val postCommentReads = Json.reads[PostComment]
+  implicit val postCommentReads: Reads[PostComment] = Json.reads[PostComment]
 
   implicit def GetCommentToComment(postComment: PostComment): Comment =
     new Comment(

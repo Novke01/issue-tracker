@@ -15,10 +15,10 @@ object PostMilestone {
 
   implicit val dateTimeReader: Reads[DateTime] = JodaReads.jodaDateReads("dd/MM/yyyy")
 
-  implicit val postMilestoneReads = Json.reads[PostMilestone]
+  implicit val postMilestoneReads: Reads[PostMilestone] = Json.reads[PostMilestone]
 
   implicit def GetMilestoneToMilestone(milestone: PostMilestone): Milestone =
-    new Milestone(
+    Milestone(
       -1,
       milestone.title,
       milestone.description,

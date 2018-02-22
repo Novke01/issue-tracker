@@ -1,26 +1,24 @@
 package controller
 
-import scala.concurrent.ExecutionContext.Implicits.global
+import akka.stream.Materializer
+import com.issuetracker.controller.WikiPageController
+import com.issuetracker.dto.{GetWikiPage, JwtUser, PostWikiPage}
+import com.issuetracker.model.{User, WikiPage}
+import com.issuetracker.service._
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito._
-import akka.stream.Materializer
-import play.api.test.Helpers._
-import com.issuetracker.controller.{RepositoryController, WikiPageController}
-import com.issuetracker.dto.{GetWikiPage, JwtUser, PostWikiPage}
-import com.issuetracker.model.{Repository, User, WikiPage}
-import com.issuetracker.service._
-import com.issuetracker.util.JwtUtil
-import dto.{GetRepository, PostRepository}
+import org.scalatest.Matchers._
 import org.scalatest.mockito.MockitoSugar
 import org.scalatestplus.play.PlaySpec
 import org.scalatestplus.play.components.OneAppPerSuiteWithComponents
 import play.api.libs.json.Json
-import play.api.{BuiltInComponents, BuiltInComponentsFromContext, NoHttpFiltersComponents}
+import play.api.mvc.Result
 import play.api.routing.Router
 import play.api.test.FakeRequest
-import org.scalatest.Matchers._
-import play.api.mvc.Result
+import play.api.test.Helpers._
+import play.api.{BuiltInComponents, BuiltInComponentsFromContext, NoHttpFiltersComponents}
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class WikiPageControllerSpec extends PlaySpec with MockitoSugar with OneAppPerSuiteWithComponents {

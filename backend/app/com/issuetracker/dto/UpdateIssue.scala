@@ -1,8 +1,8 @@
 package com.issuetracker.dto
 
+import com.issuetracker.model.Issue
 import com.issuetracker.model.IssueStatus.IssueStatus
 import play.api.libs.json._
-import com.issuetracker.model.{Issue, IssueStatus}
 
 case class UpdateIssue(
     id: Long,

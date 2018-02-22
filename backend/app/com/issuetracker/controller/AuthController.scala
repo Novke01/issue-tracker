@@ -23,7 +23,7 @@ class AuthController(
 )(implicit val ec: ExecutionContext)
     extends AbstractController(cc) {
 
-  val logger: Logger = Logger(this.getClass())
+  val logger: Logger = Logger(this.getClass)
 
   def login: Action[JsValue] = Action.async(parse.json) { request =>
     val optionalUser = request.body.validate[LoginUser]

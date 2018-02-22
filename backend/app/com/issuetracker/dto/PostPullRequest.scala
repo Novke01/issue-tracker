@@ -11,10 +11,10 @@ case class PostPullRequest(
 
 object PostPullRequest {
 
-  implicit val postPRReads = Json.reads[PostPullRequest]
+  implicit val postPRReads: Reads[PostPullRequest] = Json.reads[PostPullRequest]
 
   implicit def GetPullRequestToPullRequest(pullRequest: PostPullRequest): PullRequest =
-    new PullRequest(
+    PullRequest(
       -1,
       pullRequest.title,
       pullRequest.url,

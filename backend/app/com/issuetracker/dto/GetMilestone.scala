@@ -17,7 +17,7 @@ object GetMilestone {
 
   implicit val dateTimeWriter: Writes[DateTime] = JodaWrites.jodaDateWrites("dd/MM/yyyy")
 
-  implicit val getMilestoneWrites = Json.writes[GetMilestone]
+  implicit val getMilestoneWrites: OWrites[GetMilestone] = Json.writes[GetMilestone]
 
   implicit def milestoneToGetMilestone(milestone: Milestone): GetMilestone =
     new GetMilestone(

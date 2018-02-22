@@ -13,7 +13,7 @@ class PullRequestController(
     val pullRequestService: PullRequestService)(implicit val executionContext: ExecutionContext)
     extends AbstractController(cc) {
 
-  val logger: Logger = Logger(this.getClass())
+  val logger: Logger = Logger(this.getClass)
 
   def insert: Action[JsValue] = Action.async(parse.json) { request =>
     val optionalPullRequest = request.body.validate[PostPullRequest]

@@ -14,7 +14,7 @@ case class GetComment(
 
 object GetComment {
 
-  implicit val getCommentWrites = Json.writes[GetComment]
+  implicit val getCommentWrites: OWrites[GetComment] = Json.writes[GetComment]
 
   implicit def commentToGetComment(comment: Comment): GetComment =
     new GetComment(
