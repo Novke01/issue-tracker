@@ -25,6 +25,9 @@ export class NewWikiComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.repoId = +params['id'];
+    });
     this.form = this.formBuilder.group({
       name: ['', Validators.required],
       content: ['', Validators.required]
