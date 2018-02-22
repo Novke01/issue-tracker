@@ -27,6 +27,8 @@ export class RepositoryInformationComponent implements OnInit {
 
   possibleContributors: User[];
 
+  updateState: Boolean = false;
+
   displayedColumns = ['firstName', 'lastName', 'email', 'owner'];
   dataSource: MatTableDataSource<User>;
   displayedColumnsRepo = ['name', 'description', 'url'];
@@ -122,6 +124,7 @@ export class RepositoryInformationComponent implements OnInit {
       );
 
       this.repositoryService.updateRepository(repository).subscribe(repo => {
+        this.toggleUpdateState();
         this.ngOnInit();
       });
     }
@@ -137,5 +140,13 @@ export class RepositoryInformationComponent implements OnInit {
 
   get description() {
     return this.form.get('description');
+  }
+
+  toggleUpdateState() {
+    this.updateState = !this.updateState;
+  }
+
+  getUpdateState() {
+    return this.updateState;
   }
 }

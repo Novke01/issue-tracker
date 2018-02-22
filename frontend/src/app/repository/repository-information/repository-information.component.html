@@ -71,7 +71,8 @@
 <br>
 <br>
 
-<div class="mat-elevation-z8 centeredtable">
+<button mat-raised-button color="primary" (click)="toggleUpdateState()">Update</button>
+<div class="mat-elevation-z8 centeredtable" *ngIf="getUpdateState()">
     <div class="repository-container">
         <form [formGroup]="form" (ngSubmit)="submit(form)">
             <mat-form-field>
