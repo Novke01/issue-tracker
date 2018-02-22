@@ -25,7 +25,7 @@ export class CreateMilestoneComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const fc = new FormControl();
+
     this.form = this.formBuilder.group({
       title: ['', Validators.required],
       description: [''],

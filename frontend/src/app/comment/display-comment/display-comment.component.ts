@@ -50,7 +50,7 @@ export class DisplayCommentComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const fc = new FormControl();
+
     this.form = this.formBuilder.group({
       content: ['', Validators.required]
     });

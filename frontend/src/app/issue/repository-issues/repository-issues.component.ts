@@ -104,7 +104,7 @@ export class RepositoryIssuesComponent implements OnInit {
   }
 
   remove(id: number) {
-    this.issueService.remove(id).subscribe(_ => {
+    this.issueService.remove(id).subscribe(() => {
       this.issues = this.issues.filter(function(l) {
         return l.id !== id;
       });

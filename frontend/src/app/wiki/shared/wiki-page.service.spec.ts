@@ -59,12 +59,7 @@ describe('WikiPageService', () => {
   it('should be able to handle rejection from server', () => {
     const dummyWikiPage = new WikiPageSave(null, 'name', 'content', 1);
 
-    const responseWikiPage: WikiPage = {
-      id: 1,
-      name: dummyWikiPage.name,
-      content: dummyWikiPage.content,
-      repositoryId: dummyWikiPage.repositoryId
-    };
+
 
     service.saveWikiPage(dummyWikiPage).subscribe(
       wiki => {

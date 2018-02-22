@@ -47,7 +47,7 @@ export class LoginFormComponent implements OnInit {
       const user = new LoginUser(this.signInForm.value);
       this.signInForm.reset();
       this.authService.login(user).subscribe(
-        u => {
+        () => {
           this.snackBar.open('You are logged in.', 'OK', {
             duration: 2000
           });

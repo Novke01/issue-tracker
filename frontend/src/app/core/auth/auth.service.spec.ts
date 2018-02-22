@@ -4,7 +4,6 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { JwtHelper } from 'angular2-jwt';
 
 import { environment } from '../../../environments/environment';
 import { AuthService } from './auth.service';
@@ -65,7 +64,7 @@ describe('AuthService', () => {
       refreshToken: refreshToken
     };
 
-    service.login(loginData).subscribe(loggedInUser => {
+    service.login(loginData).subscribe(() => {
       expect(localStorage.getItem('access_token')).toBeTruthy();
       expect(service.user).toBeTruthy();
     });
@@ -92,7 +91,7 @@ describe('AuthService', () => {
     };
 
     service.login(loginData).subscribe(
-      _ => {
+      () => {
         expect(localStorage.getItem('access_token')).toBeFalsy();
         expect(service.user).toBeFalsy();
       },
@@ -132,7 +131,7 @@ describe('AuthService', () => {
       refreshToken: refreshToken
     };
 
-    service.refreshToken().subscribe(_ => {
+    service.refreshToken().subscribe(() => {
       expect(localStorage.getItem('access_token')).toBeTruthy();
       expect(service.user).toBeTruthy();
     });
@@ -164,7 +163,7 @@ describe('AuthService', () => {
     localStorage.setItem('refresh_token', refreshToken);
 
     service.refreshToken().subscribe(
-      _ => {
+      () => {
         expect(localStorage.getItem('access_token')).toBeFalsy();
         expect(service.user).toBeFalsy();
       },
@@ -196,7 +195,7 @@ describe('AuthService', () => {
       email: 'pera@example.com',
       exp: 10000000000000
     };
-    service.logout().subscribe(_ => {
+    service.logout().subscribe(() => {
       expect(localStorage.getItem('access_token')).toBeFalsy();
       expect(localStorage.getItem('refresh_token')).toBeFalsy();
       expect(service.user).toBeFalsy();

@@ -124,7 +124,7 @@ export class RepositoryInformationComponent implements OnInit {
         this.contributors.map(contributor => contributor.id)
       );
 
-      this.repositoryService.updateRepository(repository).subscribe(repo => {
+      this.repositoryService.updateRepository(repository).subscribe(() => {
         this.toggleUpdateState();
         this.ngOnInit();
       });
@@ -132,7 +132,7 @@ export class RepositoryInformationComponent implements OnInit {
   }
 
   remove(id: number) {
-    this.repositoryService.remove(id).subscribe(_ => {
+    this.repositoryService.remove(id).subscribe(() => {
       this.router.navigate(['/']);
     });
   }

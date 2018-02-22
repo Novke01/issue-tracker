@@ -43,7 +43,7 @@ export class RepositoryWikiComponent implements OnInit {
   }
 
   remove(id: number) {
-    this.wikiPageService.remove(id).subscribe(_ => {
+    this.wikiPageService.remove(id).subscribe(() => {
       this.wikiPages = this.wikiPages.filter(function(l) {
         return l.id !== id;
       });

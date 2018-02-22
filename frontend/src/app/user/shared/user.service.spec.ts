@@ -66,14 +66,7 @@ describe('UserService', () => {
       email: 'pera@example.com'
     };
 
-    const responseUser: User = {
-      id: 1,
-      firstName: dummyUser.firstName,
-      lastName: dummyUser.lastName,
-      username: dummyUser.username,
-      email: dummyUser.email,
-      exp: 0
-    };
+
 
     service.register(dummyUser).subscribe(
       user => {
@@ -112,7 +105,7 @@ describe('UserService', () => {
       result => expect(result).toBe(responseUser)
     );
     httpMock.expectOne((req: HttpRequest<any>) => {
-      const body: RegistrationUser = req.body;
+
       return req.url === `${environment.baseUrl}api/user/${id}` &&
              req.method === 'GET';
     }, 'GET to api/user with user data in json format')
@@ -124,14 +117,7 @@ describe('UserService', () => {
   it('should be able to handle rejection from server', () => {
     const id = 1;
 
-    const responseUser: User = {
-      id: id,
-      firstName: 'Pera',
-      lastName: 'Peric',
-      username: 'pera',
-      email: 'pera@example.com',
-      exp: 0
-    };
+
 
     service.getUserData(id).subscribe(
       result => expect(result).toBeFalsy(),
@@ -139,7 +125,7 @@ describe('UserService', () => {
     );
 
     httpMock.expectOne((req: HttpRequest<any>) => {
-      const body: RegistrationUser = req.body;
+
       return req.url === `${environment.baseUrl}api/user/${id}` &&
              req.method === 'GET';
     }, 'GET to api/user with user data in json format')

@@ -65,7 +65,7 @@ export class RepositoryMilestonesComponent implements OnInit {
   }
 
   remove(id: number) {
-    this.milestoneService.remove(id).subscribe(_ => {
+    this.milestoneService.remove(id).subscribe(() => {
       this.milestones = this.milestones.filter(function(l) {
         return l.id !== id;
       });

@@ -18,7 +18,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   constructor(private injector: Injector) {}
 
-  private addToken(request: HttpRequest<any>, token: string): HttpRequest<any> {
+  private static addToken(request: HttpRequest<any>, token: string): HttpRequest<any> {
     return request.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`
@@ -32,21 +32,21 @@ export class AuthInterceptor implements HttpInterceptor {
         filter(token => token != null),
         take(1),
         switchMap(token => {
-          return next.handle(this.addToken(request, token));
+          return next.handle(AuthInterceptor.addToken(request, token));
         })
       );
     } else {
       this.isRefreshingToken = true;
       this.tokenSubject.next(null);
 
-      return this.authService.refreshToken().switchMap((tokens, _) => {
+      return this.authService.refreshToken().switchMap((tokens) => {
         if (tokens) {
           this.tokenSubject.next(tokens.accessToken);
-          return next.handle(this.addToken(request, tokens.accessToken));
+          return next.handle(AuthInterceptor.addToken(request, tokens.accessToken));
         }
         return this.authService.logout();
       })
-      .catch(error => this.authService.logout())
+      .catch(() => this.authService.logout())
       .finally(() => (this.isRefreshingToken = false));
     }
   }
@@ -59,7 +59,7 @@ export class AuthInterceptor implements HttpInterceptor {
     }
     this.authService = this.injector.get(AuthService);
     const token = localStorage.getItem('access_token');
-    request = this.addToken(request, token);
+    request = AuthInterceptor.addToken(request, token);
     return next.handle(request).catch(event => {
       if (event instanceof HttpErrorResponse && event.status === 401) {
         return this.refreshToken(request, next);

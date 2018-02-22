@@ -1,8 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ActivatedRoute, Router, Routes } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { ActivatedRoute} from '@angular/router';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs/observable/of';
 
@@ -77,7 +76,7 @@ describe('ProfileComponent', () => {
 
   it('should create', async(() => {
     fixture.detectChanges();
-    fixture.whenStable().then( _ => {
+    fixture.whenStable().then( () => {
       expect(component).toBeTruthy();
       expect(component.user).toBeTruthy();
       const contributedRepos = fixture.debugElement.query(By.css('.it-contributed-repositories'));

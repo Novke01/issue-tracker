@@ -20,7 +20,7 @@ export class RegistrationFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const fc = new FormControl();
+
     this.signUpForm = this.formBuilder.group(
       {
         firstName: ['', Validators.required],
@@ -65,7 +65,7 @@ export class RegistrationFormComponent implements OnInit {
       const user = new RegistrationUser(this.signUpForm.value);
       this.signUpForm.reset();
       this.userService.register(user).subscribe(
-        _ =>
+        () =>
           this.snackBar.open('You have registered successfully.', 'OK', {
             duration: 2000
           }),
@@ -79,7 +79,7 @@ export class RegistrationFormComponent implements OnInit {
   }
 
   checkIfMatchingPasswords() {
-    return (group: FormGroup) => {
+    return () => {
       if (!this.signUpForm || !this.confirmedPassword) {
         return;
       }

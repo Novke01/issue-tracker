@@ -65,7 +65,7 @@ export class RepositoryPullRequestsComponent implements OnInit {
   }
 
   remove(id: number) {
-    this.pullRequestService.remove(id).subscribe(_ => {
+    this.pullRequestService.remove(id).subscribe(() => {
       this.pullRequests = this.pullRequests.filter(function(l) {
         return l.id !== id;
       });

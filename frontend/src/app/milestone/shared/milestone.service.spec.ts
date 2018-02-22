@@ -99,13 +99,7 @@ describe('MilestoneService', () => {
       repositoryId: 1
     };
 
-    const responseMilestone: Milestone = {
-      id: dummyMilestone.id,
-      title: dummyMilestone.title,
-      description: dummyMilestone.description,
-      dueDate: dummyMilestone.dueDate,
-      repositoryId: dummyMilestone.repositoryId
-    };
+
 
     service.createMilestone(dummyMilestone).subscribe(
       repo => {

@@ -334,7 +334,7 @@ describe('RepositoryService', () => {
             milestoneTitle: 'milestone title'
         };
 
-        const term = 'username';
+
 
         const responseIssues = [responseIssue];
 

@@ -95,12 +95,7 @@ describe('PullRequestService', () => {
       repositoryId: 1
     };
 
-    const responsePullRequest: PullRequest = {
-      id: dummyPullRequest.id,
-      title: dummyPullRequest.title,
-      url: dummyPullRequest.url,
-      repositoryId: dummyPullRequest.repositoryId
-    };
+
 
     service.createPullRequest(dummyPullRequest).subscribe(
       repo => {

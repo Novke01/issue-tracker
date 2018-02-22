@@ -32,7 +32,7 @@ export class CreateLabelComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const fc = new FormControl();
+
     this.form = this.formBuilder.group({
       name: ['', Validators.required]
     });

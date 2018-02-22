@@ -104,14 +104,14 @@ export class IssueDisplayComponent implements OnInit {
     );
     let labelId;
     if ((labelId = addedLabels.pop())) {
-      this.issueService.insertLabel(this.issue.id, labelId).subscribe(a => {
+      this.issueService.insertLabel(this.issue.id, labelId).subscribe(() => {
         const l = this.repositoryLabels.filter(function(obj) {
           return obj.id === labelId;
         })[0];
         this.issueLabels.push(l);
       });
     } else if ((labelId = removedLabels.pop())) {
-      this.issueService.removeLabel(this.issue.id, labelId).subscribe(a => {
+      this.issueService.removeLabel(this.issue.id, labelId).subscribe(() => {
         this.issueLabels = this.issueLabels.filter(function(l) {
           return l.id !== labelId;
         });
@@ -121,13 +121,13 @@ export class IssueDisplayComponent implements OnInit {
 
   onUserAssigned(assignees) {
     const user = assignees[assignees.length - 1];
-    this.issueService.insertAssignee(this.issue.id, user.id).subscribe(_ => {
+    this.issueService.insertAssignee(this.issue.id, user.id).subscribe(() => {
       this.assignees = assignees;
     });
   }
 
   unassignUser(user) {
-    this.issueService.removeAssignee(this.issue.id, user.id).subscribe(_ => {
+    this.issueService.removeAssignee(this.issue.id, user.id).subscribe(() => {
       this.assignees = this.assignees.filter(function(a) {
         return a.id !== user.id;
       });
@@ -138,7 +138,7 @@ export class IssueDisplayComponent implements OnInit {
     if (this.issue.status === 'OPENED') {
       this.issue.status = 'CLOSED';
       this.issueService.updateIssue(this.issue).subscribe(
-        issue => {
+        () => {
           this.snackBar.open('You have successfully closed an issue.', 'OK', {
             duration: 2000
           });
@@ -156,7 +156,7 @@ export class IssueDisplayComponent implements OnInit {
     if (this.issue.status === 'CLOSED') {
       this.issue.status = 'OPENED';
       this.issueService.updateIssue(this.issue).subscribe(
-        issue => {
+        () => {
           this.snackBar.open('You have successfully reopened an issue.', 'OK', {
             duration: 2000
           });
@@ -175,7 +175,7 @@ export class IssueDisplayComponent implements OnInit {
       this.issue.title = this.title.value;
       this.issue.description = this.description.value;
       this.issueService.updateIssue(this.issue).subscribe(
-        issue => {
+        () => {
           this.disableForm();
           this.snackBar.open('You have successfully updated an issue.', 'OK', {
             duration: 2000

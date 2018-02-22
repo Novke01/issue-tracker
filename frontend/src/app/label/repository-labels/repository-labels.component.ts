@@ -6,7 +6,6 @@ import { RepositoryService } from '../../repository/shared/repository.service';
 import { ActivatedRoute } from '@angular/router';
 import { CreateLabelComponent } from '../create-label/create-label.component';
 import { LabelService } from '../shared/label.service';
-import { NumberValueAccessor } from '@angular/forms/src/directives/number_value_accessor';
 
 @Component({
   selector: 'it-repository-labels',
@@ -49,7 +48,7 @@ export class RepositoryLabelsComponent implements OnInit {
   }
 
   remove(labelId: number) {
-    this.labelService.removeLabel(labelId).subscribe(_ => {
+    this.labelService.removeLabel(labelId).subscribe(() => {
       this.labels = this.labels.filter(function(l) {
         return l.id !== labelId;
       });

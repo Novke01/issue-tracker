@@ -53,7 +53,7 @@ export class CreateIssueComponent implements OnInit {
       .subscribe(result => {
         this.milestones = result;
       });
-    const fc = new FormControl();
+
     this.form = this.formBuilder.group({
       title: ['', Validators.required],
       description: [''],
