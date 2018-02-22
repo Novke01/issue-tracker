@@ -105,7 +105,9 @@ class PullRequestServiceSpec extends PlaySpec with MockitoSugar {
         pullRequest.repositoryId
       )
       val mockPullRequest = mock[PullRequestRepository]
-      when(mockPullRequest.insert(any[PullRequest])) thenReturn Future { createdPullRequest }
+      when(mockPullRequest.insert(any[PullRequest])) thenReturn Future {
+        createdPullRequest
+      }
       val service = PullRequestService(mockPullRequest)
       service.insert(pullRequest) map { returnedPullRequest =>
         returnedPullRequest.id mustBe createdPullRequest.id
@@ -114,21 +116,50 @@ class PullRequestServiceSpec extends PlaySpec with MockitoSugar {
         returnedPullRequest.repositoryId mustBe createdPullRequest.repositoryId
       }
     }
-  }
-  "throw PSQLException when repository with given id doesn't exist" in {
+    "throw PSQLException when repository with given id doesn't exist" in {
 
-    val postPullRequest = PostPullRequest(
-      "PR title",
-      "PR url",
-      1
-    )
-    val mockPullRequestRepository = mock[PullRequestRepository]
-    when(mockPullRequestRepository.insert(any[PullRequest])) thenReturn Future {
-      throw new PSQLException("Foreign key constraint violated.", PSQLState.DATA_ERROR)
+      val postPullRequest = PostPullRequest(
+        "PR title",
+        "PR url",
+        1
+      )
+      val mockPullRequestRepository = mock[PullRequestRepository]
+      when(mockPullRequestRepository.insert(any[PullRequest])) thenReturn Future {
+        throw new PSQLException("Foreign key constraint violated.", PSQLState.DATA_ERROR)
+      }
+      val service = PullRequestService(mockPullRequestRepository)
+      ScalaFutures.whenReady(service.insert(postPullRequest).failed) { e =>
+        e shouldBe an[PSQLException]
+      }
     }
-    val service = PullRequestService(mockPullRequestRepository)
-    ScalaFutures.whenReady(service.insert(postPullRequest).failed) { e =>
-      e shouldBe an[PSQLException]
+  }
+
+  "PullRequestService#delete" should {
+    "return 1 if delete pull request with given id" in {
+
+      val pullRequestId = 1
+
+      val mockPullRequestRepository = mock[PullRequestRepository]
+      when(mockPullRequestRepository.delete(any[Int])) thenReturn Future {
+        1
+      }
+      val service = PullRequestService(mockPullRequestRepository)
+      service.delete(pullRequestId) map { rows =>
+        rows mustBe 1
+      }
+    }
+    "return 0 if the pull request with given id doesn't exist" in {
+
+      val pullRequestId = 1
+
+      val mockPullRequestRepository = mock[PullRequestRepository]
+      when(mockPullRequestRepository.delete(any[Int])) thenReturn Future {
+        0
+      }
+      val service = PullRequestService(mockPullRequestRepository)
+      service.delete(pullRequestId) map { rows =>
+        rows mustBe 0
+      }
     }
   }
 }

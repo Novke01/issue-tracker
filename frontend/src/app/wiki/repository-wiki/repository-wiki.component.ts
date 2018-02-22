@@ -41,4 +41,19 @@ export class RepositoryWikiComponent implements OnInit {
       x => x.id === this.selectedPage
     )[0];
   }
+
+  remove(id: number) {
+    this.wikiPageService.remove(id).subscribe(_ => {
+      this.wikiPages = this.wikiPages.filter(function(l) {
+        return l.id !== id;
+      });
+      if (this.wikiPages.length > 0) {
+        this.selectedPage = this.wikiPages[0].id;
+        this.currentWiki = this.wikiPages[0];
+      } else if (this.wikiPages.length === 0) {
+        this.currentWiki = new WikiPage();
+        this.currentWiki.content = '';
+      }
+    });
+  }
 }

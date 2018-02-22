@@ -9,7 +9,10 @@ class LabelTable(tag: Tag) extends Table[Label](tag, "labels") {
   def name         = column[String]("name")
   def color        = column[String]("color")
   def repositoryId = column[Long]("repositoryId")
-  def repository   = foreignKey("repository_FK", repositoryId, RepositoryTable.repositories)(_.id)
+  def repository =
+    foreignKey("repository_FK", repositoryId, RepositoryTable.repositories)(
+      _.id,
+      onDelete = ForeignKeyAction.Cascade)
 
   def * =
     (id, name, color, repositoryId) <> (Label.tupled, Label.unapply)

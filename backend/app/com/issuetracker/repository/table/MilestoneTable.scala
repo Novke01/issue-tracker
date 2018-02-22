@@ -13,7 +13,10 @@ class MilestoneTable(tag: Tag) extends Table[Milestone](tag, "milestones") {
   def dueDate      = column[DateTime]("dueDate")
   def repositoryId = column[Long]("repositoryId")
 
-  def repository = foreignKey("repository_FK", repositoryId, RepositoryTable.repositories)(_.id)
+  def repository =
+    foreignKey("repository_FK", repositoryId, RepositoryTable.repositories)(
+      _.id,
+      onDelete = ForeignKeyAction.Cascade)
 
   def * = (id, title, description, dueDate, repositoryId) <> (Milestone.tupled, Milestone.unapply)
 

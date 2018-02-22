@@ -13,6 +13,8 @@ class IssueLabelRepository(db: Database) {
 
   def create(): Future[Unit] = db.run(issueLabels.schema.create)
 
+  def drop(): Future[Unit] = db.run(issueLabels.schema.drop)
+
   def insertIssueLabels(issueId: Long, labelIds: Seq[Long]): Future[Option[Int]] =
     db.run({
       issueLabels ++= labelIds.map(IssueLabel(-1, _, issueId))

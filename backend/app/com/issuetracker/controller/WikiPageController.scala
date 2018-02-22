@@ -40,4 +40,11 @@ class WikiPageController(
       case None             => NotFound
     }
   }
+
+  def delete(id: Long) = Action.async {
+    wikiPageService.delete(id) map {
+      case x if x < 1 => NotFound
+      case _          => Ok
+    }
+  }
 }

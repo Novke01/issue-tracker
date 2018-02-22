@@ -133,4 +133,39 @@ class MilestoneControllerSpec extends PlaySpec with MockitoSugar with OneAppPerS
     }
   }
 
+  "MilestoneController#delete" should {
+    "return delete milestone and return OK status" in {
+
+      val milestoneId = 1
+
+      val fakeRequest = FakeRequest()
+      val mockMilestoneService = mock[MilestoneService]
+      when(mockMilestoneService.delete(any[Long])) thenReturn Future {
+        1
+      }
+      val controller = new MilestoneController(stubControllerComponents(), mockMilestoneService)
+
+      val result: Future[Result] = controller.delete(milestoneId).apply(fakeRequest)
+      result map { response =>
+        response.header.status mustBe 200
+      }
+    }
+
+    "return Not found if milestone with given id doesn't exist" in {
+
+      val milestoneId = 1
+
+      val fakeRequest = FakeRequest()
+      val mockMilestoneService = mock[MilestoneService]
+      when(mockMilestoneService.delete(any[Long])) thenReturn Future {
+        0
+      }
+      val controller = new MilestoneController(stubControllerComponents(), mockMilestoneService)
+
+      val result: Future[Result] = controller.delete(milestoneId).apply(fakeRequest)
+      result map { response =>
+        response.header.status mustBe 400
+      }
+    }
+  }
 }

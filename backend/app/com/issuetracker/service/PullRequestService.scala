@@ -23,6 +23,10 @@ class PullRequestService(
       .getByRepositoryId(id)
       .map(_.map(GetPullRequest.pullRequestToGetPullRequest))
   }
+
+  def delete(id: Long): Future[Int] = {
+    pullRequestRepository.delete(id)
+  }
 }
 
 object PullRequestService {

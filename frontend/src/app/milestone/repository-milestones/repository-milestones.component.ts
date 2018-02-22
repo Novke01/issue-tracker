@@ -14,7 +14,7 @@ import { MilestoneService } from './../shared/milestone.service';
 export class RepositoryMilestonesComponent implements OnInit {
   repositoryId: number;
   milestones: Milestone[] = [];
-  displayedColumns = ['title', 'description', 'dueDate'];
+  displayedColumns = ['title', 'description', 'dueDate', 'actions'];
   dataSource: MatTableDataSource<Milestone>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -61,6 +61,15 @@ export class RepositoryMilestonesComponent implements OnInit {
           this.dataSource.paginator.nextPage();
         }
       }
+    });
+  }
+
+  remove(id: number) {
+    this.milestoneService.remove(id).subscribe(_ => {
+      this.milestones = this.milestones.filter(function(l) {
+        return l.id !== id;
+      });
+      this.dataSource = new MatTableDataSource(this.milestones);
     });
   }
 }

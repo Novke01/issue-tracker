@@ -11,11 +11,16 @@ class MilestoneRepository(db: Database) {
 
   def create(): Future[Unit] = db.run(milestones.schema.create)
 
+  def drop(): Future[Unit] = db.run(milestones.schema.drop)
+
   def insert(milestone: Milestone): Future[Milestone] =
     db.run((milestones returning milestones) += milestone)
 
   def get(id: Long): Future[Option[Milestone]] =
     db.run(milestones.filter(_.id === id).result.headOption)
+
+  def delete(id: Long): Future[Int] =
+    db.run(milestones.filter(_.id === id).delete)
 
   def getByRepositoryId(id: Long): Future[Seq[Milestone]] =
     db.run(milestones.filter(_.repositoryId === id).result)

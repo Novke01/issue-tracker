@@ -7,3 +7,4 @@ DELETE  /:issueId/assignees/:userId                 com.issuetracker.controller.
 GET     /:issueId/labels                        com.issuetracker.controller.IssueController.getLabels(issueId: Long)
 POST  /:issueId/labels/:labelId                 com.issuetracker.controller.IssueController.insertLabel(issueId: Long, labelId: Long)
 DELETE  /:issueId/labels/:labelId                 com.issuetracker.controller.IssueController.removeLabel(issueId: Long, labelId: Long)
+DELETE  /:id                                     com.issuetracker.controller.IssueController.delete(id: Long)

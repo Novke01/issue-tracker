@@ -13,6 +13,8 @@ class UserRepository(db: Database) {
 
   def create(): Future[Unit] = db.run(users.schema.create)
 
+  def drop(): Future[Unit] = db.run(users.schema.drop)
+
   def insert(user: User): Future[User] = db.run((users returning users) += user)
 
   def findByUsername(username: String): Future[Option[User]] =

@@ -351,4 +351,48 @@ class IssueControllerSpec extends PlaySpec with MockitoSugar with OneAppPerSuite
     }
   }
 
+  "IssueController#delete" should {
+    "return delete issue and return OK status" in {
+
+      val issueId = 1;
+
+      val fakeRequest = FakeRequest()
+      val mockIssueService = mock[IssueService]
+      when(mockIssueService.delete(any[Long])) thenReturn Future {
+        1
+      }
+      val controller = new IssueController(stubControllerComponents(),
+        mockIssueService,
+        mock[IssueLabelService],
+        mock[AssignedUserService],
+        mock[JwtUtil])
+
+      val result: Future[Result] = controller.delete(issueId).apply(fakeRequest)
+      result map { response =>
+        response.header.status mustBe 200
+      }
+    }
+
+    "return Not found if issue with given id doesn't exist" in {
+
+      val issueId = 1;
+
+      val fakeRequest = FakeRequest()
+      val mockIssueService = mock[IssueService]
+      when(mockIssueService.delete(any[Long])) thenReturn Future {
+        0
+      }
+      val controller = new IssueController(stubControllerComponents(),
+        mockIssueService,
+        mock[IssueLabelService],
+        mock[AssignedUserService],
+        mock[JwtUtil])
+
+      val result: Future[Result] = controller.delete(issueId).apply(fakeRequest)
+      result map { response =>
+        response.header.status mustBe 400
+      }
+    }
+  }
+
 }

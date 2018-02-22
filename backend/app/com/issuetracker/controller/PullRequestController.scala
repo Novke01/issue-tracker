@@ -50,4 +50,11 @@ class PullRequestController(
         BadRequest("Something went wrong.")
     }
   }
+
+  def delete(id: Long) = Action.async {
+    pullRequestService.delete(id) map {
+      case x if x < 1 => NotFound
+      case _          => Ok
+    }
+  }
 }

@@ -191,4 +191,34 @@ class IssueServiceSpec extends PlaySpec with MockitoSugar {
     }
   }
 
+  "IssueService#delete" should {
+    "return 1 if delete issue with given id" in {
+
+      val issueId = 1
+      val mockIssueRepository = mock[IssueRepository]
+      when(mockIssueRepository.delete(any[Int])) thenReturn Future {
+        1
+      }
+      val service =
+        IssueService(mockIssueRepository, mock[IssueLabelRepository], mock[AssignedUserRepository])
+      service.delete(issueId) map { rows =>
+        rows mustBe 1
+      }
+    }
+    "return 0 if the issue with given id doesn't exist" in {
+
+      val issueId = 1
+
+      val mockIssueRepository = mock[IssueRepository]
+      when(mockIssueRepository.delete(any[Int])) thenReturn Future {
+        0
+      }
+      val service =
+        IssueService(mockIssueRepository, mock[IssueLabelRepository], mock[AssignedUserRepository])
+      service.delete(issueId) map { rows =>
+        rows mustBe 0
+      }
+    }
+  }
+
 }

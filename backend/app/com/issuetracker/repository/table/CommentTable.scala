@@ -12,10 +12,13 @@ class CommentTable(tag: Tag) extends Table[Comment](tag, "comments") {
   def issueId       = column[Option[Long]]("issue_id")
   def pullRequestId = column[Option[Long]]("pull_request_id")
 
-  def user  = foreignKey("user_FK", userId, UserTable.users)(_.id)
-  def issue = foreignKey("issue_FK", issueId, IssueTable.issues)(_.id)
+  def user = foreignKey("user_FK", userId, UserTable.users)(_.id)
+  def issue =
+    foreignKey("issue_FK", issueId, IssueTable.issues)(_.id, onDelete = ForeignKeyAction.Cascade)
   def pullRequest =
-    foreignKey("pull_request_FK", pullRequestId, PullRequestTable.pullRequests)(_.id)
+    foreignKey("pull_request_FK", pullRequestId, PullRequestTable.pullRequests)(
+      _.id,
+      onDelete = ForeignKeyAction.Cascade)
 
   def * =
     (id, content, userId, userUsername, issueId, pullRequestId) <> (Comment.tupled, Comment.unapply)

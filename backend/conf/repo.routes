@@ -9,3 +9,4 @@ GET     /:repoId/contributors/:searchTerm        com.issuetracker.controller.Rep
 GET     /:repoId/issues                          com.issuetracker.controller.RepositoryController.getIssues(repoId: Long)
 GET     /:repoId/labels                          com.issuetracker.controller.RepositoryController.getLabels(repoId: Long)
 GET     /:id/wiki-pages                          com.issuetracker.controller.RepositoryController.getWikiPages(id: Long)
+DELETE  /:id                                     com.issuetracker.controller.RepositoryController.delete(id: Long)

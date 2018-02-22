@@ -72,6 +72,7 @@
 <br>
 
 <button mat-raised-button color="primary" (click)="toggleUpdateState()">Update</button>
+<button mat-raised-button color="warn" (click)="remove(repository.id)">Delete</button>
 <div class="mat-elevation-z8 centeredtable" *ngIf="getUpdateState()">
     <div class="repository-container">
         <form [formGroup]="form" (ngSubmit)="submit(form)">

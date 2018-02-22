@@ -91,7 +91,7 @@ class PullRequestControllerSpec extends PlaySpec with MockitoSugar with OneAppPe
   }
 
   "PullRequestController#get" should {
-    "return milestone with given id" in {
+    "return pull request with given id" in {
 
       val pullRequest = GetPullRequest(
         1,
@@ -110,7 +110,7 @@ class PullRequestControllerSpec extends PlaySpec with MockitoSugar with OneAppPe
       jsonBody mustBe jsonMilestone
     }
 
-    "return Not found if milestone with given id doesn't exist" in {
+    "return Not found if pull request with given id doesn't exist" in {
 
       val pullRequestId = 1
 
@@ -120,6 +120,42 @@ class PullRequestControllerSpec extends PlaySpec with MockitoSugar with OneAppPe
       val controller = new PullRequestController(stubControllerComponents(), mockPullRequest)
 
       val result: Future[Result] = controller.get(pullRequestId).apply(fakeRequest)
+      result map { response =>
+        response.header.status mustBe 400
+      }
+    }
+  }
+
+  "PullRequestController#delete" should {
+    "delete pull request and return OK status" in {
+
+      val prId = 1
+
+      val fakeRequest = FakeRequest()
+      val mockPullRequestService = mock[PullRequestService]
+      when(mockPullRequestService.delete(any[Long])) thenReturn Future {
+        1
+      }
+      val controller = new PullRequestController(stubControllerComponents(), mockPullRequestService)
+
+      val result: Future[Result] = controller.delete(prId).apply(fakeRequest)
+      result map { response =>
+        response.header.status mustBe 200
+      }
+    }
+
+    "return Not found if pull request with given id doesn't exist" in {
+
+      val prId = 1
+
+      val fakeRequest = FakeRequest()
+      val mockPullRequestService = mock[PullRequestService]
+      when(mockPullRequestService.delete(any[Long])) thenReturn Future {
+        0
+      }
+      val controller = new PullRequestController(stubControllerComponents(), mockPullRequestService)
+
+      val result: Future[Result] = controller.delete(prId).apply(fakeRequest)
       result map { response =>
         response.header.status mustBe 400
       }

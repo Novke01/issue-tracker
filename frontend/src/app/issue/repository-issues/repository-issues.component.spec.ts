@@ -3,14 +3,15 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs/observable/of';
 
+import { Milestone } from '../../milestone/shared/milestone.model';
 import { RepositoryService } from '../../repository/shared/repository.service';
 import { SharedModule } from '../../shared/shared.module';
-import { MilestoneService } from './../../milestone/shared/milestone.service';
-import { RepositoryIssuesComponent } from './repository-issues.component';
 import { Issue } from '../shared/issue.model';
-import { of } from 'rxjs/observable/of';
-import { Milestone } from '../../milestone/shared/milestone.model';
+import { MilestoneService } from './../../milestone/shared/milestone.service';
+import { IssueService } from './../shared/issue.service';
+import { RepositoryIssuesComponent } from './repository-issues.component';
 
 describe('RepositoryIssuesComponent', () => {
   let component: RepositoryIssuesComponent;
@@ -36,7 +37,7 @@ describe('RepositoryIssuesComponent', () => {
           RouterTestingModule.withRoutes([]),
           SharedModule
         ],
-        providers: [RepositoryService, MilestoneService],
+        providers: [RepositoryService, MilestoneService, IssueService],
         declarations: [RepositoryIssuesComponent],
         schemas: [CUSTOM_ELEMENTS_SCHEMA]
       }).compileComponents();

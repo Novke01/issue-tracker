@@ -15,6 +15,9 @@ import play.filters.HttpFiltersComponents
 import play.filters.cors.CORSComponents
 import router.Routes
 import slick.jdbc.JdbcProfile
+import scala.concurrent.duration.Duration.Inf
+
+import scala.concurrent.Await
 
 class MainApplicationLoader extends ApplicationLoader {
   def load(context: Context): Application = {
@@ -33,28 +36,40 @@ class ApplicationComponents(context: Context)
   lazy val userRepository         = new UserRepository(dbConfig.db)
   lazy val repositoryRepository   = RepositoryRepository(dbConfig.db)
   lazy val contributorRepository  = ContributorRepository(dbConfig.db)
+  lazy val milestoneRepository    = new MilestoneRepository(dbConfig.db)
   lazy val issueRepository        = new IssueRepository(dbConfig.db)
   lazy val assignedUserRepository = new AssignedUserRepository(dbConfig.db)
   lazy val wikiPageRepository     = new WikiPageRepository(dbConfig.db)
   lazy val labelRepository        = new LabelRepository(dbConfig.db)
   lazy val issueLabelRepository   = new IssueLabelRepository(dbConfig.db)
-  lazy val milestoneRepository    = new MilestoneRepository(dbConfig.db)
   lazy val pullRequestRepository  = new PullRequestRepository(dbConfig.db)
   lazy val commentRepository      = new CommentRepository(dbConfig.db)
 
   lazy val jwtUtil = JwtUtil(configuration)
 
-  userRepository.create()
-  repositoryRepository.create()
-  contributorRepository.create()
-  issueRepository.create()
-  assignedUserRepository.create()
-  wikiPageRepository.create()
-  labelRepository.create()
-  issueLabelRepository.create()
-  milestoneRepository.create()
-  pullRequestRepository.create()
-  commentRepository.create()
+  Await.result(assignedUserRepository.drop(), Inf)
+  Await.result(commentRepository.drop(), Inf)
+  Await.result(issueLabelRepository.drop(), Inf)
+  Await.result(labelRepository.drop(), Inf)
+  Await.result(wikiPageRepository.drop(), Inf)
+  Await.result(issueRepository.drop(), Inf)
+  Await.result(pullRequestRepository.drop(), Inf)
+  Await.result(milestoneRepository.drop(), Inf)
+  Await.result(contributorRepository.drop(), Inf)
+  Await.result(repositoryRepository.drop(), Inf)
+  Await.result(userRepository.drop(), Inf)
+
+  Await.result(userRepository.create(), Inf)
+  Await.result(repositoryRepository.create(), Inf)
+  Await.result(contributorRepository.create(), Inf)
+  Await.result(milestoneRepository.create(), Inf)
+  Await.result(pullRequestRepository.create(), Inf)
+  Await.result(issueRepository.create(), Inf)
+  Await.result(wikiPageRepository.create(), Inf)
+  Await.result(labelRepository.create(), Inf)
+  Await.result(issueLabelRepository.create(), Inf)
+  Await.result(commentRepository.create(), Inf)
+  Await.result(assignedUserRepository.create(), Inf)
 
   lazy val userService        = UserService(userRepository)
   lazy val authService        = AuthService(userRepository, jwtUtil)

@@ -13,6 +13,8 @@ class LabelRepository(db: Database) {
 
   def create(): Future[Unit] = db.run(labels.schema.create)
 
+  def drop(): Future[Unit] = db.run(labels.schema.drop)
+
   def insert(label: Label): Future[Label] = db.run((labels returning labels) += label)
 
   def findById(id: Long): Future[Option[Label]] =

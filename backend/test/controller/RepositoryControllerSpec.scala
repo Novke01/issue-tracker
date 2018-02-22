@@ -605,4 +605,52 @@ class RepositoryControllerSpec
       }
     }
   }
+
+  "RepositoryController#delete" should {
+    "delete repository and return OK status" in {
+
+      val repoId = 1
+
+      val fakeRequest = FakeRequest()
+      val mockRepositoryService = mock[RepositoryService]
+      when(mockRepositoryService.delete(any[Long])) thenReturn Future {
+        1
+      }
+      val controller = new RepositoryController(stubControllerComponents(),
+        mockRepositoryService,
+        mock[ContributorService],
+        mock[IssueService],
+        mock[LabelService],
+        mock[WikiPageService],
+        mock[JwtUtil])
+
+      val result: Future[Result] = controller.delete(repoId).apply(fakeRequest)
+      result map { response =>
+        response.header.status mustBe 200
+      }
+    }
+
+    "return Not found if repository with given id doesn't exist" in {
+
+      val repoId = 1
+
+      val fakeRequest = FakeRequest()
+      val mockRepositoryService = mock[RepositoryService]
+      when(mockRepositoryService.delete(any[Long])) thenReturn Future {
+        0
+      }
+      val controller = new RepositoryController(stubControllerComponents(),
+        mockRepositoryService,
+        mock[ContributorService],
+        mock[IssueService],
+        mock[LabelService],
+        mock[WikiPageService],
+        mock[JwtUtil])
+
+      val result: Future[Result] = controller.delete(repoId).apply(fakeRequest)
+      result map { response =>
+        response.header.status mustBe 400
+      }
+    }
+  }
 }

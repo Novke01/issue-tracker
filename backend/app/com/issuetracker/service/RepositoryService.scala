@@ -76,6 +76,10 @@ class RepositoryService(
     repositoryRepository.getRepositoryOwner(id).map(_.map(RegisteredUser.userToRegisteredUser))
   }
 
+  def delete(id: Long): Future[Int] = {
+    repositoryRepository.delete(id)
+  }
+
 }
 
 object RepositoryService {

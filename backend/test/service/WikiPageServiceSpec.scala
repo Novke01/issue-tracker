@@ -126,4 +126,33 @@ class WikiPageServiceSpec extends PlaySpec with MockitoSugar {
     }
   }
 
+  "WikiPageService#delete" should {
+    "return 1 if delete wiki page with given id" in {
+
+      val wikiId = 1
+
+      val mockWikiPageRepository = mock[WikiPageRepository]
+      when(mockWikiPageRepository.delete(any[Int])) thenReturn Future {
+        1
+      }
+      val service = WikiPageService(mockWikiPageRepository)
+      service.delete(wikiId) map { rows =>
+        rows mustBe 1
+      }
+    }
+    "return 0 if the wiki page with given id doesn't exist" in {
+
+      val wikiId = 1
+
+      val mockWikiPageRepository = mock[WikiPageRepository]
+      when(mockWikiPageRepository.delete(any[Int])) thenReturn Future {
+        0
+      }
+      val service = WikiPageService(mockWikiPageRepository)
+      service.delete(wikiId) map { rows =>
+        rows mustBe 0
+      }
+    }
+  }
+
 }

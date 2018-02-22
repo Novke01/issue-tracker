@@ -9,7 +9,8 @@ class AssignedUserTable(tag: Tag) extends Table[AssignedUser](tag, "assignees") 
   def userId  = column[Long]("userId")
   def issueId = column[Long]("issueId")
   def user    = foreignKey("user_FK", userId, UserTable.users)(_.id)
-  def issue   = foreignKey("issue_FK", issueId, IssueTable.issues)(_.id)
+  def issue =
+    foreignKey("issue_FK", issueId, IssueTable.issues)(_.id, onDelete = ForeignKeyAction.Cascade)
 
   def * = (id, userId, issueId) <> (AssignedUser.tupled, AssignedUser.unapply)
 

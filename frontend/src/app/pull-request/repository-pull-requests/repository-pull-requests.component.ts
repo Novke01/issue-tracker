@@ -14,7 +14,7 @@ import { PullRequestService } from './../shared/pull-request.service';
 export class RepositoryPullRequestsComponent implements OnInit {
   repositoryId: number;
   pullRequests: PullRequest[] = [];
-  displayedColumns = ['title', 'url'];
+  displayedColumns = ['title', 'url', 'actions'];
   dataSource: MatTableDataSource<PullRequest>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -61,6 +61,15 @@ export class RepositoryPullRequestsComponent implements OnInit {
           this.dataSource.paginator.nextPage();
         }
       }
+    });
+  }
+
+  remove(id: number) {
+    this.pullRequestService.remove(id).subscribe(_ => {
+      this.pullRequests = this.pullRequests.filter(function(l) {
+        return l.id !== id;
+      });
+      this.dataSource = new MatTableDataSource(this.pullRequests);
     });
   }
 }

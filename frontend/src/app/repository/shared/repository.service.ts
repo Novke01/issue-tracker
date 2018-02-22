@@ -7,13 +7,12 @@ import { catchError } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { User } from '../../core/auth/user.model';
 import { Issue } from '../../issue/shared/issue.model';
+import { Label } from '../../label/shared/label.model';
 import { RepositorySave } from './repository-save.model';
 import { Repository } from './repository.model';
-import { Label } from '../../label/shared/label.model';
 
 @Injectable()
 export class RepositoryService {
-
   private repositoryUrl = 'api/repositories';
 
   constructor(private http: HttpClient) {}
@@ -29,8 +28,8 @@ export class RepositoryService {
   }
 
   updateRepository(repository: RepositorySave): Observable<Repository> {
-        const url = `${environment.baseUrl}${this.repositoryUrl}`;
-        return this.http.patch<Repository>(url, repository);
+    const url = `${environment.baseUrl}${this.repositoryUrl}`;
+    return this.http.patch<Repository>(url, repository);
   }
 
   saveRepository(repository: RepositorySave): Observable<Repository> {
@@ -52,7 +51,9 @@ export class RepositoryService {
   }
 
   getContributorsByRepositoryId(id: string): Observable<User[]> {
-    const url = `${environment.baseUrl}${this.repositoryUrl}/${id}/contributors`;
+    const url = `${environment.baseUrl}${
+      this.repositoryUrl
+    }/${id}/contributors`;
     return this.http.get<User[]>(url).pipe(
       catchError(err => {
         return Observable.throw(new Error(err.error));
@@ -70,11 +71,16 @@ export class RepositoryService {
   }
 
   /* GET contributors and owner whose name contains search term */
-  searchOwnerAndContributors(repositoryId: number, term: string): Observable<User[]> {
+  searchOwnerAndContributors(
+    repositoryId: number,
+    term: string
+  ): Observable<User[]> {
     if (!term.trim()) {
       return of([]);
     }
-    const url = `${environment.baseUrl}${this.repositoryUrl}/${repositoryId}/contributors/${term}`;
+    const url = `${environment.baseUrl}${
+      this.repositoryUrl
+    }/${repositoryId}/contributors/${term}`;
     return this.http.get<User[]>(url).pipe(
       catchError(err => {
         return Observable.throw(new Error(err.error));
@@ -98,5 +104,10 @@ export class RepositoryService {
         return Observable.throw(new Error(err.error));
       })
     );
+  }
+
+  remove(id: number): Observable<Repository> {
+    const url = `${environment.baseUrl}${this.repositoryUrl}/${id}`;
+    return this.http.delete<Repository>(url);
   }
 }

@@ -138,4 +138,10 @@ class RepositoryController(
     }
   }
 
+  def delete(id: Long) = Action.async {
+    repositoryService.delete(id) map {
+      case x if x < 1 => NotFound
+      case _          => Ok
+    }
+  }
 }

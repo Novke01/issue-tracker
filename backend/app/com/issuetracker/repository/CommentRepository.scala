@@ -11,6 +11,8 @@ class CommentRepository(db: Database) {
 
   def create(): Future[Unit] = db.run(comments.schema.create)
 
+  def drop(): Future[Unit] = db.run(comments.schema.drop)
+
   def insert(comment: Comment): Future[Comment] =
     db.run((comments returning comments) += comment)
 

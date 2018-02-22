@@ -14,6 +14,8 @@ class IssueRepository(db: Database) {
 
   def create(): Future[Unit] = db.run(issues.schema.create)
 
+  def drop(): Future[Unit] = db.run(issues.schema.drop)
+
   def insert(issue: Issue): Future[Issue] = db.run((issues returning issues) += issue)
 
   def update(issue: Issue): Future[Option[Issue]] = {
@@ -34,6 +36,10 @@ class IssueRepository(db: Database) {
 
   def findByRepositoryId(repoId: Long): Future[Seq[Issue]] = {
     db.run(issues.filter(_.repositoryId === repoId).result)
+  }
+
+  def delete(id: Long): Future[Int] = {
+    db.run(issues.filter(_.id === id).delete)
   }
 
 }

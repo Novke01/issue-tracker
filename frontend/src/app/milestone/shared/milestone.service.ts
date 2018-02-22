@@ -25,4 +25,9 @@ export class MilestoneService {
       })
     );
   }
+
+  remove(id: number): Observable<Milestone> {
+    const url = `${environment.baseUrl}${this.milestoneUrl}/${id}`;
+    return this.http.delete<Milestone>(url);
+  }
 }

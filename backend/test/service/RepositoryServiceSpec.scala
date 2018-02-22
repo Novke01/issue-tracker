@@ -281,4 +281,33 @@ class RepositoryServiceSpec extends PlaySpec with MockitoSugar {
       }
     }
   }
+
+  "RepositoryService#delete" should {
+    "return 1 if delete repository with given id" in {
+
+      val repoId = 1
+
+      val mockRepositoryRepository = mock[RepositoryRepository]
+      when(mockRepositoryRepository.delete(any[Int])) thenReturn Future {
+        1
+      }
+      val service = RepositoryService(mockRepositoryRepository, mock[ContributorService])
+      service.delete(repoId) map { rows =>
+        rows mustBe 1
+      }
+    }
+    "return 0 if the repository with given id doesn't exist" in {
+
+      val repoId = 1
+
+      val mockRepositoryRepository = mock[RepositoryRepository]
+      when(mockRepositoryRepository.delete(any[Int])) thenReturn Future {
+        0
+      }
+      val service = RepositoryService(mockRepositoryRepository, mock[ContributorService])
+      service.delete(repoId) map { rows =>
+        rows mustBe 0
+      }
+    }
+  }
 }

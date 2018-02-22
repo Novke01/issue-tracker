@@ -21,6 +21,10 @@ class MilestoneService(
   def getByRepositoryId(id: Long): Future[Seq[GetMilestone]] = {
     milestoneRepository.getByRepositoryId(id).map(_.map(GetMilestone.milestoneToGetMilestone))
   }
+
+  def delete(id: Long): Future[Int] = {
+    milestoneRepository.delete(id)
+  }
 }
 
 object MilestoneService {

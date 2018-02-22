@@ -38,6 +38,13 @@
       </mat-cell>
     </ng-container>
 
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef> Actions</mat-header-cell>
+      <mat-cell *matCellDef="let issue">
+        <button mat-raised-button color="warn" (click)="remove(issue.id)">Delete</button>
+      </mat-cell>
+    </ng-container>
+
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let issue; columns: displayedColumns;">
     </mat-row>

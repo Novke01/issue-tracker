@@ -10,7 +10,10 @@ class PullRequestTable(tag: Tag) extends Table[PullRequest](tag, "pullrequests")
   def url          = column[String]("url")
   def repositoryId = column[Long]("repositoryId")
 
-  def repository = foreignKey("repository_FK", repositoryId, RepositoryTable.repositories)(_.id)
+  def repository =
+    foreignKey("repository_FK", repositoryId, RepositoryTable.repositories)(
+      _.id,
+      onDelete = ForeignKeyAction.Cascade)
 
   def * = (id, title, url, repositoryId) <> (PullRequest.tupled, PullRequest.unapply)
 

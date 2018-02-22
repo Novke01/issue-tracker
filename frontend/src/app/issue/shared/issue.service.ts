@@ -4,8 +4,8 @@ import { Observable } from 'rxjs/Observable';
 
 import { environment } from '../../../environments/environment';
 import { User } from '../../core/auth/user.model';
-import { Issue } from './issue.model';
 import { Label } from '../../label/shared/label.model';
+import { Issue } from './issue.model';
 
 @Injectable()
 export class IssueService {
@@ -68,5 +68,10 @@ export class IssueService {
       this.issuesUrl
     }/${issueId}/labels/${labelId}`;
     return this.http.delete<Label>(url);
+  }
+
+  remove(id: number): Observable<Issue> {
+    const url = `${environment.baseUrl}${this.issuesUrl}/${id}`;
+    return this.http.delete<Issue>(url);
   }
 }

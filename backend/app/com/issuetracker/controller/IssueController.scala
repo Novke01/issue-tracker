@@ -102,4 +102,10 @@ class IssueController(val cc: ControllerComponents,
     }
   }
 
+  def delete(id: Long) = Action.async {
+    issueService.delete(id) map {
+      case x if x < 1 => NotFound
+      case _          => Ok
+    }
+  }
 }

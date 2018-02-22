@@ -9,7 +9,10 @@ class ContributorTable(tag: Tag) extends Table[Contributor](tag, "contributors")
   def userId       = column[Long]("userId")
   def repositoryId = column[Long]("repositoryId")
   def user         = foreignKey("user_FK", userId, UserTable.users)(_.id)
-  def repository   = foreignKey("repository_FK", repositoryId, RepositoryTable.repositories)(_.id)
+  def repository =
+    foreignKey("repository_FK", repositoryId, RepositoryTable.repositories)(
+      _.id,
+      onDelete = ForeignKeyAction.Cascade)
 
   def * = (id, userId, repositoryId) <> (Contributor.tupled, Contributor.unapply)
 

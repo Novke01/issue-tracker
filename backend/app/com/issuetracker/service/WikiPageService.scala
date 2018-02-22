@@ -24,6 +24,9 @@ class WikiPageService(
     wikiPageRepository.insert(wikiPage).map(GetWikiPage.wikiPageToGetWikiPage)
   }
 
+  def delete(id: Long): Future[Int] = {
+    wikiPageRepository.delete(id)
+  }
 }
 
 object WikiPageService {

@@ -15,6 +15,8 @@ class ContributorRepository(db: Database) {
 
   def create(): Future[Unit] = db.run(contributors.schema.create)
 
+  def drop(): Future[Unit] = db.run(contributors.schema.drop)
+
   def insert(contributor: Contributor): Future[Contributor] =
     db.run((contributors returning contributors) += contributor)
 

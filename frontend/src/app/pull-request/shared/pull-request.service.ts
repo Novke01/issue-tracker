@@ -30,4 +30,9 @@ export class PullRequestService {
       })
     );
   }
+
+  remove(id: number): Observable<PullRequest> {
+    const url = `${environment.baseUrl}${this.pullRequestUrl}/${id}`;
+    return this.http.delete<PullRequest>(url);
+  }
 }

@@ -128,4 +128,40 @@ class WikiPageControllerSpec extends PlaySpec with MockitoSugar with OneAppPerSu
     }
   }
 
+  "WikiPageController#delete" should {
+    "delete wiki page and return OK status" in {
+
+      val wikiId = 1
+
+      val fakeRequest = FakeRequest()
+      val mockWikiPageService = mock[WikiPageService]
+      when(mockWikiPageService.delete(any[Long])) thenReturn Future {
+        1
+      }
+      val controller = new WikiPageController(stubControllerComponents(), mockWikiPageService)
+
+      val result: Future[Result] = controller.delete(wikiId).apply(fakeRequest)
+      result map { response =>
+        response.header.status mustBe 200
+      }
+    }
+
+    "return Not found if wiki page with given id doesn't exist" in {
+
+      val wikiId = 1
+
+      val fakeRequest = FakeRequest()
+      val mockWikiPageService = mock[WikiPageService]
+      when(mockWikiPageService.delete(any[Long])) thenReturn Future {
+        0
+      }
+      val controller = new WikiPageController(stubControllerComponents(), mockWikiPageService)
+
+      val result: Future[Result] = controller.delete(wikiId).apply(fakeRequest)
+      result map { response =>
+        response.header.status mustBe 400
+      }
+    }
+  }
+
 }

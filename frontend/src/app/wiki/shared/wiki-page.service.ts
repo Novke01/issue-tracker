@@ -42,4 +42,13 @@ export class WikiPageService {
       })
     );
   }
+
+  remove(id: number): Observable<WikiPage> {
+    const url = `${environment.baseUrl}${this.wikiPageUrl}/${id}`;
+    return this.http.delete<WikiPage>(url).pipe(
+      catchError(err => {
+        return Observable.throw(new Error(err.error));
+      })
+    );
+  }
 }

@@ -13,6 +13,8 @@ class AssignedUserRepository(db: Database) {
 
   def create(): Future[Unit] = db.run(assignees.schema.create)
 
+  def drop(): Future[Unit] = db.run(assignees.schema.drop)
+
   def insert(assignedUser: AssignedUser): Future[AssignedUser] =
     db.run((assignees returning assignees) += assignedUser)
 

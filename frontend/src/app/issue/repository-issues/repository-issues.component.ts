@@ -6,6 +6,7 @@ import { Milestone } from '../../milestone/shared/milestone.model';
 import { RepositoryService } from '../../repository/shared/repository.service';
 import { CreateIssueComponent } from '../create-issue/create-issue.component';
 import { Issue } from '../shared/issue.model';
+import { IssueService } from '../shared/issue.service';
 import { MilestoneService } from './../../milestone/shared/milestone.service';
 
 @Component({
@@ -14,7 +15,13 @@ import { MilestoneService } from './../../milestone/shared/milestone.service';
   styleUrls: ['./repository-issues.component.css']
 })
 export class RepositoryIssuesComponent implements OnInit {
-  displayedColumns = ['title', 'description', 'status', 'milestoneTitle'];
+  displayedColumns = [
+    'title',
+    'description',
+    'status',
+    'milestoneTitle',
+    'actions'
+  ];
   issues: Issue[];
   dataSource: MatTableDataSource<Issue>;
   repositoryId: number;
@@ -26,6 +33,7 @@ export class RepositoryIssuesComponent implements OnInit {
   constructor(
     private repositoryService: RepositoryService,
     private milestoneService: MilestoneService,
+    private issueService: IssueService,
     private dialog: MatDialog,
     private route: ActivatedRoute
   ) {}
@@ -74,13 +82,15 @@ export class RepositoryIssuesComponent implements OnInit {
         if (typeof newIssue.milestoneId !== 'undefined') {
           this.milestones = new Map<number, Milestone>();
           this.milestoneService
-          .getByRepositoryId(this.repositoryId)
-          .subscribe(milestones => {
-            for (const milestone of milestones) {
-              this.milestones[milestone.id] = milestone;
-            }
-            newIssue.milestoneTitle = this.milestones[newIssue.milestoneId].title;
-          });
+            .getByRepositoryId(this.repositoryId)
+            .subscribe(milestones => {
+              for (const milestone of milestones) {
+                this.milestones[milestone.id] = milestone;
+              }
+              newIssue.milestoneTitle = this.milestones[
+                newIssue.milestoneId
+              ].title;
+            });
         }
         this.issues.push(newIssue);
         this.dataSource = new MatTableDataSource(this.issues);
@@ -90,6 +100,15 @@ export class RepositoryIssuesComponent implements OnInit {
           this.dataSource.paginator.nextPage();
         }
       }
+    });
+  }
+
+  remove(id: number) {
+    this.issueService.remove(id).subscribe(_ => {
+      this.issues = this.issues.filter(function(l) {
+        return l.id !== id;
+      });
+      this.dataSource = new MatTableDataSource(this.issues);
     });
   }
 }

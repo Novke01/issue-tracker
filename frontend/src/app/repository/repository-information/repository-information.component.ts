@@ -3,7 +3,7 @@ import 'rxjs/add/operator/switchMap';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
 import { User } from '../../core/auth/user.model';
 import { UserService } from '../../user/shared/user.service';
@@ -41,7 +41,8 @@ export class RepositoryInformationComponent implements OnInit {
     private repositoryService: RepositoryService,
     private userService: UserService,
     private route: ActivatedRoute,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -128,6 +129,12 @@ export class RepositoryInformationComponent implements OnInit {
         this.ngOnInit();
       });
     }
+  }
+
+  remove(id: number) {
+    this.repositoryService.remove(id).subscribe(_ => {
+      this.router.navigate(['/']);
+    });
   }
 
   get name() {

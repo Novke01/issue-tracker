@@ -42,6 +42,10 @@ class IssueService(val issueRepository: IssueRepository,
     issueRepository.findByRepositoryId(repoId).map(_.map(GetIssue.issueToGetIssue))
   }
 
+  def delete(id: Long): Future[Int] = {
+    issueRepository.delete(id)
+  }
+
 }
 
 object IssueService {

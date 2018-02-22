@@ -109,14 +109,15 @@ class MilestoneServiceSpec extends PlaySpec with MockitoSugar {
         milestone.repositoryId
       )
       val mockMilestoneRepository = mock[MilestoneRepository]
-      when(mockMilestoneRepository.insert(any[Milestone])) thenReturn Future { createdMilestone }
+      when(mockMilestoneRepository.insert(any[Milestone])) thenReturn Future {
+        createdMilestone
+      }
       val service = MilestoneService(mockMilestoneRepository)
       service.insert(milestone) map { returnedMilestone =>
         returnedMilestone.id mustBe createdMilestone.id
         returnedMilestone.title mustBe createdMilestone.title
         returnedMilestone.description mustBe createdMilestone.description
         returnedMilestone.dueDate mustBe createdMilestone.dueDate
-      }
       }
     }
     "throw PSQLException when repository with given id doesn't exist" in {
@@ -135,5 +136,35 @@ class MilestoneServiceSpec extends PlaySpec with MockitoSugar {
       ScalaFutures.whenReady(service.insert(milestone).failed) { e =>
         e shouldBe an[PSQLException]
       }
+    }
+  }
+
+  "MilestoneService#delete" should {
+    "return 1 if delete milestone with given id" in {
+
+      val milestoneId = 1
+
+      val mockMilestoneRepository = mock[MilestoneRepository]
+      when(mockMilestoneRepository.delete(any[Int])) thenReturn Future {
+        1
+      }
+      val service = MilestoneService(mockMilestoneRepository)
+      service.delete(milestoneId) map { rows =>
+        rows mustBe 1
+      }
+    }
+    "return 0 if the milestone with given id doesn't exist" in {
+
+      val milestoneId = 1
+
+      val mockMilestoneRepository = mock[MilestoneRepository]
+      when(mockMilestoneRepository.delete(any[Int])) thenReturn Future {
+        0
+      }
+      val service = MilestoneService(mockMilestoneRepository)
+      service.delete(milestoneId) map { rows =>
+        rows mustBe 0
+      }
+    }
   }
 }

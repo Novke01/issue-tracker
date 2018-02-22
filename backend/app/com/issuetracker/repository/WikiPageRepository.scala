@@ -15,6 +15,8 @@ class WikiPageRepository(db: Database) {
 
   def create(): Future[Unit] = db.run(wikiPages.schema.create)
 
+  def drop(): Future[Unit] = db.run(wikiPages.schema.drop)
+
   def insert(wikiPage: WikiPage): Future[WikiPage] =
     db.run((wikiPages returning wikiPages) += wikiPage)
 
@@ -23,6 +25,9 @@ class WikiPageRepository(db: Database) {
 
   def get(id: Long): Future[Option[WikiPage]] =
     db.run(wikiPages.filter(_.id === id).result.headOption)
+
+  def delete(id: Long): Future[Int] =
+    db.run(wikiPages.filter(_.id === id).delete)
 
 }
 

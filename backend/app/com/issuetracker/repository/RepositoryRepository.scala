@@ -15,6 +15,8 @@ class RepositoryRepository(db: Database) {
 
   def create(): Future[Unit] = db.run(repositories.schema.create)
 
+  def drop(): Future[Unit] = db.run(repositories.schema.drop)
+
   def insert(repository: Repository): Future[Repository] =
     db.run((repositories returning repositories) += repository)
 
@@ -45,6 +47,9 @@ class RepositoryRepository(db: Database) {
         (user)       <- users.filter(_.id === repository.ownerId)
       } yield user
     }.result.headOption)
+
+  def delete(id: Long): Future[Int] =
+    db.run(repositories.filter(_.id === id).delete)
 }
 
 object RepositoryRepository {
