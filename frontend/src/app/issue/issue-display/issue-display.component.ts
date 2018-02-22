@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators
+} from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as _ from 'underscore';
@@ -127,6 +132,42 @@ export class IssueDisplayComponent implements OnInit {
         return a.id !== user.id;
       });
     });
+  }
+
+  closeIssue() {
+    if (this.issue.status === 'OPENED') {
+      this.issue.status = 'CLOSED';
+      this.issueService.updateIssue(this.issue).subscribe(
+        issue => {
+          this.snackBar.open('You have successfully closed an issue.', 'OK', {
+            duration: 2000
+          });
+        },
+        err => {
+          this.snackBar.open(err.message, 'Cancel', {
+            duration: 2000
+          });
+        }
+      );
+    }
+  }
+
+  reopenIssue() {
+    if (this.issue.status === 'CLOSED') {
+      this.issue.status = 'OPENED';
+      this.issueService.updateIssue(this.issue).subscribe(
+        issue => {
+          this.snackBar.open('You have successfully reopened an issue.', 'OK', {
+            duration: 2000
+          });
+        },
+        err => {
+          this.snackBar.open(err.message, 'Cancel', {
+            duration: 2000
+          });
+        }
+      );
+    }
   }
 
   onUpdateIssue() {

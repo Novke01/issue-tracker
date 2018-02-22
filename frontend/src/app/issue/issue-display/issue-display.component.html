@@ -1,4 +1,9 @@
 <div class="container">
+    <div class="backDiv" fxLayout="row">
+        <button class="backButton" mat-raised-button color="primary" [routerLink]=" ['/repository', repositoryId] ">
+            Back to repository
+        </button>
+    </div>
     <div fxLayout="row" fxLayoutAlign="center center">
         <div class="left-side" fxFlex="50">
             <div class="container" id="issue-display">
@@ -30,6 +35,8 @@
                                     </mat-form-field>
                                     <p></p>
                                     <div>
+                                        <button mat-raised-button color="primary" *ngIf="issue.status === 'OPENED'" (click)="closeIssue()">Close issue</button>
+                                        <button mat-raised-button color="primary" *ngIf="issue.status === 'CLOSED'" (click)="reopenIssue()">Reopen issue</button>
                                         <button mat-raised-button color="primary" type="submit" *ngIf="form.valid">Update issue</button>
                                         <button mat-raised-button color="primary" *ngIf="!form.valid" (click)="enableForm()">Edit</button>
                                     </div>

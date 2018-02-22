@@ -8,13 +8,13 @@ import { AuthService } from './core/auth/auth.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-
   constructor(private authService: AuthService) {}
 
-  user() { return this.authService.user; }
+  user() {
+    return this.authService.user;
+  }
 
   logout() {
     this.authService.logout();
   }
-
 }
