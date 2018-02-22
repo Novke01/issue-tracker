@@ -10,7 +10,7 @@ class WikiPageTable(tag: Tag) extends Table[WikiPage](tag, "wiki_pages") {
   def name         = column[String]("name")
   def content      = column[String]("content", SqlType.apply("TEXT"))
   def repositoryId = column[Long]("repositoryId")
-  def repository   = foreignKey("repository_FK", repositoryId, WikiPageTable.wikiPages)(_.id)
+  def repository   = foreignKey("repository_FK", repositoryId, RepositoryTable.repositories)(_.id)
 
   def * = (id, name, content, repositoryId) <> (WikiPage.tupled, WikiPage.unapply)
 
