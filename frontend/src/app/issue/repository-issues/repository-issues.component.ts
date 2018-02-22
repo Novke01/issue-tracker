@@ -71,7 +71,17 @@ export class RepositoryIssuesComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(newIssue => {
       if (newIssue !== '') {
-        newIssue.milestoneTitle = this.milestones[newIssue.milestoneId].title;
+        if (typeof newIssue.milestoneId !== 'undefined') {
+          this.milestones = new Map<number, Milestone>();
+          this.milestoneService
+          .getByRepositoryId(this.repositoryId)
+          .subscribe(milestones => {
+            for (const milestone of milestones) {
+              this.milestones[milestone.id] = milestone;
+            }
+            newIssue.milestoneTitle = this.milestones[newIssue.milestoneId].title;
+          });
+        }
         this.issues.push(newIssue);
         this.dataSource = new MatTableDataSource(this.issues);
         this.dataSource.paginator = this.paginator;

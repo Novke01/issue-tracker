@@ -93,16 +93,16 @@ export class CreateIssueComponent implements OnInit {
       issue.title = this.title.value;
       issue.description = this.description.value;
       issue.ownerId = this.authService.user.id;
-      issue.milestoneId = this.milestone.value;
+      if (this.milestone.value !== '') {
+        issue.milestoneId = this.milestone.value;
+      }
       issue.assignees = this.assignees.map(a => a.id);
       issue.labels = [];
       if (this.labels.value) {
         issue.labels = this.labels.value.map(l => l.id);
       }
-
       this.issueService.createIssue(issue).subscribe(
         createdIssue => {
-          console.log(createdIssue);
           this.dialogRef.close(createdIssue);
           this.snackBar.open('You have successfully created an issue.', 'OK', {
             duration: 2000
