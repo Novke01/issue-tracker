@@ -25,9 +25,11 @@ script:
 - ng build
 - ng test --single-run
 after_success:
-- docker build -t $DOCKER_HUB_USERNAME/issue-tracker ./backend
-- docker build -t $DOCKER_HUB_USERNAME/issue-tracker ./frontend
+- ../backend
+- docker build -t $DOCKER_HUB_USERNAME/issue-tracker .
 - docker push $DOCKER_HUB_USERNAME/issue-tracker-backend:1.0.0
+- ../frontend
+- docker build -t $DOCKER_HUB_USERNAME/issue-tracker .
 - docker push $DOCKER_HUB_USERNAME/issue-tracker-frontend:1.0.0
 env:
   global:
