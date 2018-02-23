@@ -46,19 +46,7 @@ class ApplicationComponents(context: Context)
   lazy val commentRepository      = new CommentRepository(dbConfig.db)
 
   lazy val jwtUtil = JwtUtil(configuration)
-
-  userRepository.create()
-  repositoryRepository.create()
-  contributorRepository.create()
-  issueRepository.create()
-  assignedUserRepository.create()
-  wikiPageRepository.create()
-  labelRepository.create()
-  issueLabelRepository.create()
-  milestoneRepository.create()
-  pullRequestRepository.create()
-  commentRepository.create()
-
+  
   lazy val userService        = UserService(userRepository)
   lazy val authService        = AuthService(userRepository, jwtUtil)
   lazy val contributorService = new ContributorService(contributorRepository)
