@@ -27,10 +27,10 @@ script:
 after_success:
 - cd ../backend
 - docker build -t $DOCKER_HUB_USERNAME/issue-tracker .
-- docker push $DOCKER_HUB_USERNAME/issue-tracker-backend:1.0.0
+- docker push $DOCKER_HUB_USERNAME/issue-tracker-backend
 - cd ../frontend
 - docker build -t $DOCKER_HUB_USERNAME/issue-tracker .
-- docker push $DOCKER_HUB_USERNAME/issue-tracker-frontend:1.0.0
+- docker push $DOCKER_HUB_USERNAME/issue-tracker-frontend
 env:
   global:
   - secure: Ky3ZLyteydoyVC+8zjMaT+cQthUjGm9cpVEMjLptgea/W6Aa9NsYcQ9bK0cctmflsUoNQRn2UmswxnObKFyWR4EpHCGXARDT3R/KmimZAt0/Ex/7CrRqhNVVHgZq/Ld4qooEKr39kBvsf9e/sjM/yR/VW0NNJ4YBncXU4k5yD4xtLy+Acj9RfQRTn5g6Yu/UaD9aWN7hSKTBSHatJF3G/V9UMOWgvrO/kze3D63qUfGYYuqlHCJhldWUjih8i9iCHJSZSYlHDifr9jFLsn/U6OJU/MAluDhIHq5KATKVsh9iWFxT3yVjKNyhEyYM8pf5ZIYyPBpWjkZaThBaAG5lxJKeAkGU9x5KpS59x4bOpk9xEjP7/yiUR/KRqdagJSOXLoOU625DR21VRNtNB6aD2I9LphfTm5vB+0nLvoSHTYMY6B/lUWEZYOmtV86L+EaAL6jnBEJeVXS8MP7tLNH+ZZr4AM4nu57P0oTmyzdRyHqcVjd09SKFqmouL34GK8wxeUthQKKLHWtNlp4VmuEYetwlotHfo6XNZDNTHT4UZJaTJNQ7oFwwVoNcK2Bs8/dGNKU4pWfu+maRyQyORJ1pWwfjVuG2nIgTxTMRzGxolIWm7tEciIVHQ/MfD1fRVdlC4B9F0ICwDmWtGTqi0M5ScFmqXEegFYDvjeeCHYlZpDo=
