@@ -1,9 +1,18 @@
-FROM node:9.3.0-alpine
+FROM node:9.3.0-alpine as builder
 
-COPY . /frontend
-WORKDIR "/frontend"
-RUN npm install -g gyp && npm install -g @angular/cli && npm install
+COPY package.json package-lock.json ./
 
-CMD ["ng", "serve", "--host", "0.0.0.0", "--prod"]
+RUN npm set progress=false && npm config set depth 0 && npm cache clean --force
 
-EXPOSE 4200
+RUN npm install && mkdir frontend && cp -R ./node_modules ./frontend
+
+WORKDIR /frontend
+
+COPY . .
+
+RUN $(npm bin)/ng build --prod --build-optimizer
+
+
+FROM kyma/docker-nginx
+
+COPY --from=builder /frontend/dist /var/www

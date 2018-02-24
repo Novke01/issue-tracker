@@ -1,0 +1,35 @@
+<br>
+<br>
+<div class="label-header">
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="openCreateLabelDialog()">New Label</button>
+</div>
+<div class="label-container mat-elevation-z8 centeredtable">
+
+  <mat-table [dataSource]="dataSource" matSort>
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+      <mat-cell *matCellDef="let label">
+        <mat-chip-list>
+          <mat-chip [ngStyle]="{'background-color':label.color}">{{label.name}}</mat-chip>
+        </mat-chip-list>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef> Actions</mat-header-cell>
+      <mat-cell *matCellDef="let label">
+        <button mat-raised-button color="warn" (click)="remove(label.id)">Delete</button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let label; columns: displayedColumns;">
+    </mat-row>
+  </mat-table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>

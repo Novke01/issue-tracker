@@ -14,9 +14,9 @@
 }
 
 .mat-tab-header {
-    border-top-left-radius: 2px;
-    border-top-right-radius: 2px;
-  }
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+}
 
 .mat-tab-label {
   font-size: 120%;

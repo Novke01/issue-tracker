@@ -1,0 +1,62 @@
+<form [formGroup]="form" (ngSubmit)="onCreateIssue()">
+    <h1 mat-dialog-title>New issue</h1>
+    <mat-dialog-content>
+        <mat-form-field>
+            <input matInput formControlName="title" placeholder="Enter issue title" required>
+            <mat-error *ngIf="title.invalid && title.touched">
+                Please title name.
+            </mat-error>
+        </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-content>
+        <mat-form-field>
+            <textarea matInput formControlName="description" placeholder="Enter description" matTextareaAutosize matAutosizeMinRows="4"
+                matAutosizeMaxRows="8"></textarea>
+            <mat-error *ngIf="description.invalid && description.touched">
+                Please enter description.
+            </mat-error>
+        </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-content>
+        <mat-form-field>
+            <mat-select placeholder="Labels" formControlName="labels" multiple>
+                <mat-select-trigger>
+                    <mat-chip-list>
+                        <mat-chip *ngFor="let label of labels.value" [ngStyle]="{'background-color':label.color}">{{label.name}}</mat-chip>
+                    </mat-chip-list>
+                </mat-select-trigger>
+                <mat-option *ngFor="let label of repositoryLabels" [value]="label">
+                    <mat-chip-list>
+                        <mat-chip [ngStyle]="{'background-color':label.color}">{{label.name}}</mat-chip>
+                    </mat-chip-list>
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-content>
+        <mat-form-field>
+            <mat-select placeholder="Milestone" formControlName="milestone">
+                <mat-option *ngFor="let milestone of milestones" [value]="milestone.id">
+                    {{ milestone.title }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </mat-dialog-content>
+    <mat-dialog-content>
+        <h3>Assignees</h3>
+        <it-possible-assignees-search [repositoryId]="repositoryId" [assignees]="assignees" (userAssigned)="onUserAssigned(assignees)"></it-possible-assignees-search>
+        <mat-list>
+            <mat-list-item *ngFor="let assignee of assignees" class="col-1-1">
+                <div class="module hero">
+                    <b>{{assignee.username}}</b>
+                    <i>{{assignee.firstName}} {{assignee.lastName}}</i>
+                    <button mat-raised-button class="del" (click)="unassignUser(assignee)" type="button" color="warn"> - </button>
+                </div>
+            </mat-list-item>
+        </mat-list>
+    </mat-dialog-content>
+    <mat-dialog-actions>
+        <button mat-button type="submit">Add</button>
+        <button mat-button type="button" mat-dialog-close>Cancel</button>
+    </mat-dialog-actions>
+</form>

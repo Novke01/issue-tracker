@@ -1,34 +1,50 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { Router, Routes } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+
 import { AuthGuardService } from './auth-guard.service';
 import { AuthService } from './auth.service';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+
+@Component({
+  selector: 'it-home-page',
+  template: '<div class="it-home-page"></div>'
+})
+export class HomePageComponent {}
+
+@Component({
+  selector: 'it-starter-page',
+  template: '<div class="it-starter-page"></div>'
+})
+export class StarterPageComponent {}
+
+const appRoutes: Routes = [
+  { path: 'login', component: StarterPageComponent },
+  { path: '', component: HomePageComponent }
+];
 
 describe('AuthGuardService', () => {
-
   let service: AuthGuardService;
   let authService: AuthService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule.withRoutes([]),
+        RouterTestingModule.withRoutes(appRoutes),
         HttpClientTestingModule
       ],
-      providers: [
-        AuthService
-      ]
+      declarations: [HomePageComponent, StarterPageComponent],
+      providers: [AuthService]
     });
 
-    let router = TestBed.get(Router);
+    const router = TestBed.get(Router);
 
     authService = TestBed.get(AuthService);
-    
+
     service = new AuthGuardService(authService, router);
 
     router.initialNavigation();
-
   });
 
   it('should be created', () => {
@@ -37,8 +53,7 @@ describe('AuthGuardService', () => {
 
   it('should block if user doesn\'t exist', () => {
     authService.user = null;
-    let result = service.shouldPass('/');
-    expect(result).toBeFalsy();
+    expect(service.shouldPass('/')).toBeFalsy();
   });
 
   it('should pass if user doesn\'t exist', () => {
@@ -52,5 +67,4 @@ describe('AuthGuardService', () => {
     };
     expect(service.shouldPass('/')).toBeTruthy();
   });
-
 });

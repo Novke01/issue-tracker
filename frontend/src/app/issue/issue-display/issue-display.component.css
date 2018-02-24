@@ -1,0 +1,45 @@
+#issue-display {
+  position: fixed;
+  top: 140px;
+  left: 2%;
+  padding: 0px;
+  width: 45%;
+}
+
+.left-side {
+  border-right: 1px solid silver;
+  padding: 10px;
+}
+
+.right-side {
+  display: block;
+  padding: 10px;
+  padding-bottom: 100px;
+}
+
+.form-full-width {
+  width: 100%;
+}
+
+button {
+  text-transform: uppercase;
+}
+
+.del {
+  min-width: 1%;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.backDiv {
+  left: 0;
+  width: 100%;
+}
+
+.backButton {
+  float: left;
+  margin-left: 30px;
+  margin-top: 80px;
+}

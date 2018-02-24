@@ -1,0 +1,12 @@
+POST    /                                        com.issuetracker.controller.RepositoryController.insert
+PATCH   /                                        com.issuetracker.controller.RepositoryController.update
+GET     /owned/:id                               com.issuetracker.controller.RepositoryController.getOwned(id: Long)
+GET     /contributed/:id                         com.issuetracker.controller.RepositoryController.getContributed(id: Long)
+GET     /:id/contributors                        com.issuetracker.controller.RepositoryController.getContributors(id: Long)
+GET     /:id/owner                               com.issuetracker.controller.RepositoryController.getOwner(id: Long)
+GET     /:id                                     com.issuetracker.controller.RepositoryController.get(id: Long)
+GET     /:repoId/contributors/:searchTerm        com.issuetracker.controller.RepositoryController.getContributorsWitchSearchTerm(repoId: Long, searchTerm: String)
+GET     /:repoId/issues                          com.issuetracker.controller.RepositoryController.getIssues(repoId: Long)
+GET     /:repoId/labels                          com.issuetracker.controller.RepositoryController.getLabels(repoId: Long)
+GET     /:id/wiki-pages                          com.issuetracker.controller.RepositoryController.getWikiPages(id: Long)
+DELETE  /:id                                     com.issuetracker.controller.RepositoryController.delete(id: Long)

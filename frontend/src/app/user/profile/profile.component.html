@@ -1,0 +1,13 @@
+<div class="profile-page">
+  <mat-card class="profile-card">
+    <mat-card-header>
+      <mat-card-title>{{ user.firstName }} {{ user.lastName }}</mat-card-title>
+      <mat-card-subtitle>{{ user.username }}</mat-card-subtitle>
+    </mat-card-header>
+  </mat-card>
+  <div class="repo-tables">
+    <it-contributed-repositories></it-contributed-repositories>
+    <br />
+    <it-owned-repositories></it-owned-repositories>
+  </div>
+<div>

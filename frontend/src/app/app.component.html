@@ -1,1 +1,13 @@
+<mat-toolbar *ngIf="user()" color="primary" class="mat-elevation-z6 top-bar">
+  <a mat-button routerLink="/">
+    <img class="tracker-logo" src="https://png.icons8.com/ios/50/ffffff/task-completed.png"> Issue Tracker
+  </a>
+  <span class="fill-space"></span>
+  <a mat-icon-button [routerLink]="['/profile', user().id]">
+    <mat-icon>account_circle</mat-icon>
+  </a>
+  <button mat-button (click)="logout()">
+    Log Out
+  </button>
+</mat-toolbar>
 <router-outlet></router-outlet>

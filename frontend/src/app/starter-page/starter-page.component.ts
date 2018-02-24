@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'it-starter-page',
@@ -6,4 +6,4 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./starter-page.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class StarterPageComponent { }
+export class StarterPageComponent {}

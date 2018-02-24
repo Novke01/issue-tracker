@@ -1,21 +1,18 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { AuthService } from './auth.service';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class AuthGuardService implements CanActivate {
-
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) { }
+  constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     return this.shouldPass(state.url);
   }
 
-  shouldPass(url: string) {
+  shouldPass(url: string): boolean {
     if (this.authService.user) {
       return true;
     } else {
@@ -23,9 +20,11 @@ export class AuthGuardService implements CanActivate {
         queryParams: {
           return: url
         }
+      })
+      .then(result => {
+        console.log(result);
       });
       return false;
     }
   }
-
 }

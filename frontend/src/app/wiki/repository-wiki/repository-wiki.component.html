@@ -1,0 +1,17 @@
+<div class="button-row">
+  <button mat-raised-button color="primary" routerLink="./wiki/new">New wiki page</button>
+  <button mat-raised-button color="accent" *ngIf="currentWiki.id" [routerLink]="['./wiki', currentWiki.id]">Edit</button>
+  <mat-form-field>
+    <mat-select placeholder="Select page" [(value)]="selectedPage" (change)="onChanged()">
+      <mat-option *ngFor="let page of wikiPages" [(value)]="page.id">
+        {{ page.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button mat-raised-button color="warn" (click)="remove(currentWiki.id)">Delete</button>
+
+  <mat-card class="readme">
+    <markdown [data]="currentWiki.content">
+    </markdown>
+  </mat-card>
+</div>

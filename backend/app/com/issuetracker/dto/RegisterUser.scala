@@ -15,24 +15,24 @@ case class RegisterUser(
 )
 
 object RegisterUser {
-  
+
   implicit val registerReads: Reads[RegisterUser] = (
     (JsPath \ "username").read[String] and
-    (JsPath \ "password").read[String] and
-    (JsPath \ "firstName").read[String] and
-    (JsPath \ "lastName").read[String] and
-    (JsPath \ "email").read[String](Reads.email)
+      (JsPath \ "password").read[String] and
+      (JsPath \ "firstName").read[String] and
+      (JsPath \ "lastName").read[String] and
+      (JsPath \ "email").read[String](Reads.email)
   )(RegisterUser.apply _)
-  
+
   implicit def registerUserToUser(registerUser: RegisterUser): User =
-    new User(
-      -1, 
-      registerUser.username, 
-      registerUser.password, 
-      registerUser.firstName, 
+    User(
+      -1,
+      registerUser.username,
+      registerUser.password,
+      registerUser.firstName,
       registerUser.lastName,
       registerUser.email,
       ""
     )
-  
+
 }

@@ -1,42 +1,35 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { of } from 'rxjs/observable/of';
 
-import { RegistrationFormComponent } from './registration-form.component';
+import { User } from '../../core/auth/user.model';
 import { SharedModule } from '../../shared/shared.module';
 import { UserService } from '../shared/user.service';
-import { of } from 'rxjs/observable/of';
-import { User } from '../../core/auth/user.model';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RegistrationFormComponent } from './registration-form.component';
 
 describe('RegistrationFormComponent', () => {
-
   let component: RegistrationFormComponent;
   let fixture: ComponentFixture<RegistrationFormComponent>;
   let userService: UserService;
   let spy: jasmine.Spy;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        SharedModule,
-        HttpClientTestingModule
-      ],
-      declarations: [ 
-        RegistrationFormComponent 
-      ],
-      providers: [
-        UserService
-      ]
+  beforeEach(
+    async(() => {
+      TestBed.configureTestingModule({
+        imports: [SharedModule, HttpClientTestingModule],
+        declarations: [RegistrationFormComponent],
+        providers: [UserService]
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RegistrationFormComponent);
     component = fixture.componentInstance;
-    
+
     userService = fixture.debugElement.injector.get(UserService);
 
-    let user: User = {
+    const user: User = {
       id: 1,
       username: 'pera',
       firstName: 'Pera',
@@ -127,33 +120,34 @@ describe('RegistrationFormComponent', () => {
   });
 
   it('should be able to send registration request if form is valid', async(() => {
-    component.username.setValue('pera');
-    component.firstName.setValue('Pera');
-    component.lastName.setValue('Peric');
-    component.email.setValue('pera@example.com');
-    component.password.setValue('testtest');
-    component.confirmedPassword.setValue('testtest');
-    expect(component.signUpForm.valid).toBeTruthy();
-    component.onRegister();
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(userService.register).toHaveBeenCalled();
-    });
-  }));
+      component.username.setValue('pera');
+      component.firstName.setValue('Pera');
+      component.lastName.setValue('Peric');
+      component.email.setValue('pera@example.com');
+      component.password.setValue('testtest');
+      component.confirmedPassword.setValue('testtest');
+      expect(component.signUpForm.valid).toBeTruthy();
+      component.onRegister();
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        expect(userService.register).toHaveBeenCalled();
+      });
+    })
+  );
 
   it('should not be able to send registration request if form is invalid', async(() => {
-    component.username.setValue('pera');
-    component.firstName.setValue('Pera');
-    component.lastName.setValue('Peric');
-    component.email.setValue('peraexample.com');
-    component.password.setValue('testtest');
-    component.confirmedPassword.setValue('testtest');
-    expect(component.signUpForm.invalid).toBeTruthy();
-    component.onRegister();
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(userService.register).toHaveBeenCalledTimes(0);
-    });
-  }));
-
+      component.username.setValue('pera');
+      component.firstName.setValue('Pera');
+      component.lastName.setValue('Peric');
+      component.email.setValue('peraexample.com');
+      component.password.setValue('testtest');
+      component.confirmedPassword.setValue('testtest');
+      expect(component.signUpForm.invalid).toBeTruthy();
+      component.onRegister();
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        expect(userService.register).toHaveBeenCalledTimes(0);
+      });
+    })
+  );
 });

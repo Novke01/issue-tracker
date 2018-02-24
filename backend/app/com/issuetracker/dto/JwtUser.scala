@@ -9,6 +9,7 @@ import com.issuetracker.model.User
 
 import play.api.libs.json.Json
 import play.api.libs.json.OFormat
+import play.api.libs.typedmap.TypedKey
 
 case class JwtUser(
     id: Long,
@@ -20,9 +21,9 @@ case class JwtUser(
 )
 
 object JwtUser {
-  
+
   implicit val jwtUserFormat: OFormat[JwtUser] = Json.format[JwtUser]
-  
+
   implicit def userToJwtUser(user: User): JwtUser = JwtUser(
     user.id,
     user.username,
@@ -31,5 +32,7 @@ object JwtUser {
     user.email,
     (DateTime.now + 1.day).instant.millis / 1000
   )
-  
+
+  val Key: TypedKey[JwtUser] = TypedKey[JwtUser]
+
 }

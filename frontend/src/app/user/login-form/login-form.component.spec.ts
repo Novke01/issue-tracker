@@ -1,18 +1,16 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { LoginFormComponent } from './login-form.component';
-import { SharedModule } from '../../shared/shared.module';
-import { AuthService } from '../../core/auth/auth.service';
-import { UserService } from '../shared/user.service';
-import { LoggedInUser } from '../../core/auth/logged-in-user.model';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs/observable/of';
 
-describe('LoginFormComponent', () => {
+import { AuthService } from '../../core/auth/auth.service';
+import { LoggedInUser } from '../../core/auth/logged-in-user.model';
+import { SharedModule } from '../../shared/shared.module';
+import { UserService } from '../shared/user.service';
+import { LoginFormComponent } from './login-form.component';
 
+describe('LoginFormComponent', () => {
   let component: LoginFormComponent;
   let fixture: ComponentFixture<LoginFormComponent>;
   let spy: jasmine.Spy;
@@ -26,15 +24,9 @@ describe('LoginFormComponent', () => {
         RouterTestingModule.withRoutes([]),
         SharedModule
       ],
-      declarations: [ 
-        LoginFormComponent 
-      ],
-      providers: [
-        AuthService,
-        UserService
-      ]
-    })
-    .compileComponents();
+      declarations: [LoginFormComponent],
+      providers: [AuthService, UserService]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -42,9 +34,9 @@ describe('LoginFormComponent', () => {
     component = fixture.componentInstance;
 
     authService = fixture.debugElement.injector.get(AuthService);
-    let loggedInUser: LoggedInUser = {
+    const loggedInUser: LoggedInUser = {
       accessToken: '',
-      refreshToken:''
+      refreshToken: ''
     };
     spy = spyOn(authService, 'login').and.returnValue(of(loggedInUser));
 
@@ -60,7 +52,7 @@ describe('LoginFormComponent', () => {
   it('form should be valid if password is 8 or more characters long and username has been entered', () => {
     component.username.setValue('test');
     component.password.setValue('testtest');
-    let form = component.signInForm;
+    const form = component.signInForm;
     expect(form.valid).toBeTruthy();
   });
 
@@ -89,26 +81,31 @@ describe('LoginFormComponent', () => {
     expect(component.password.valid).toBeTruthy();
   });
 
-  it('should be able to send login request if form is valid', async(() => {
-    component.username.setValue('test');
-    component.password.setValue('testtest');
-    expect(component.signInForm.valid).toBeTruthy();
-    component.onLogin();
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(authService.login).toHaveBeenCalled();
-    });
-  }));
+  it(
+    'should be able to send login request if form is valid',
+    async(() => {
+      component.username.setValue('test');
+      component.password.setValue('testtest');
+      expect(component.signInForm.valid).toBeTruthy();
+      component.onLogin();
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        expect(authService.login).toHaveBeenCalled();
+      });
+    })
+  );
 
-  it('should not be able to send login request if form is invalid', async(() => {
-    component.username.setValue('test');
-    component.password.setValue('testtes');
-    expect(component.signInForm.invalid).toBeTruthy();
-    component.onLogin();
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(authService.login).toHaveBeenCalledTimes(0);
-    });
-  }));
-
+  it(
+    'should not be able to send login request if form is invalid',
+    async(() => {
+      component.username.setValue('test');
+      component.password.setValue('testtes');
+      expect(component.signInForm.invalid).toBeTruthy();
+      component.onLogin();
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        expect(authService.login).toHaveBeenCalledTimes(0);
+      });
+    })
+  );
 });
