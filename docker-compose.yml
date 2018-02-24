@@ -14,9 +14,7 @@ services:
       - ./postgres_data:/var/lib/postgresql/data
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    image: anovakovic/issue-tracker-backend:latest
     container_name:
       backend
     ports:
@@ -24,9 +22,7 @@ services:
     depends_on:
       - postgres
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+    image: anovakovic/issue-tracker-frontend:latest
     container_name:
       frontend
     ports:
